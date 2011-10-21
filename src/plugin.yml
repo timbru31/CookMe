@@ -1,0 +1,9 @@
+name: CookeMe
+main: de.xghostkillerx.cookme.CookMe
+version: 1.0
+author: xGhOsTkiLLeRx
+commands:
+  hunger:
+    description: Handles all the GlowstoneDrop commands
+    usage: /glowstonedrop help or /glowdrop help - to see the help
+    aliases: [glowdrop]
