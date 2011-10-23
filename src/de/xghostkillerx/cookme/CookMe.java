@@ -3,7 +3,6 @@ package de.xghostkillerx.cookme;
 import java.util.logging.Logger;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.PluginDescriptionFile;
@@ -21,6 +20,7 @@ import org.blockface.bukkitstats.*;
  * 
  *
  * @author xGhOsTkiLLeRx
+ * @thanks nisovin
  * 
  */
 
@@ -40,7 +40,7 @@ public class CookMe extends JavaPlugin {
 	public void onEnable() {
 		// Events
 		PluginManager pm = getServer().getPluginManager();
-		pm.registerEvent(Event.Type.PLAYER_INTERACT, playerListener,	Event.Priority.Normal, this);
+		pm.registerEvent(Event.Type.PLAYER_INTERACT, playerListener, Event.Priority.Normal, this);
 		
 		// Config
 		config = this.getConfig();
@@ -58,28 +58,19 @@ public class CookMe extends JavaPlugin {
 	
 	// Reload the config file at the start or via command /glowstonedrop reload or /glowdrop reload!
 	public void loadConfig() {
-		config.options().header("For help please refer to http://bit.ly/oW6iR1 or http://bit.ly/rcN2QB");
+		config.options().header("For help please refer to  or ");
 		config.addDefault("configuration.permissions", true);
 		config.addDefault("configuration.messages", true);
-		config.addDefault("worlds.normal", "block");
-		config.addDefault("worlds.nether", "dust");
-		config.addDefault("worlds.skyland", "block");
+		config.addDefault("effects.damage", true);
+		config.addDefault("effects.death", true);
+		config.addDefault("effects.venom", true);
+		config.addDefault("effects.hungervenom", true);
 		saveConfig();
 	}
 	
-	/* Refer to GlowstoneDropCommand
+	// Refer to CookMeCommands
 	public boolean onCommand(CommandSender sender, Command command, String commandLabel, String[] args) {
-		GlowstoneDropCommands cmd = new GlowstoneDropCommands(this);
-		return cmd.GlowstoneDropCommand(sender, command, commandLabel, args);
-	}*/
-	
-	public boolean onCommand(CommandSender sender, Command command, String commandlabel, String[] args) {
-		Player player = (Player)sender;
-		if (command.getName().equalsIgnoreCase("hunger")) {
-			if (args.length > 0 && args[0].equals("reload")) {
-				player.setFoodLevel(10);
-			}
-		}
-		return false;
+		CookMeCommands cmd = new CookMeCommands(this);
+		return cmd.CookMeCommand(sender, command, commandLabel, args);
 	}
 }

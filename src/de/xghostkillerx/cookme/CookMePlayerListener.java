@@ -21,6 +21,7 @@ import org.bukkit.inventory.ItemStack;
  * 
  *
  * @author xGhOsTkiLLeRx
+ * @thanks nisovin
  *
  */
 
@@ -45,33 +46,32 @@ public class CookMePlayerListener extends PlayerListener {
 					// Player gets random damage, stack minus 1
 					if ((randomNumber == 1) || (randomNumber == 8)) {
 						int randomDamage = (int) (Math.random()*11) +1;
-						player.damage(randomDamage);
 						decreaseItem(player, event);
+						player.damage(randomDamage);
 						if (plugin.config.getBoolean("configuration.messages", true)) {
 							player.sendMessage(ChatColor.DARK_RED + "You got some random damage! Eat some cooked food!");
 						}
 					}
 					// Food bar turns green (poison)
-					if ((randomNumber >0 ) || (randomNumber == 9)) {
-						setMobEffect(player, 17, randomVenom, randomVenomStrength);
+					if ((randomNumber == 2 ) || (randomNumber == 9)) {
 						decreaseItem(player, event);
+						setMobEffect(player, 17, randomVenom, randomVenomStrength);
 						if (plugin.config.getBoolean("configuration.messages", true)) {
 							player.sendMessage(ChatColor.DARK_RED + "Your foodbar is a random time venomed! Eat some cooked food!");
 						}
 					}
 					// Player dies, stack minus 1
-					if (randomNumber == 4) {
-						player.setHealth(0);
-						event.setCancelled(true);
+					if (randomNumber == 4 ) {
 						decreaseItem(player, event);
+						player.setHealth(0);
 						if (plugin.config.getBoolean("configuration.messages", true)) {
 							player.sendMessage(ChatColor.DARK_RED + "The raw food killed you :(");
 						}
 					}
 					// Random venom damage (including green hearts :) )
 					if ((randomNumber == 5) || (randomNumber == 11)) {
-						setMobEffect(player, 19, randomVenom, randomVenomStrength);
 						decreaseItem(player, event);
+						setMobEffect(player, 19, randomVenom, randomVenomStrength);
 						if (plugin.config.getBoolean("configuration.messages", true)) {
 							player.sendMessage(ChatColor.DARK_RED + "You are for a random time venomed! Eat some cooked food!");
 						}
@@ -80,8 +80,8 @@ public class CookMePlayerListener extends PlayerListener {
 					if ((randomNumber == 6) || (randomNumber == 12)) {
 						int currentFoodLevel = player.getFoodLevel();
 						int randomFoodLevel = (int)(Math.random()*currentFoodLevel);
-						player.setFoodLevel(randomFoodLevel);
 						decreaseItem(player, event);
+						player.setFoodLevel(randomFoodLevel);
 						if (plugin.config.getBoolean("configuration.messages", true)) {
 							player.sendMessage(ChatColor.DARK_RED + "Your food level went down! Eat some cooked food!");
 						}
@@ -90,11 +90,11 @@ public class CookMePlayerListener extends PlayerListener {
 			}
 		}
 	}
-
+	// Sets the specific mob effect! BIG THANKS @nisovin for his awesome code!
 	public void setMobEffect(LivingEntity entity, int type, int duration, int amplifier) {
 		((CraftLivingEntity)entity).getHandle().addEffect(new MobEffect(type, duration, amplifier));
 	}
-	
+	// Sets the raw food -1
 	@SuppressWarnings("deprecation")
 	public void decreaseItem (Player player, PlayerInteractEvent event) {
 		ItemStack afterEating = player.getItemInHand();

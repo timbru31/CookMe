@@ -1,9 +1,88 @@
-name: CookeMe
+name: CookMe
 main: de.xghostkillerx.cookme.CookMe
 version: 1.0
 author: xGhOsTkiLLeRx
 commands:
-  hunger:
-    description: Handles all the GlowstoneDrop commands
-    usage: /glowstonedrop help or /glowdrop help - to see the help
-    aliases: [glowdrop]
+  cookme:
+    description: Handles all the CookMe commands
+    usage: /cookme help - to see a list of available commands
+permissions:
+  cookme.*:
+    description: Gives access to all CookMe permissions
+    children:
+      cookme.reload: true
+      cookme.enable.*: true
+      cookme.disable.*: true
+      cookme.help: true
+      cookme.safe: true
+  cookme.enable.*:
+    description: Gives access to all CookMe enable commands
+    children:
+      cookme.enable.all: true
+      cookme.enable.damage: true
+      cookme.enable.death: true
+      cookme.enable.venom: true
+      cookme.enable.hungervenom: true
+      cookme.enable.permissions: true
+      cookme.enable.messages: true
+  cookme.disable.*:
+    description: Gives access to all CookMe disable commands
+    children:
+      cookme.disable.all: true
+      cookme.disable.damage: true
+      cookme.disable.death: true
+      cookme.disable.venom: true
+      cookme.disable.hungervenom: true
+      cookme.disable.permissions: true
+      cookme.disable.messages: true
+  cookme.help:
+    description: Allows you to see the help
+    default: op
+  cookme.reload:
+    description: Allows you to reload the config
+    default: op
+  cookme.safe:
+    description: Allows you to be safe against the effects
+    default: op
+  cookme.enable.all:
+    description: Allows you to enable all effects
+    default: op
+  cookme.enable.damage:
+    description: Allows you to enable the damage
+    default: op
+  cookme.enable.death:
+    description: Allows you to enable the death
+    default: op
+  cookme.enable.venom:
+    description: Allows you to enable the venom
+    default: op
+  cookme.enable.hungervenom:
+    description: Allows you to enable the hungervenom
+    default: op
+  cookme.enable.permissions:
+    description: Allows you to enable permissions
+    default: op
+  cookme.enable.messages:
+    description: Allows you to enable messages
+    default: op
+  cookme.disable.all:
+    description: Allows you to disable all effects
+    default: op
+  cookme.disable.damage:
+    description: Allows you to disable the damage
+    default: op
+  cookme.disable.death:
+    description: Allows you to disable the death
+    default: op
+  cookme.disable.venom:
+    description: Allows you to disable the venom
+    default: op
+  cookme.disable.hungervenom:
+    description: Allows you to disable the hungervenom
+    default: op
+  cookme.disable.permissions:
+    description: Allows you to disable permissions
+    default: op
+  cookme.disable.messages:
+    description: Allows you to disable messages
+    default: op
