@@ -16,9 +16,9 @@ import org.blockface.bukkitstats.*;
  * Handles some general stuff!
  * 
  * Refer to the forum thread:
- * http://bit.ly/oW6iR1
+ * 
  * Refer to the dev.bukkit.org page:
- * http://bit.ly/rcN2QB
+ * 
  *
  * @author xGhOsTkiLLeRx
  * 
