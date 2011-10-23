@@ -44,46 +44,56 @@ public class CookMePlayerListener extends PlayerListener {
 					int randomVenom = (int)(Math.random()*75) +75;
 					int randomVenomStrength = (int)(Math.random()*5);
 					// Player gets random damage, stack minus 1
-					if ((randomNumber == 1) || (randomNumber == 8)) {
-						int randomDamage = (int) (Math.random()*11) +1;
-						decreaseItem(player, event);
-						player.damage(randomDamage);
-						if (plugin.config.getBoolean("configuration.messages", true)) {
-							player.sendMessage(ChatColor.DARK_RED + "You got some random damage! Eat some cooked food!");
+					if (plugin.config.getBoolean("effects.damage") == true) {
+						if ((randomNumber == 1) || (randomNumber == 8)) {
+							int randomDamage = (int) (Math.random()*11) +1;
+							decreaseItem(player, event);
+							player.damage(randomDamage);
+							if (plugin.config.getBoolean("configuration.messages") == true) {
+								player.sendMessage(ChatColor.DARK_RED + "You got some random damage! Eat some cooked food!");
+							}
 						}
 					}
 					// Food bar turns green (poison)
-					if ((randomNumber == 2 ) || (randomNumber == 9)) {
-						decreaseItem(player, event);
-						setMobEffect(player, 17, randomVenom, randomVenomStrength);
-						if (plugin.config.getBoolean("configuration.messages", true)) {
-							player.sendMessage(ChatColor.DARK_RED + "Your foodbar is a random time venomed! Eat some cooked food!");
+					if (plugin.config.getBoolean("effects.hungervenom") == true) {
+						if ((randomNumber == 2 ) || (randomNumber == 9)) {
+							decreaseItem(player, event);
+							setMobEffect(player, 17, randomVenom, randomVenomStrength);
+							if (plugin.config.getBoolean("configuration.messages") == true) {
+								player.sendMessage(ChatColor.DARK_RED + "Your foodbar is a random time venomed! Eat some cooked food!");
+							}
 						}
 					}
 					// Player dies, stack minus 1
-					if (randomNumber == 4 ) {
-						decreaseItem(player, event);
-						player.setHealth(0);
-						if (plugin.config.getBoolean("configuration.messages", true)) {
-							player.sendMessage(ChatColor.DARK_RED + "The raw food killed you :(");
+					if (plugin.config.getBoolean("effects.death") == true) {
+						if (randomNumber == 4 ) {
+							decreaseItem(player, event);
+							player.setHealth(0);
+							if (plugin.config.getBoolean("configuration.messages") == true) {
+								player.sendMessage(ChatColor.DARK_RED + "The raw food killed you :(");
+							}
 						}
 					}
 					// Random venom damage (including green hearts :) )
-					if ((randomNumber == 5) || (randomNumber == 11)) {
-						decreaseItem(player, event);
-						setMobEffect(player, 19, randomVenom, randomVenomStrength);
-						if (plugin.config.getBoolean("configuration.messages", true)) {
-							player.sendMessage(ChatColor.DARK_RED + "You are for a random time venomed! Eat some cooked food!");
+					if (plugin.config.getBoolean("effects.hungervenom") == true) {
+						if ((randomNumber == 5) || (randomNumber == 11)) {
+							decreaseItem(player, event);
+							setMobEffect(player, 19, randomVenom, randomVenomStrength);
+							if (plugin.config.getBoolean("configuration.messages") == true) {
+								player.sendMessage(ChatColor.DARK_RED + "You are for a random time venomed! Eat some cooked food!");
+							}
 						}
 					}
 					// Sets the food level down. Stack minus 1
-					if ((randomNumber == 6) || (randomNumber == 12)) {
-						int currentFoodLevel = player.getFoodLevel();
-						int randomFoodLevel = (int)(Math.random()*currentFoodLevel);
-						decreaseItem(player, event);
-						player.setFoodLevel(randomFoodLevel);
-						if (plugin.config.getBoolean("configuration.messages", true)) {
-							player.sendMessage(ChatColor.DARK_RED + "Your food level went down! Eat some cooked food!");
+					if (plugin.config.getBoolean("effects.hungerdecrease") == true) {
+						if ((randomNumber == 6) || (randomNumber == 12)) {
+							int currentFoodLevel = player.getFoodLevel();
+							int randomFoodLevel = (int)(Math.random()*currentFoodLevel);
+							decreaseItem(player, event);
+							player.setFoodLevel(randomFoodLevel);
+							if (plugin.config.getBoolean("configuration.messages") == true) {
+								player.sendMessage(ChatColor.DARK_RED + "Your food level went down! Eat some cooked food!");
+							}
 						}
 					}
 				}

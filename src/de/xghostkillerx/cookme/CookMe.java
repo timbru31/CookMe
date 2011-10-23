@@ -46,7 +46,6 @@ public class CookMe extends JavaPlugin {
 		config = this.getConfig();
 		config.options().copyDefaults(true);
 		loadConfig();
-		saveConfig();
 		
 		// Message
 		PluginDescriptionFile pdfFile = this.getDescription();
@@ -65,7 +64,12 @@ public class CookMe extends JavaPlugin {
 		config.addDefault("effects.death", true);
 		config.addDefault("effects.venom", true);
 		config.addDefault("effects.hungervenom", true);
+		config.addDefault("effects.hungerdecrease", true);
 		saveConfig();
+	}
+	public void loadAgain() {
+		this.getConfig();
+		this.saveConfig();
 	}
 	
 	// Refer to CookMeCommands

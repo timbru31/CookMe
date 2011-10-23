@@ -2,6 +2,8 @@ name: CookMe
 main: de.xghostkillerx.cookme.CookMe
 version: 1.0
 author: xGhOsTkiLLeRx
+website:
+website:
 commands:
   cookme:
     description: Handles all the CookMe commands
@@ -22,6 +24,7 @@ permissions:
       cookme.enable.damage: true
       cookme.enable.death: true
       cookme.enable.venom: true
+      cookme.enable.hungerdecrease: true
       cookme.enable.hungervenom: true
       cookme.enable.permissions: true
       cookme.enable.messages: true
@@ -33,6 +36,7 @@ permissions:
       cookme.disable.death: true
       cookme.disable.venom: true
       cookme.disable.hungervenom: true
+      cookme.disable.hungerdecrease: true
       cookme.disable.permissions: true
       cookme.disable.messages: true
   cookme.help:
@@ -59,6 +63,9 @@ permissions:
   cookme.enable.hungervenom:
     description: Allows you to enable the hungervenom
     default: op
+  cookme.enable.hungerdecrease:
+    description: Allows you to enable the hungerdecrease
+    default: op
   cookme.enable.permissions:
     description: Allows you to enable permissions
     default: op
@@ -79,6 +86,9 @@ permissions:
     default: op
   cookme.disable.hungervenom:
     description: Allows you to disable the hungervenom
+    default: op
+  cookme.disable.hungerdecrease:
+    description: Allows you to disable the hungerdecrease
     default: op
   cookme.disable.permissions:
     description: Allows you to disable permissions
