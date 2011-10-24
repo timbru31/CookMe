@@ -113,5 +113,4 @@ public class CookMePlayerListener extends PlayerListener {
 		player.updateInventory();
 		event.setCancelled(true);
 	}
-
 }
