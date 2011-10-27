@@ -42,6 +42,7 @@ public class CookMeCommands {
 				}
 				if (plugin.config.getBoolean("configuration.permissions") == false) {
 					CookMeReload(sender, args);
+					return true;
 				}
 			}
 			// help
@@ -342,7 +343,7 @@ public class CookMeCommands {
 	// Reload the config with /cookme reload
 	private boolean CookMeReload(CommandSender sender, String[] args) {
 		PluginDescriptionFile pdfFile = plugin.getDescription();
-		plugin.loadAgain();		
+		plugin.loadConfigAgain();		
 		sender.sendMessage(ChatColor.DARK_GREEN + "CookMe version " + ChatColor.DARK_RED + pdfFile.getVersion() + ChatColor.DARK_GREEN + " reloaded!");
 		return true;
 	}
@@ -352,7 +353,7 @@ public class CookMeCommands {
 		plugin.config.set("configuration.permissions", true);
 		plugin.saveConfig();
 		sender.sendMessage(ChatColor.DARK_GREEN + "CookMe " + ChatColor.DARK_RED	+ "permissions " + ChatColor.DARK_GREEN	+ "enabled! Only OPs");
-		sender.sendMessage(ChatColor.DARK_GREEN + "or players with the permission the plugin!");
+		sender.sendMessage(ChatColor.DARK_GREEN + "or players with the permission can use the plugin!");
 		return true;
 	}
 
