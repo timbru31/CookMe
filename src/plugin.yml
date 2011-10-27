@@ -2,8 +2,8 @@ name: CookMe
 main: de.xghostkillerx.cookme.CookMe
 version: 1.0
 author: xGhOsTkiLLeRx
-website:
-website:
+website: http://bit.ly/cookmebukkitdev
+website: http://bit.ly/cookmebukkit
 commands:
   cookme:
     description: Handles all the CookMe commands

@@ -16,9 +16,9 @@ import org.blockface.bukkitstats.*;
  * Handles some general stuff!
  * 
  * Refer to the forum thread:
- * 
+ * http://bit.ly/cookmebukkit
  * Refer to the dev.bukkit.org page:
- * 
+ * http://bit.ly/cookmebukkitdev
  *
  * @author xGhOsTkiLLeRx
  * @thanks nisovin
@@ -59,7 +59,7 @@ public class CookMe extends JavaPlugin {
 	
 	// Loads the config at start
 	public void loadConfig() {
-		config.options().header("For help please refer to or ");
+		config.options().header("For help please refer to http://bit.ly/cookmebukkitdev or http://bit.ly/cookmebukkit");
 		config.addDefault("configuration.permissions", true);
 		config.addDefault("configuration.messages", true);
 		config.addDefault("effects.damage", true);

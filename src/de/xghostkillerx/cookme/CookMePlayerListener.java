@@ -16,9 +16,9 @@ import org.bukkit.inventory.ItemStack;
  * Handles the players activities!
  *
  * Refer to the forum thread:
- * 
+ * http://bit.ly/cookmebukkit
  * Refer to the dev.bukkit.org page:
- * 
+ * hhttp://bit.ly/cookmebukkitdev
  *
  * @author xGhOsTkiLLeRx
  * @thanks nisovin

@@ -10,9 +10,9 @@ import org.bukkit.plugin.PluginDescriptionFile;
  * Handles the commands!
  * 
  * Refer to the forum thread:
- * 
+ * http://bit.ly/cookmebukkit
  * Refer to the dev.bukkit.org page:
- * 
+ * http://bit.ly/cookmebukkitdev
  *
  * @author xGhOsTkiLLeRx
  * @thanks nisovin
