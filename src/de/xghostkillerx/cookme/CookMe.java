@@ -9,7 +9,7 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.configuration.file.*;
-import com.randomappdev.bukkitstats.*;
+import com.randomappdev.pluginstats.Ping;
 
 /**
  * CookeMe for CraftBukkit/Bukkit
@@ -54,7 +54,7 @@ public class CookMe extends JavaPlugin {
 		log.info(pdfFile.getName() + " " + pdfFile.getVersion() + " is enabled!");
 		
 		// Stats
-		CallHome.load(this);
+		Ping.init(this);
 	}
 	
 	// Loads the config at start
