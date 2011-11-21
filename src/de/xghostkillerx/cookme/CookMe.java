@@ -1,6 +1,9 @@
 package de.xghostkillerx.cookme;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.logging.Logger;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -46,6 +49,10 @@ public class CookMe extends JavaPlugin {
 		
 		// Config
 		configFile = new File(getDataFolder(), "config.yml");
+		if(!configFile.exists()){
+	        configFile.getParentFile().mkdirs();
+	        copy(getResource("config.yml"), configFile);
+	    }
 		config = this.getConfig();
 		loadConfig();
 		
@@ -80,6 +87,22 @@ public class CookMe extends JavaPlugin {
 			e.printStackTrace();
 		}
 	}
+	
+	// If no config is found, copy the default one!
+		private void copy(InputStream in, File file) {
+			try {
+				OutputStream out = new FileOutputStream(file);
+				byte[] buf = new byte[1024];
+				int len;
+				while((len=in.read(buf))>0){
+					out.write(buf,0,len);
+				}
+				out.close();
+				in.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	
 	// Refer to CookMeCommands
 	public boolean onCommand(CommandSender sender, Command command, String commandLabel, String[] args) {

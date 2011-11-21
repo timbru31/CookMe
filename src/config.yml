@@ -1,0 +1,10 @@
+# For help please refer to http://bit.ly/cookmebukkitdev or http://bit.ly/cookmebukkit
+configuration:
+  permissions: true
+  messages: true
+effects:
+  damage: true
+  death: true
+  venom: true
+  hungervenom: true
+  hungerdecrease: true
