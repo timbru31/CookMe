@@ -74,6 +74,12 @@ public class CookMe extends JavaPlugin {
 		config.addDefault("effects.venom", true);
 		config.addDefault("effects.hungervenom", true);
 		config.addDefault("effects.hungerdecrease", true);
+		config.addDefault("effects.confusion", true);
+		config.addDefault("effects.blindness", true);
+		config.addDefault("effects.weakness", true);
+		config.addDefault("effects.venom", true);
+		config.addDefault("effects.slowness", true);
+		config.addDefault("effects.slowness_blocks", true);
 		config.options().copyDefaults(true);
 		saveConfig();
 	}

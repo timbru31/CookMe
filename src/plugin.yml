@@ -1,6 +1,6 @@
 name: CookMe
 main: de.xghostkillerx.cookme.CookMe
-version: 1.0.1
+version: 1.1
 author: xGhOsTkiLLeRx
 website: http://bit.ly/cookmebukkitdev
 website: http://bit.ly/cookmebukkit
@@ -24,6 +24,11 @@ permissions:
       cookme.enable.damage: true
       cookme.enable.death: true
       cookme.enable.venom: true
+      cookme.enable.confusion: true
+      cookme.enable.blindness: true
+      cookme.enable.weakness: true
+      cookme.enable.slowness: true
+      cookme.enable.slowness_blocks: true
       cookme.enable.hungerdecrease: true
       cookme.enable.hungervenom: true
       cookme.enable.permissions: true
@@ -35,6 +40,11 @@ permissions:
       cookme.disable.damage: true
       cookme.disable.death: true
       cookme.disable.venom: true
+      cookme.disable.confusion: true
+      cookme.disable.blindness: true
+      cookme.disable.weakness: true
+      cookme.disable.slowness: true
+      cookme.disable.slowness_blocks: true
       cookme.disable.hungervenom: true
       cookme.disable.hungerdecrease: true
       cookme.disable.permissions: true
@@ -66,6 +76,21 @@ permissions:
   cookme.enable.hungerdecrease:
     description: Allows you to enable the hungerdecrease
     default: op
+  cookme.enable.confusion:
+    description: Allows you to enable the confusion
+    default: op
+  cookme.enable.blindness:
+    description: Allows you to enable the blindness
+    default: op
+  cookme.enable.weakness:
+    description: Allows you to enable the weakness
+    default: op
+  cookme.enable.slowness:
+    description: Allows you to enable the slowness
+    default: op
+  cookme.enable.slowness_blocks:
+    description: Allows you to enable the slowness for blocks
+    default: op
   cookme.enable.permissions:
     description: Allows you to enable permissions
     default: op
@@ -89,6 +114,21 @@ permissions:
     default: op
   cookme.disable.hungerdecrease:
     description: Allows you to disable the hungerdecrease
+    default: op
+  cookme.disable.confusion:
+    description: Allows you to disable the confusion
+    default: op
+  cookme.disable.blindness:
+    description: Allows you to disable the blindness
+    default: op
+  cookme.disable.weakness:
+    description: Allows you to disable the weakness
+    default: op
+  cookme.disable.slowness:
+    description: Allows you to disable the slowness
+    default: op
+  cookme.disable.slowness_blocks:
+    description: Allows you to disable the slowness for blocks
     default: op
   cookme.disable.permissions:
     description: Allows you to disable permissions

@@ -176,6 +176,86 @@ public class CookMeCommands {
 						return true;
 					}
 				}
+				// confusion
+				if (args.length > 1 && args[1].equals("confusion")) {
+					if (plugin.config.getBoolean("configuration.permissions") == true) {
+						if (sender.hasPermission("cookme.enable.confusion")) {
+							CookMeEnableConfusion(sender, args);
+							return true;
+						} else {
+							sender.sendMessage(ChatColor.DARK_RED + "You don't have the permission to do this!");
+							return true;
+						}
+					}
+					if (plugin.config.getBoolean("configuration.permissions") == false) {
+						CookMeEnableConfusion(sender, args);
+						return true;
+					}
+				}
+				// blindness
+				if (args.length > 1 && args[1].equals("blindness")) {
+					if (plugin.config.getBoolean("configuration.permissions") == true) {
+						if (sender.hasPermission("cookme.enable.blindness")) {
+							CookMeEnableBlindness(sender, args);
+							return true;
+						} else {
+							sender.sendMessage(ChatColor.DARK_RED + "You don't have the permission to do this!");
+							return true;
+						}
+					}
+					if (plugin.config.getBoolean("configuration.permissions") == false) {
+						CookMeEnableBlindness(sender, args);
+						return true;
+					}
+				}
+				// weakness
+				if (args.length > 1 && args[1].equals("weakness")) {
+					if (plugin.config.getBoolean("configuration.permissions") == true) {
+						if (sender.hasPermission("cookme.enable.weakness")) {
+							CookMeEnableWeakness(sender, args);
+							return true;
+						} else {
+							sender.sendMessage(ChatColor.DARK_RED + "You don't have the permission to do this!");
+							return true;
+						}
+					}
+					if (plugin.config.getBoolean("configuration.permissions") == false) {
+						CookMeEnableWeakness(sender, args);
+						return true;
+					}
+				}
+				// slowness
+				if (args.length > 1 && args[1].equals("slowness")) {
+					if (plugin.config.getBoolean("configuration.permissions") == true) {
+						if (sender.hasPermission("cookme.enable.slowness")) {
+							CookMeEnableSlowness(sender, args);
+							return true;
+						} else {
+							sender.sendMessage(ChatColor.DARK_RED + "You don't have the permission to do this!");
+							return true;
+						}
+					}
+					if (plugin.config.getBoolean("configuration.permissions") == false) {
+						CookMeEnableSlowness(sender, args);
+						return true;
+					}
+				}
+				// slowness_blocks
+				if (args.length > 1 && args[1].equals("slowness_blocks")) {
+					if (plugin.config.getBoolean("configuration.permissions") == true) {
+						if (sender.hasPermission("cookme.enable.slowness_blocks")) {
+							CookMeEnableSlownessBlocks(sender, args);
+							return true;
+						} else {
+							sender.sendMessage(ChatColor.DARK_RED + "You don't have the permission to do this!");
+							return true;
+						}
+					}
+					if (plugin.config.getBoolean("configuration.permissions") == false) {
+						CookMeEnableSlownessBlocks(sender, args);
+						return true;
+					}
+				}
 				// all
 				if (args.length > 1 && args[1].equals("all")) {
 					if (plugin.config.getBoolean("configuration.permissions") == true) {
@@ -306,6 +386,86 @@ public class CookMeCommands {
 						return true;
 					}
 				}
+				// confusion
+				if (args.length > 1 && args[1].equals("confusion")) {
+					if (plugin.config.getBoolean("configuration.permissions") == true) {
+						if (sender.hasPermission("cookme.disable.confusion")) {
+							CookMeDisableConfusion(sender, args);
+							return true;
+						} else {
+							sender.sendMessage(ChatColor.DARK_RED + "You don't have the permission to do this!");
+							return true;
+						}
+					}
+					if (plugin.config.getBoolean("configuration.permissions") == false) {
+						CookMeDisableConfusion(sender, args);
+						return true;
+					}
+				}
+				// blindness
+				if (args.length > 1 && args[1].equals("blindness")) {
+					if (plugin.config.getBoolean("configuration.permissions") == true) {
+						if (sender.hasPermission("cookme.disable.blindness")) {
+							CookMeDisableBlindness(sender, args);
+							return true;
+						} else {
+							sender.sendMessage(ChatColor.DARK_RED + "You don't have the permission to do this!");
+							return true;
+						}
+					}
+					if (plugin.config.getBoolean("configuration.permissions") == false) {
+						CookMeDisableBlindness(sender, args);
+						return true;
+					}
+				}
+				// weakness
+				if (args.length > 1 && args[1].equals("weakness")) {
+					if (plugin.config.getBoolean("configuration.permissions") == true) {
+						if (sender.hasPermission("cookme.disable.weakness")) {
+							CookMeDisableWeakness(sender, args);
+							return true;
+						} else {
+							sender.sendMessage(ChatColor.DARK_RED + "You don't have the permission to do this!");
+							return true;
+						}
+					}
+					if (plugin.config.getBoolean("configuration.permissions") == false) {
+						CookMeDisableWeakness(sender, args);
+						return true;
+					}
+				}
+				// slowness
+				if (args.length > 1 && args[1].equals("slowness")) {
+					if (plugin.config.getBoolean("configuration.permissions") == true) {
+						if (sender.hasPermission("cookme.disable.slowness")) {
+							CookMeDisableSlowness(sender, args);
+							return true;
+						} else {
+							sender.sendMessage(ChatColor.DARK_RED + "You don't have the permission to do this!");
+							return true;
+						}
+					}
+					if (plugin.config.getBoolean("configuration.permissions") == false) {
+						CookMeDisableSlowness(sender, args);
+						return true;
+					}
+				}
+				// slowness_blocks
+				if (args.length > 1 && args[1].equals("slowness_blocks")) {
+					if (plugin.config.getBoolean("configuration.permissions") == true) {
+						if (sender.hasPermission("cookme.disable.slowness_blocks")) {
+							CookMeDisableSlownessBlocks(sender, args);
+							return true;
+						} else {
+							sender.sendMessage(ChatColor.DARK_RED + "You don't have the permission to do this!");
+							return true;
+						}
+					}
+					if (plugin.config.getBoolean("configuration.permissions") == false) {
+						CookMeDisableSlownessBlocks(sender, args);
+						return true;
+					}
+				}
 				// all
 				if (args.length > 1 && args[1].equals("all")) {
 					if (plugin.config.getBoolean("configuration.permissions") == true) {
@@ -336,7 +496,8 @@ public class CookMeCommands {
 		sender.sendMessage("To enable something use " + ChatColor.DARK_RED + "/cookme enable " + ChatColor.YELLOW + "<value>");
 		sender.sendMessage("To disable something use " + ChatColor.DARK_RED	+ "/cookme disable " + ChatColor.YELLOW + "<value>");
 		sender.sendMessage(ChatColor.YELLOW + "Values: " + ChatColor.WHITE + "permissions, messages, damage, death, venom,");
-		sender.sendMessage("hungervenom, hungerdecrease");
+		sender.sendMessage("hungervenom, hungerdecrease, confusion, blindness, weakness");
+		sender.sendMessage("slowness, slowness_blocks");
 		return true;
 	}
 
@@ -452,6 +613,76 @@ public class CookMeCommands {
 		sender.sendMessage(ChatColor.DARK_GREEN + "Effect " + ChatColor.DARK_RED	+ "hungerdecrease " + ChatColor.DARK_GREEN + "disabled");
 		return true;
 	}
+	// Enables effect confusion with /cookme enable confusion
+	private boolean CookMeEnableConfusion(CommandSender sender, String[] args) {
+		plugin.config.set("effects.confusion", true);
+		plugin.saveConfig();
+		sender.sendMessage(ChatColor.DARK_GREEN + "Effect " + ChatColor.DARK_RED	+ "confusion " + ChatColor.DARK_GREEN + "enabled");
+		return true;
+	}
+	// Disables effect confusion with /cookme disable hungerdecrease
+	private boolean CookMeDisableConfusion(CommandSender sender, String[] args) {
+		plugin.config.set("effects.confusion", false);
+		plugin.saveConfig();
+		sender.sendMessage(ChatColor.DARK_GREEN + "Effect " + ChatColor.DARK_RED	+ "confusion " + ChatColor.DARK_GREEN + "disabled");
+		return true;
+	}
+	// Enables effect blindness with /cookme enable blindness
+	private boolean CookMeEnableBlindness(CommandSender sender, String[] args) {
+		plugin.config.set("effects.blindness", true);
+		plugin.saveConfig();
+		sender.sendMessage(ChatColor.DARK_GREEN + "Effect " + ChatColor.DARK_RED	+ "blindness " + ChatColor.DARK_GREEN + "enabled");
+		return true;
+	}
+	// Disables effect blindness with /cookme disable blindness
+	private boolean CookMeDisableBlindness(CommandSender sender, String[] args) {
+		plugin.config.set("effects.blindness", false);
+		plugin.saveConfig();
+		sender.sendMessage(ChatColor.DARK_GREEN + "Effect " + ChatColor.DARK_RED	+ "blindness " + ChatColor.DARK_GREEN + "disabled");
+		return true;
+	}
+	// Enables effect weakness with /cookme enable weakness
+	private boolean CookMeEnableWeakness(CommandSender sender, String[] args) {
+		plugin.config.set("effects.weakness", true);
+		plugin.saveConfig();
+		sender.sendMessage(ChatColor.DARK_GREEN + "Effect " + ChatColor.DARK_RED	+ "weakness " + ChatColor.DARK_GREEN + "enabled");
+		return true;
+	}
+	// Disables effect weakness with /cookme disable weakness
+	private boolean CookMeDisableWeakness(CommandSender sender, String[] args) {
+		plugin.config.set("effects.weakness", false);
+		plugin.saveConfig();
+		sender.sendMessage(ChatColor.DARK_GREEN + "Effect " + ChatColor.DARK_RED	+ "weakness " + ChatColor.DARK_GREEN + "disabled");
+		return true;
+	}
+	// Enables effect slowness with /cookme enable slowness
+	private boolean CookMeEnableSlowness(CommandSender sender, String[] args) {
+		plugin.config.set("effects.slowness", true);
+		plugin.saveConfig();
+		sender.sendMessage(ChatColor.DARK_GREEN + "Effect " + ChatColor.DARK_RED	+ "slowness " + ChatColor.DARK_GREEN + "enabled");
+		return true;
+	}
+	// Disables effect slowness with /cookme disable slowness
+	private boolean CookMeDisableSlowness(CommandSender sender, String[] args) {
+		plugin.config.set("effects.slowness", false);
+		plugin.saveConfig();
+		sender.sendMessage(ChatColor.DARK_GREEN + "Effect " + ChatColor.DARK_RED	+ "slowness " + ChatColor.DARK_GREEN + "disabled");
+		return true;
+	}
+	// Enables effect slowness_blocks with /cookme enable slowness_blocks
+	private boolean CookMeEnableSlownessBlocks(CommandSender sender, String[] args) {
+		plugin.config.set("effects.slowness_blocks", true);
+		plugin.saveConfig();
+		sender.sendMessage(ChatColor.DARK_GREEN + "Effect " + ChatColor.DARK_RED	+ "slowness for blocks " + ChatColor.DARK_GREEN + "enabled");
+		return true;
+	}
+	// Disables effect slowness_blocks with /cookme disable slowness_blocks
+	private boolean CookMeDisableSlownessBlocks(CommandSender sender, String[] args) {
+		plugin.config.set("effects.slowness_blocks", false);
+		plugin.saveConfig();
+		sender.sendMessage(ChatColor.DARK_GREEN + "Effect " + ChatColor.DARK_RED	+ "slowness for blocks " + ChatColor.DARK_GREEN + "disabled");
+		return true;
+	}
 	// Enables all effects with /cookme enable all
 	private boolean CookMeEnableAll(CommandSender sender, String[] args) {
 		plugin.config.set("effects.damage", true);
@@ -459,6 +690,12 @@ public class CookMeCommands {
 		plugin.config.set("effects.venom", true);
 		plugin.config.set("effects.hungervenom", true);
 		plugin.config.set("effects.hungerdecrease", true);
+		plugin.config.set("effects.confusion", true);
+		plugin.config.set("effects.blindness", true);
+		plugin.config.set("effects.weakness", true);
+		plugin.config.set("effects.venom", true);
+		plugin.config.set("effects.slowness", true);
+		plugin.config.set("effects.slowness_blocks", true);
 		plugin.saveConfig();
 		sender.sendMessage(ChatColor.DARK_RED	+ "All " + ChatColor.DARK_GREEN + "effects " + ChatColor.DARK_GREEN + "enabled");
 		return true;
@@ -470,6 +707,12 @@ public class CookMeCommands {
 		plugin.config.set("effects.venom", false);
 		plugin.config.set("effects.hungervenom", false);
 		plugin.config.set("effects.hungerdecrease", false);
+		plugin.config.set("effects.confusion", false);
+		plugin.config.set("effects.blindness", false);
+		plugin.config.set("effects.weakness", false);
+		plugin.config.set("effects.venom", false);
+		plugin.config.set("effects.slowness", false);
+		plugin.config.set("effects.slowness_blocks", false);
 		plugin.saveConfig();
 		sender.sendMessage(ChatColor.DARK_RED	+ "All " + ChatColor.DARK_GREEN + "effects " + ChatColor.DARK_GREEN + "disabled");
 		return true;
