@@ -8,3 +8,8 @@ effects:
   venom: true
   hungervenom: true
   hungerdecrease: true
+  confusion: true
+  blindness: true
+  weakness: true
+  slowness: true
+  slowness_blocks: true

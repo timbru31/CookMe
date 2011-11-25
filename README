@@ -4,7 +4,7 @@ this is the README of CookMe!
 For support visit the old forum thread: http://bit.ly/cookmebukkit
 or the new dev.bukkit.org page: http://bit.ly/cookmebukkitdev
 
-This plugin sends usage statistics! If you wish to disable the usage stats, look at /plugins/stats/config.yml!
+This plugin sends usage statistics! If you wish to disable the usage stats, look at plugins/PluginStats/config.yml!
 This plugin is released under the Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported (CC BY-NC-SA 3.0)
 
 
@@ -20,6 +20,11 @@ effects:
   venom: true
   hungervenom: true
   hungerdecrease: true
+  confusion: true
+  blindness: true
+  weakness: true
+  slowness: true
+  slowness_blocks: true
 
 Commands & Permissions (if no permissions system is detected, only OPs are able to use the commands!)
 Only bukkit's permissions system is supported!
@@ -59,6 +64,26 @@ Description: Enables the hunger-venom effect (green food bar)
 Node: cookme.enable.hungerdecrease
 Description: Enables the hunger-decrease effect (food level goes down)
 
+/cookme enable confusion
+Node: cookme.enable.confusion
+Description: Allows you to enable the confusion
+
+/cookme enable blindness
+Node: cookme.enable.blindness
+Description: Allows you to enable the blindness
+
+/cookme enable weakness
+Node: cookme.enable.weakness
+Description: Allows you to enable the weakness
+
+/cookme enable slowness
+Node: cookme.enable.slowness
+Description: Allows you to enable the slowness
+
+/cookme enable slowness_blocks
+Node: cookme.enable.slowness_blocks
+Description: Allows you to enable the slowness for blocks
+
 /cookme enable permissions
 Node: cookme.enable.permissions
 Description: Enables the permissions! (Only OPs or player with the permission can use a specific command)
@@ -90,6 +115,26 @@ Description: Disables the hungervenom effect
 /cookme disable hungerdecrease
 Node: cookme.disable.hungerdecrease
 Description: Disables the hungerdecrease effect
+
+/cookme disable confusion
+Node: cookme.disable.confusion
+Description: Allows you to disable the confusion
+
+/cookme disable blindness
+Node: cookme.disable.blindness
+Description: Allows you to disable the blindness
+
+/cookme disable weakness
+Node: cookme.disable.weakness
+Description: Allows you to disable the weakness
+
+/cookme disable slowness
+Node: cookme.disable.slowness
+Description: Allows you to disable the slowness
+
+/cookme disable slowness_blocks
+Node: cookme.disable.slowness_blocks
+Description: Allows you to disable the slowness for blocks
 
 /cookme disable permissions
 Node: cookme.disable.permissions
