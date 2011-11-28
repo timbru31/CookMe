@@ -165,9 +165,16 @@ public class CookMePlayerListener extends PlayerListener {
 	@SuppressWarnings("deprecation")
 	public void decreaseItem (Player player, PlayerInteractEvent event) {
 		ItemStack afterEating = player.getItemInHand();
-		afterEating.setAmount(afterEating.getAmount() -1);
-		player.setItemInHand(afterEating);
-		player.updateInventory();
-		event.setCancelled(true);
+		if (afterEating.getAmount() == 1) {
+			player.setItemInHand(null);
+			player.updateInventory();
+			event.setCancelled(true);
+		}
+		else {
+			afterEating.setAmount(afterEating.getAmount() -1);
+			player.setItemInHand(afterEating);
+			player.updateInventory();
+			event.setCancelled(true);
+		}
 	}
 }
