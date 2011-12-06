@@ -30,7 +30,7 @@ public class CookMeCommands {
 	public boolean CookMeCommand (CommandSender sender, Command command, String commandLabel, String[] args) {
 		if (command.getName().equalsIgnoreCase("cookme")) {
 			// reload
-			if (args.length > 0 && args[0].equals("reload")) {
+			if (args.length > 0 && args[0].equalsIgnoreCase("reload")) {
 				if (plugin.config.getBoolean("configuration.permissions") == true) {
 					if (sender.hasPermission("cookme.reload")) {
 						CookMeReload(sender, args);
@@ -38,6 +38,7 @@ public class CookMeCommands {
 					}
 					else {
 						sender.sendMessage(ChatColor.DARK_RED + "You don't have the permission to do this!");
+						return true;
 					}
 				}
 				if (plugin.config.getBoolean("configuration.permissions") == false) {
@@ -46,7 +47,7 @@ public class CookMeCommands {
 				}
 			}
 			// help
-			if (args.length > 0 && args[0].equals("help")) {
+			if (args.length > 0 && args[0].equalsIgnoreCase("help")) {
 				if (plugin.config.getBoolean("configuration.permissions") == true) {
 					if (sender.hasPermission("cookme.help")) {
 						CookMeHelp(sender, args);
@@ -63,9 +64,9 @@ public class CookMeCommands {
 				}
 			}
 			// enable
-			if (args.length > 0 && args[0].equals("enable")) {
+			if (args.length > 0 && args[0].equalsIgnoreCase("enable")) {
 				// permissions
-				if (args.length > 1 && args[1].equals("permissions")) {
+				if (args.length > 1 && args[1].equalsIgnoreCase("permissions")) {
 					if (plugin.config.getBoolean("configuration.permissions") == true) {
 						if (sender.hasPermission("cookme.enable.permissions")) {
 							CookMeEnablePermissions(sender, args);
@@ -81,7 +82,7 @@ public class CookMeCommands {
 					}
 				}
 				// messages
-				if (args.length > 1 && args[1].equals("messages")) {
+				if (args.length > 1 && args[1].equalsIgnoreCase("messages")) {
 					if (plugin.config.getBoolean("configuration.permissions") == true) {
 						if (sender.hasPermission("cookme.enable.messages")) {
 							CookMeEnableMessages(sender, args);
@@ -97,7 +98,7 @@ public class CookMeCommands {
 					}
 				}
 				// damage
-				if (args.length > 1 && args[1].equals("damage")) {
+				if (args.length > 1 && args[1].equalsIgnoreCase("damage")) {
 					if (plugin.config.getBoolean("configuration.permissions") == true) {
 						if (sender.hasPermission("cookme.enable.damage")) {
 							CookMeEnableDamage(sender, args);
@@ -113,7 +114,7 @@ public class CookMeCommands {
 					}
 				}
 				// death
-				if (args.length > 1 && args[1].equals("death")) {
+				if (args.length > 1 && args[1].equalsIgnoreCase("death")) {
 					if (plugin.config.getBoolean("configuration.permissions") == true) {
 						if (sender.hasPermission("cookme.enable.death")) {
 							CookMeEnableDeath(sender, args);
@@ -129,7 +130,7 @@ public class CookMeCommands {
 					}
 				}
 				// venom
-				if (args.length > 1 && args[1].equals("venom")) {
+				if (args.length > 1 && args[1].equalsIgnoreCase("venom")) {
 					if (plugin.config.getBoolean("configuration.permissions") == true) {
 						if (sender.hasPermission("cookme.enable.venom")) {
 							CookMeEnableVenom(sender, args);
@@ -145,7 +146,7 @@ public class CookMeCommands {
 					}
 				}
 				// hungervenom
-				if (args.length > 1 && args[1].equals("hungervenom")) {
+				if (args.length > 1 && args[1].equalsIgnoreCase("hungervenom")) {
 					if (plugin.config.getBoolean("configuration.permissions") == true) {
 						if (sender.hasPermission("cookme.enable.hungervenom")) {
 							CookMeEnableHungerVenom(sender, args);
@@ -161,7 +162,7 @@ public class CookMeCommands {
 					}
 				}
 				// hungerdecrease
-				if (args.length > 1 && args[1].equals("hungerdecrease")) {
+				if (args.length > 1 && args[1].equalsIgnoreCase("hungerdecrease")) {
 					if (plugin.config.getBoolean("configuration.permissions") == true) {
 						if (sender.hasPermission("cookme.enable.hungerdecrease")) {
 							CookMeEnableHungerDecrease(sender, args);
@@ -177,7 +178,7 @@ public class CookMeCommands {
 					}
 				}
 				// confusion
-				if (args.length > 1 && args[1].equals("confusion")) {
+				if (args.length > 1 && args[1].equalsIgnoreCase("confusion")) {
 					if (plugin.config.getBoolean("configuration.permissions") == true) {
 						if (sender.hasPermission("cookme.enable.confusion")) {
 							CookMeEnableConfusion(sender, args);
@@ -193,7 +194,7 @@ public class CookMeCommands {
 					}
 				}
 				// blindness
-				if (args.length > 1 && args[1].equals("blindness")) {
+				if (args.length > 1 && args[1].equalsIgnoreCase("blindness")) {
 					if (plugin.config.getBoolean("configuration.permissions") == true) {
 						if (sender.hasPermission("cookme.enable.blindness")) {
 							CookMeEnableBlindness(sender, args);
@@ -209,7 +210,7 @@ public class CookMeCommands {
 					}
 				}
 				// weakness
-				if (args.length > 1 && args[1].equals("weakness")) {
+				if (args.length > 1 && args[1].equalsIgnoreCase("weakness")) {
 					if (plugin.config.getBoolean("configuration.permissions") == true) {
 						if (sender.hasPermission("cookme.enable.weakness")) {
 							CookMeEnableWeakness(sender, args);
@@ -225,7 +226,7 @@ public class CookMeCommands {
 					}
 				}
 				// slowness
-				if (args.length > 1 && args[1].equals("slowness")) {
+				if (args.length > 1 && args[1].equalsIgnoreCase("slowness")) {
 					if (plugin.config.getBoolean("configuration.permissions") == true) {
 						if (sender.hasPermission("cookme.enable.slowness")) {
 							CookMeEnableSlowness(sender, args);
@@ -241,7 +242,7 @@ public class CookMeCommands {
 					}
 				}
 				// slowness_blocks
-				if (args.length > 1 && args[1].equals("slowness_blocks")) {
+				if (args.length > 1 && args[1].equalsIgnoreCase("slowness_blocks")) {
 					if (plugin.config.getBoolean("configuration.permissions") == true) {
 						if (sender.hasPermission("cookme.enable.slowness_blocks")) {
 							CookMeEnableSlownessBlocks(sender, args);
@@ -257,7 +258,7 @@ public class CookMeCommands {
 					}
 				}
 				// all
-				if (args.length > 1 && args[1].equals("all")) {
+				if (args.length > 1 && args[1].equalsIgnoreCase("all")) {
 					if (plugin.config.getBoolean("configuration.permissions") == true) {
 						if (sender.hasPermission("cookme.enable.all")) {
 							CookMeEnableAll(sender, args);
@@ -273,9 +274,9 @@ public class CookMeCommands {
 				}
 			}
 			// disable
-			if (args.length > 0 && args[0].equals("disable")) {
+			if (args.length > 0 && args[0].equalsIgnoreCase("disable")) {
 				// permissions
-				if (args.length > 1 && args[1].equals("permissions")) {
+				if (args.length > 1 && args[1].equalsIgnoreCase("permissions")) {
 					if (plugin.config.getBoolean("configuration.permissions") == true) {
 						if (sender.hasPermission("cookme.disable.permissions")) {
 							CookMeDisablePermissions(sender, args);
@@ -291,7 +292,7 @@ public class CookMeCommands {
 					}
 				}
 				// messages
-				if (args.length > 1 && args[1].equals("messages")) {
+				if (args.length > 1 && args[1].equalsIgnoreCase("messages")) {
 					if (plugin.config.getBoolean("configuration.permissions") == true) {
 						if (sender.hasPermission("cookme.disable.messages")) {
 							CookMeDisableMessages(sender, args);
@@ -307,7 +308,7 @@ public class CookMeCommands {
 					}
 				}
 				// damage
-				if (args.length > 1 && args[1].equals("damage")) {
+				if (args.length > 1 && args[1].equalsIgnoreCase("damage")) {
 					if (plugin.config.getBoolean("configuration.permissions") == true) {
 						if (sender.hasPermission("cookme.disable.damage")) {
 							CookMeDisableDamage(sender, args);
@@ -323,7 +324,7 @@ public class CookMeCommands {
 					}
 				}
 				// death
-				if (args.length > 1 && args[1].equals("death")) {
+				if (args.length > 1 && args[1].equalsIgnoreCase("death")) {
 					if (plugin.config.getBoolean("configuration.permissions") == true) {
 						if (sender.hasPermission("cookme.disable.death")) {
 							CookMeDisableDeath(sender, args);
@@ -339,7 +340,7 @@ public class CookMeCommands {
 					}
 				}
 				// venom
-				if (args.length > 1 && args[1].equals("venom")) {
+				if (args.length > 1 && args[1].equalsIgnoreCase("venom")) {
 					if (plugin.config.getBoolean("configuration.permissions") == true) {
 						if (sender.hasPermission("cookme.disable.venom")) {
 							CookMeDisableVenom(sender, args);
@@ -355,7 +356,7 @@ public class CookMeCommands {
 					}
 				}
 				// hungervenom
-				if (args.length > 1 && args[1].equals("hungervenom")) {
+				if (args.length > 1 && args[1].equalsIgnoreCase("hungervenom")) {
 					if (plugin.config.getBoolean("configuration.permissions") == true) {
 						if (sender.hasPermission("cookme.disable.hungervenom")) {
 							CookMeDisableHungerVenom(sender, args);
@@ -371,7 +372,7 @@ public class CookMeCommands {
 					}
 				}
 				// hungerdecrease
-				if (args.length > 1 && args[1].equals("hungerdecrease")) {
+				if (args.length > 1 && args[1].equalsIgnoreCase("hungerdecrease")) {
 					if (plugin.config.getBoolean("configuration.permissions") == true) {
 						if (sender.hasPermission("cookme.disable.hungerdecrease")) {
 							CookMeDisableHungerDecrease(sender, args);
@@ -387,7 +388,7 @@ public class CookMeCommands {
 					}
 				}
 				// confusion
-				if (args.length > 1 && args[1].equals("confusion")) {
+				if (args.length > 1 && args[1].equalsIgnoreCase("confusion")) {
 					if (plugin.config.getBoolean("configuration.permissions") == true) {
 						if (sender.hasPermission("cookme.disable.confusion")) {
 							CookMeDisableConfusion(sender, args);
@@ -403,7 +404,7 @@ public class CookMeCommands {
 					}
 				}
 				// blindness
-				if (args.length > 1 && args[1].equals("blindness")) {
+				if (args.length > 1 && args[1].equalsIgnoreCase("blindness")) {
 					if (plugin.config.getBoolean("configuration.permissions") == true) {
 						if (sender.hasPermission("cookme.disable.blindness")) {
 							CookMeDisableBlindness(sender, args);
@@ -419,7 +420,7 @@ public class CookMeCommands {
 					}
 				}
 				// weakness
-				if (args.length > 1 && args[1].equals("weakness")) {
+				if (args.length > 1 && args[1].equalsIgnoreCase("weakness")) {
 					if (plugin.config.getBoolean("configuration.permissions") == true) {
 						if (sender.hasPermission("cookme.disable.weakness")) {
 							CookMeDisableWeakness(sender, args);
@@ -435,7 +436,7 @@ public class CookMeCommands {
 					}
 				}
 				// slowness
-				if (args.length > 1 && args[1].equals("slowness")) {
+				if (args.length > 1 && args[1].equalsIgnoreCase("slowness")) {
 					if (plugin.config.getBoolean("configuration.permissions") == true) {
 						if (sender.hasPermission("cookme.disable.slowness")) {
 							CookMeDisableSlowness(sender, args);
@@ -451,7 +452,7 @@ public class CookMeCommands {
 					}
 				}
 				// slowness_blocks
-				if (args.length > 1 && args[1].equals("slowness_blocks")) {
+				if (args.length > 1 && args[1].equalsIgnoreCase("slowness_blocks")) {
 					if (plugin.config.getBoolean("configuration.permissions") == true) {
 						if (sender.hasPermission("cookme.disable.slowness_blocks")) {
 							CookMeDisableSlownessBlocks(sender, args);
@@ -467,7 +468,7 @@ public class CookMeCommands {
 					}
 				}
 				// all
-				if (args.length > 1 && args[1].equals("all")) {
+				if (args.length > 1 && args[1].equalsIgnoreCase("all")) {
 					if (plugin.config.getBoolean("configuration.permissions") == true) {
 						if (sender.hasPermission("cookme.disable.all")) {
 							CookMeDisableAll(sender, args);
@@ -501,7 +502,7 @@ public class CookMeCommands {
 		return true;
 	}
 
-	// Reload the config with /cookme reload
+	// Reloads the config with /cookme reload
 	private boolean CookMeReload(CommandSender sender, String[] args) {
 		PluginDescriptionFile pdfFile = plugin.getDescription();
 		plugin.loadConfigAgain();		
@@ -509,7 +510,7 @@ public class CookMeCommands {
 		return true;
 	}
 
-	// Enable permissions with /cookme enable permissions
+	// Enables permissions with /cookme enable permissions
 	private boolean CookMeEnablePermissions(CommandSender sender, String[] args) {
 		plugin.config.set("configuration.permissions", true);
 		plugin.saveConfig();
@@ -518,7 +519,7 @@ public class CookMeCommands {
 		return true;
 	}
 
-	// Disable permissions with /cookme disable permissions
+	// Disables permissions with /cookme disable permissions
 	private boolean CookMeDisablePermissions(CommandSender sender, String[] args) {
 		plugin.config.set("configuration.permissions", false);
 		plugin.saveConfig();
@@ -527,7 +528,7 @@ public class CookMeCommands {
 		return true;
 	}
 
-	// Enable messages with /cookme enable messages
+	// Enables messages with /cookme enable messages
 	private boolean CookMeEnableMessages(CommandSender sender, String[] args) {
 		plugin.config.set("configuration.messages", true);
 		plugin.saveConfig();
@@ -535,7 +536,7 @@ public class CookMeCommands {
 		return true;
 	}
 
-	// Disable messages with /cookme disable messages
+	// Disables messages with /cookme disable messages
 	private boolean CookMeDisableMessages(CommandSender sender, String[] args) {
 		plugin.config.set("configuration.messages", false);
 		plugin.saveConfig();
