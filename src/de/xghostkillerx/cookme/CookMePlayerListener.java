@@ -18,7 +18,7 @@ import org.bukkit.inventory.ItemStack;
  * Refer to the forum thread:
  * http://bit.ly/cookmebukkit
  * Refer to the dev.bukkit.org page:
- * hhttp://bit.ly/cookmebukkitdev
+ * http://bit.ly/cookmebukkitdev
  *
  * @author xGhOsTkiLLeRx
  * @thanks nisovin

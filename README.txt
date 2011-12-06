@@ -1,8 +1,7 @@
-Hi,
-
-this is the README of CookMe!
+This is the README of CookMe!
 For support visit the old forum thread: http://bit.ly/cookmebukkit
 or the new dev.bukkit.org page: http://bit.ly/cookmebukkitdev
+Thanks for using!
 
 This plugin sends usage statistics! If you wish to disable the usage stats, look at plugins/PluginStats/config.yml!
 This plugin is released under the Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported (CC BY-NC-SA 3.0)

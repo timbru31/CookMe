@@ -12,10 +12,8 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.configuration.file.*;
-
 //Stats
 import com.randomappdev.pluginstats.Ping;
-
 
 /**
  * CookeMe for CraftBukkit/Bukkit
