@@ -125,7 +125,7 @@ public class CookMePlayerListener extends PlayerListener {
 							}
 						}
 					}
-					// Slwoness
+					// Slowness
 					if (plugin.config.getBoolean("effects.slowness") == true) {
 						if ((randomNumber == 10) || (randomNumber == 19)) {
 							decreaseItem(player, event);
