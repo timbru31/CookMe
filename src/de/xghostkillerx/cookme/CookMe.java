@@ -2,8 +2,12 @@ package de.xghostkillerx.cookme;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.logging.Logger;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -12,8 +16,6 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.configuration.file.*;
-//Stats
-import com.randomappdev.pluginstats.Ping;
 
 /**
  * CookeMe for CraftBukkit/Bukkit
@@ -35,6 +37,8 @@ public class CookMe extends JavaPlugin {
 	private final CookMePlayerListener playerListener = new CookMePlayerListener(this);
 	public FileConfiguration config;
 	public File configFile;
+	List<String> itemList = new ArrayList<String>();
+	String[] rawFood = {"RAW_BEEF", "RAW_CHICKEN", "RAW_FISH", "PORK", "ROTTEN_FLESH"};
 	
 	// Shutdown
 	public void onDisable() {
@@ -62,7 +66,11 @@ public class CookMe extends JavaPlugin {
 		log.info(pdfFile.getName() + " " + pdfFile.getVersion() + " is enabled!");
 		
 		// Stats
-		Ping.init(this);
+		try {
+			Metrics metrics = new Metrics();
+			metrics.beginMeasuringPlugin(this);
+		}
+		catch (IOException e) {}
 	}
 	
 	// Loads the config at start
@@ -70,6 +78,8 @@ public class CookMe extends JavaPlugin {
 		config.options().header("For help please refer to http://bit.ly/cookmebukkitdev or http://bit.ly/cookmebukkit");
 		config.addDefault("configuration.permissions", true);
 		config.addDefault("configuration.messages", true);
+		config.addDefault("configuration.duration.min", 15);
+		config.addDefault("configuration.duration.max", 30);
 		config.addDefault("effects.damage", true);
 		config.addDefault("effects.death", true);
 		config.addDefault("effects.venom", true);
@@ -81,6 +91,8 @@ public class CookMe extends JavaPlugin {
 		config.addDefault("effects.venom", true);
 		config.addDefault("effects.slowness", true);
 		config.addDefault("effects.slowness_blocks", true);
+		config.addDefault("food", Arrays.asList(rawFood));
+		itemList = config.getStringList("food");
 		config.options().copyDefaults(true);
 		saveConfig();
 	}
@@ -90,6 +102,7 @@ public class CookMe extends JavaPlugin {
 		try {
 			config.load(configFile);
 			saveConfig();
+			itemList = config.getStringList("food");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

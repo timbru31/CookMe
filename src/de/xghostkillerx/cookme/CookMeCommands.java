@@ -25,7 +25,7 @@ public class CookMeCommands {
 	public CookMeCommands(CookMe instance) {
 		plugin = instance;
 	}
-
+	
 	//Commands; always check for permissions!
 	public boolean CookMeCommand (CommandSender sender, Command command, String commandLabel, String[] args) {
 		if (command.getName().equalsIgnoreCase("cookme")) {
@@ -50,7 +50,7 @@ public class CookMeCommands {
 			if (args.length > 0 && args[0].equalsIgnoreCase("help")) {
 				if (plugin.config.getBoolean("configuration.permissions") == true) {
 					if (sender.hasPermission("cookme.help")) {
-						CookMeHelp(sender, args);
+						CookMeHelp(sender, args);						
 						return true;
 					}
 					else {

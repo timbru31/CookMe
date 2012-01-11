@@ -31,17 +31,20 @@ public class CookMePlayerListener extends PlayerListener {
 	public CookMePlayerListener(CookMe instance) {
 		plugin = instance;
 	}
+	public int message = 0;
 
 	public void onPlayerInteract(PlayerInteractEvent event) {
 		Player player = event.getPlayer();
 		// Check if player is affected
 		if (!player.hasPermission("cookme.safe")) {
-			// Check for raw food & right clicking
-			if (((event.getMaterial() == Material.RAW_BEEF) || (event.getMaterial() == Material.RAW_CHICKEN) || (event.getMaterial() == Material.RAW_FISH) || (event.getMaterial() == Material.ROTTEN_FLESH) || (event.getMaterial() == Material.PORK)) && (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK)) {
+			// Check for item & right clicking
+			if (sameItem(player.getItemInHand().getTypeId()) == true && (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK)) {
 				// Check for food level
 				if (player.getFoodLevel() != 20) {
-					int randomNumber = (int)(Math.random()*25) +1;
-					int randomEffect = (int)(Math.random()*110) +50, randomEffectStrength = (int)(Math.random()*16);
+					int randomNumber = (int)(Math.random()*25) +1, randomEffectStrength = (int)(Math.random()*16);
+					int minimum = 20*plugin.config.getInt("configuration.duration.min"), maximum = 20*plugin.config.getInt("configuration.duration.max");
+					int randomEffectTime = (int)(Math.random() * ((maximum - minimum)  + 1)  + minimum);
+					//int randomEffectTime = (int)(Math.)
 					// Player gets random damage, stack minus 1
 					if (plugin.config.getBoolean("effects.damage") == true) {
 						if ((randomNumber == 1) || (randomNumber == 12)) {
@@ -56,9 +59,8 @@ public class CookMePlayerListener extends PlayerListener {
 					// Food bar turns green (poison)
 					if (plugin.config.getBoolean("effects.hungervenom") == true) {
 						if ((randomNumber == 2 ) || (randomNumber == 13)) {
-							int randomHungerVenom = (int)(Math.random()*80) +20, randomHungerVenomStrength = (int)(Math.random()*16);
 							decreaseItem(player, event);
-							setMobEffect(player, 17, randomHungerVenom, randomHungerVenomStrength);
+							setMobEffect(player, 17, randomEffectTime, randomEffectStrength);
 							if (plugin.config.getBoolean("configuration.messages") == true) {
 								player.sendMessage(ChatColor.DARK_RED + "Your foodbar is a random time venomed! Eat some cooked food!");
 							}
@@ -78,7 +80,7 @@ public class CookMePlayerListener extends PlayerListener {
 					if (plugin.config.getBoolean("effects.venom") == true) {
 						if ((randomNumber == 5) || (randomNumber == 14)) {
 							decreaseItem(player, event);
-							setMobEffect(player, 19, randomEffect, randomEffectStrength);
+							setMobEffect(player, 19, randomEffectTime, randomEffectStrength);
 							if (plugin.config.getBoolean("configuration.messages") == true) {
 								player.sendMessage(ChatColor.DARK_RED + "You are for a random time venomed! Eat some cooked food!");
 							}
@@ -99,7 +101,7 @@ public class CookMePlayerListener extends PlayerListener {
 					if (plugin.config.getBoolean("effects.confusion") == true) {
 						if ((randomNumber == 7) || (randomNumber == 16)) {
 							decreaseItem(player, event);
-							setMobEffect(player, 9, randomEffect, randomEffectStrength);
+							setMobEffect(player, 9, randomEffectTime, randomEffectStrength);
 							if (plugin.config.getBoolean("configuration.messages") == true) {
 								player.sendMessage(ChatColor.DARK_RED + "You are for a random time confused! Eat some cooked food!");
 							}
@@ -109,7 +111,7 @@ public class CookMePlayerListener extends PlayerListener {
 					if (plugin.config.getBoolean("effects.blindness") == true) {
 						if ((randomNumber == 8) || (randomNumber == 17)) {
 							decreaseItem(player, event);
-							setMobEffect(player, 15, randomEffect, randomEffectStrength);
+							setMobEffect(player, 15, randomEffectTime, randomEffectStrength);
 							if (plugin.config.getBoolean("configuration.messages") == true) {
 								player.sendMessage(ChatColor.DARK_RED + "You are for a random time blind! Eat some cooked food!");
 							}
@@ -119,7 +121,7 @@ public class CookMePlayerListener extends PlayerListener {
 					if (plugin.config.getBoolean("effects.weakness") == true) {
 						if ((randomNumber == 9) || (randomNumber == 18)) {
 							decreaseItem(player, event);
-							setMobEffect(player, 18, randomEffect, randomEffectStrength);
+							setMobEffect(player, 18, randomEffectTime, randomEffectStrength);
 							if (plugin.config.getBoolean("configuration.messages") == true) {
 								player.sendMessage(ChatColor.DARK_RED + "You are for a random time weaked! Eat some cooked food!");
 							}
@@ -129,7 +131,7 @@ public class CookMePlayerListener extends PlayerListener {
 					if (plugin.config.getBoolean("effects.slowness") == true) {
 						if ((randomNumber == 10) || (randomNumber == 19)) {
 							decreaseItem(player, event);
-							setMobEffect(player, 2, randomEffect, randomEffectStrength);
+							setMobEffect(player, 2, randomEffectTime, randomEffectStrength);
 							if (plugin.config.getBoolean("configuration.messages") == true) {
 								player.sendMessage(ChatColor.DARK_RED + "You are for a random time slower! Eat some cooked food!");
 							}
@@ -139,7 +141,7 @@ public class CookMePlayerListener extends PlayerListener {
 					if (plugin.config.getBoolean("effects.slowness_blocks") == true) {
 						if ((randomNumber == 11) || (randomNumber == 20)) {
 							decreaseItem(player, event);
-							setMobEffect(player, 4, randomEffect, randomEffectStrength);
+							setMobEffect(player, 4, randomEffectTime, randomEffectStrength);
 							if (plugin.config.getBoolean("configuration.messages") == true) {
 								player.sendMessage(ChatColor.DARK_RED + "You mine for a random time slower! Eat some cooked food!");
 							}
@@ -149,6 +151,28 @@ public class CookMePlayerListener extends PlayerListener {
 			}
 		}
 	}
+
+	// Is the item in the list? Yes or no
+	private boolean sameItem(int item) {
+		for (int i = 0; i < plugin.itemList.size(); i++) {
+			String itemName = plugin.itemList.get(i);
+			try {
+				Material material = Material.valueOf(itemName);
+				if (material.getId() == item) {
+					return true;
+				}
+			}
+			catch (Exception e) {
+				// Prevent spamming
+				if (message == 0) {
+					CookMe.log.warning("CookMe couldn't load the foods! Please check your config!");
+					message = 1;
+				}
+			}
+		}
+		return false;
+	}
+
 	/* Sets the specific mob effect! BIG THANKS @nisovin for his awesome code!
 	 * http://www.wiki.vg/Protocol#Effects
 	 * 
@@ -160,7 +184,7 @@ public class CookMePlayerListener extends PlayerListener {
 	public void setMobEffect(LivingEntity entity, int type, int duration, int amplifier) {
 		((CraftLivingEntity)entity).getHandle().addEffect(new MobEffect(type, duration, amplifier));
 	}
-	
+
 	// Sets the raw food -1
 	@SuppressWarnings("deprecation")
 	public void decreaseItem (Player player, PlayerInteractEvent event) {

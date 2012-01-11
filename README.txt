@@ -3,8 +3,8 @@ For support visit the old forum thread: http://bit.ly/cookmebukkit
 or the new dev.bukkit.org page: http://bit.ly/cookmebukkitdev
 Thanks for using!
 
-This plugin sends usage statistics! If you wish to disable the usage stats, look at plugins/PluginStats/config.yml!
-This plugin is released under the Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported (CC BY-NC-SA 3.0)
+This plugin sends usage statistics! If you wish to disable the usage stats, look at plugins/PluginMetrics/config.yml!
+This plugin is released under the Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported (CC BY-NC-SA 3.0) license.
 
 
 Standard config:
@@ -13,6 +13,9 @@ Standard config:
 configuration:
   permissions: true
   messages: true
+  duration:
+    min: 15
+    max: 30
 effects:
   damage: true
   death: true
@@ -24,6 +27,12 @@ effects:
   weakness: true
   slowness: true
   slowness_blocks: true
+food:
+- RAW_BEEF
+- RAW_CHICKEN
+- RAW_FISH
+- PORK
+- ROTTEN_FLESH
 
 Commands & Permissions (if no permissions system is detected, only OPs are able to use the commands!)
 Only bukkit's permissions system is supported!

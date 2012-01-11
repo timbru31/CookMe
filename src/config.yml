@@ -2,6 +2,9 @@
 configuration:
   permissions: true
   messages: true
+  duration:
+    min: 15
+    max: 30
 effects:
   damage: true
   death: true
@@ -13,3 +16,9 @@ effects:
   weakness: true
   slowness: true
   slowness_blocks: true
+food:
+- RAW_BEEF
+- RAW_CHICKEN
+- RAW_FISH
+- PORK
+- ROTTEN_FLESH
