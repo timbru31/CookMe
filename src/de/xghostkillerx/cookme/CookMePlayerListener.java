@@ -1,7 +1,6 @@
 package de.xghostkillerx.cookme;
 
 import net.minecraft.server.MobEffect;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.entity.CraftLivingEntity;
 import org.bukkit.entity.LivingEntity;
@@ -41,115 +40,139 @@ public class CookMePlayerListener extends PlayerListener {
 			if (sameItem(player.getItemInHand().getTypeId()) == true && (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK)) {
 				// Check for food level
 				if (player.getFoodLevel() != 20) {
-					int randomNumber = (int)(Math.random()*25) +1, randomEffectStrength = (int)(Math.random()*16);
+					int randomNumber = (int)(Math.random()*27) +1, randomEffectStrength = (int)(Math.random()*16);
 					int minimum = 20*plugin.config.getInt("configuration.duration.min"), maximum = 20*plugin.config.getInt("configuration.duration.max");
 					int randomEffectTime = (int)(Math.random() * ((maximum - minimum)  + 1)  + minimum);
-					//int randomEffectTime = (int)(Math.)
 					// Player gets random damage, stack minus 1
 					if (plugin.config.getBoolean("effects.damage") == true) {
 						if ((randomNumber == 1) || (randomNumber == 12)) {
 							int randomDamage = (int) (Math.random()*9) +1;
+							if (plugin.config.getBoolean("configuration.messages") == true) {
+								String effect = plugin.localization.getString("damage");
+								message(player, effect);
+							}
 							decreaseItem(player, event);
 							player.damage(randomDamage);
-							if (plugin.config.getBoolean("configuration.messages") == true) {
-								player.sendMessage(ChatColor.DARK_RED + "You got some random damage! Eat some cooked food!");
-							}
 						}
 					}
 					// Food bar turns green (poison)
 					if (plugin.config.getBoolean("effects.hungervenom") == true) {
 						if ((randomNumber == 2 ) || (randomNumber == 13)) {
+							if (plugin.config.getBoolean("configuration.messages") == true) {
+								String effect = plugin.localization.getString("hungervenom");
+								message(player, effect);
+							}
 							decreaseItem(player, event);
 							setMobEffect(player, 17, randomEffectTime, randomEffectStrength);
-							if (plugin.config.getBoolean("configuration.messages") == true) {
-								player.sendMessage(ChatColor.DARK_RED + "Your foodbar is a random time venomed! Eat some cooked food!");
-							}
 						}
 					}
 					// Player dies, stack minus 1
 					if (plugin.config.getBoolean("effects.death") == true) {
 						if (randomNumber == 4 ) {
+							if (plugin.config.getBoolean("configuration.messages") == true) {
+								String effect = plugin.localization.getString("death");
+								message(player, effect);
+							}
 							decreaseItem(player, event);
 							player.setHealth(0);
-							if (plugin.config.getBoolean("configuration.messages") == true) {
-								player.sendMessage(ChatColor.DARK_RED + "The raw food killed you :(");
-							}
 						}
 					}
 					// Random venom damage (including green hearts :) )
 					if (plugin.config.getBoolean("effects.venom") == true) {
 						if ((randomNumber == 5) || (randomNumber == 14)) {
+							if (plugin.config.getBoolean("configuration.messages") == true) {
+								String effect = plugin.localization.getString("venom");
+								message(player, effect);
+							}
 							decreaseItem(player, event);
 							setMobEffect(player, 19, randomEffectTime, randomEffectStrength);
-							if (plugin.config.getBoolean("configuration.messages") == true) {
-								player.sendMessage(ChatColor.DARK_RED + "You are for a random time venomed! Eat some cooked food!");
-							}
 						}
 					}
 					// Sets the food level down. Stack minus 1
 					if (plugin.config.getBoolean("effects.hungerdecrease") == true) {
 						if ((randomNumber == 6) || (randomNumber == 15)) {
 							int currentFoodLevel = player.getFoodLevel(), randomFoodLevel = (int)(Math.random()*currentFoodLevel);
+							if (plugin.config.getBoolean("configuration.messages") == true) {
+								String effect = plugin.localization.getString("hungerdecrease");
+								message(player, effect);
+							}
 							decreaseItem(player, event);
 							player.setFoodLevel(randomFoodLevel);
-							if (plugin.config.getBoolean("configuration.messages") == true) {
-								player.sendMessage(ChatColor.DARK_RED + "Your food level went down! Eat some cooked food!");
-							}
 						}
 					}
 					// Confusion
 					if (plugin.config.getBoolean("effects.confusion") == true) {
 						if ((randomNumber == 7) || (randomNumber == 16)) {
+							if (plugin.config.getBoolean("configuration.messages") == true) {
+								String effect = plugin.localization.getString("confusion");
+								message(player, effect);
+							}
 							decreaseItem(player, event);
 							setMobEffect(player, 9, randomEffectTime, randomEffectStrength);
-							if (plugin.config.getBoolean("configuration.messages") == true) {
-								player.sendMessage(ChatColor.DARK_RED + "You are for a random time confused! Eat some cooked food!");
-							}
 						}
 					}
 					// Blindness
 					if (plugin.config.getBoolean("effects.blindness") == true) {
 						if ((randomNumber == 8) || (randomNumber == 17)) {
+							if (plugin.config.getBoolean("configuration.messages") == true) {
+								String effect = plugin.localization.getString("blindness");
+								message(player, effect);
+							}
 							decreaseItem(player, event);
 							setMobEffect(player, 15, randomEffectTime, randomEffectStrength);
-							if (plugin.config.getBoolean("configuration.messages") == true) {
-								player.sendMessage(ChatColor.DARK_RED + "You are for a random time blind! Eat some cooked food!");
-							}
 						}
 					}
 					// Weakness
 					if (plugin.config.getBoolean("effects.weakness") == true) {
 						if ((randomNumber == 9) || (randomNumber == 18)) {
+							if (plugin.config.getBoolean("configuration.messages") == true) {
+								String effect = plugin.localization.getString("weakness");
+								message(player, effect);
+							}
 							decreaseItem(player, event);
 							setMobEffect(player, 18, randomEffectTime, randomEffectStrength);
-							if (plugin.config.getBoolean("configuration.messages") == true) {
-								player.sendMessage(ChatColor.DARK_RED + "You are for a random time weaked! Eat some cooked food!");
-							}
 						}
 					}
 					// Slowness
 					if (plugin.config.getBoolean("effects.slowness") == true) {
 						if ((randomNumber == 10) || (randomNumber == 19)) {
+							if (plugin.config.getBoolean("configuration.messages") == true) {
+								String effect = plugin.localization.getString("slowness");
+								message(player, effect);
+							}
 							decreaseItem(player, event);
 							setMobEffect(player, 2, randomEffectTime, randomEffectStrength);
-							if (plugin.config.getBoolean("configuration.messages") == true) {
-								player.sendMessage(ChatColor.DARK_RED + "You are for a random time slower! Eat some cooked food!");
-							}
 						}
 					}
 					// Slowness for blocks
 					if (plugin.config.getBoolean("effects.slowness_blocks") == true) {
 						if ((randomNumber == 11) || (randomNumber == 20)) {
+							if (plugin.config.getBoolean("configuration.messages") == true) {
+								String effect = plugin.localization.getString("slowness_blocks");
+								message(player, effect);
+							}
 							decreaseItem(player, event);
 							setMobEffect(player, 4, randomEffectTime, randomEffectStrength);
+						}
+					}
+					// Instant Damage
+					if (plugin.config.getBoolean("effects.instant_damage") == true) {
+						if ((randomNumber == 12) || (randomNumber == 21)) {
 							if (plugin.config.getBoolean("configuration.messages") == true) {
-								player.sendMessage(ChatColor.DARK_RED + "You mine for a random time slower! Eat some cooked food!");
+								String effect = plugin.localization.getString("instant_damage");
+								message(player, effect);
 							}
+							decreaseItem(player, event);
+							setMobEffect(player, 7, randomEffectTime, randomEffectStrength);
 						}
 					}
 				}
 			}
 		}
+	}
+
+	private void message(Player player, String effect) {
+		player.sendMessage(effect.replaceAll("&([0-9a-f])", "\u00A7$1"));
 	}
 
 	// Is the item in the list? Yes or no
