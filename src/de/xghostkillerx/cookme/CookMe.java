@@ -91,6 +91,32 @@ public class CookMe extends JavaPlugin {
 		catch (IOException e) {}
 	}
 	
+	// Loads the config at start
+	public void loadConfig() {
+		config.options().header("For help please refer to http://bit.ly/cookmebukkitdev or http://bit.ly/cookmebukkit");
+		config.addDefault("configuration.permissions", true);
+		config.addDefault("configuration.messages", true);
+		config.addDefault("configuration.noBlocks", true);
+		config.addDefault("configuration.duration.min", 15);
+		config.addDefault("configuration.duration.max", 30);
+		config.addDefault("effects.damage", true);
+		config.addDefault("effects.death", true);
+		config.addDefault("effects.venom", true);
+		config.addDefault("effects.hungervenom", true);
+		config.addDefault("effects.hungerdecrease", true);
+		config.addDefault("effects.confusion", true);
+		config.addDefault("effects.blindness", true);
+		config.addDefault("effects.weakness", true);
+		config.addDefault("effects.venom", true);
+		config.addDefault("effects.slowness", true);
+		config.addDefault("effects.slowness_blocks", true);
+		config.addDefault("effects.instant_damage", true);
+		config.addDefault("food", Arrays.asList(rawFood));
+		itemList = config.getStringList("food");
+		config.options().copyDefaults(true);
+		saveConfig();
+	}
+	
 	// Loads the localization
 	public void loadLocalization() {
 		localization.addDefault("damage", "&4You got some random damage! Eat some cooked food!");
@@ -136,31 +162,6 @@ public class CookMe extends JavaPlugin {
 		} catch (IOException e) {
 			log.warning("CookMe failed to save the localization! Please report this!");
 		}
-	}
-
-	// Loads the config at start
-	public void loadConfig() {
-		config.options().header("For help please refer to http://bit.ly/cookmebukkitdev or http://bit.ly/cookmebukkit");
-		config.addDefault("configuration.permissions", true);
-		config.addDefault("configuration.messages", true);
-		config.addDefault("configuration.duration.min", 15);
-		config.addDefault("configuration.duration.max", 30);
-		config.addDefault("effects.damage", true);
-		config.addDefault("effects.death", true);
-		config.addDefault("effects.venom", true);
-		config.addDefault("effects.hungervenom", true);
-		config.addDefault("effects.hungerdecrease", true);
-		config.addDefault("effects.confusion", true);
-		config.addDefault("effects.blindness", true);
-		config.addDefault("effects.weakness", true);
-		config.addDefault("effects.venom", true);
-		config.addDefault("effects.slowness", true);
-		config.addDefault("effects.slowness_blocks", true);
-		config.addDefault("effects.instant_damage", true);
-		config.addDefault("food", Arrays.asList(rawFood));
-		itemList = config.getStringList("food");
-		config.options().copyDefaults(true);
-		saveConfig();
 	}
 
 	// Reloads the configs via command /cookme reload

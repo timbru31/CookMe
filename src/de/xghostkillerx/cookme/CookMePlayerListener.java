@@ -30,14 +30,27 @@ public class CookMePlayerListener extends PlayerListener {
 	public CookMePlayerListener(CookMe instance) {
 		plugin = instance;
 	}
-	public int message = 0;
+	public boolean message = true;
 
 	public void onPlayerInteract(PlayerInteractEvent event) {
 		Player player = event.getPlayer();
+		Material clickedBlock = event.getClickedBlock().getType();
 		// Check if player is affected
 		if (!player.hasPermission("cookme.safe")) {
 			// Check for item & right clicking
 			if (sameItem(player.getItemInHand().getTypeId()) == true && (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK)) {
+				if (plugin.config.getBoolean("configuration.noBlocks") == true) {
+					if (clickedBlock == Material.BED
+							|| clickedBlock == Material.BED_BLOCK
+							|| clickedBlock == Material.FENCE_GATE
+							|| clickedBlock == Material.FURNACE
+							|| clickedBlock == Material.WORKBENCH
+							|| clickedBlock == Material.IRON_DOOR
+							|| clickedBlock == Material.IRON_DOOR_BLOCK
+							|| clickedBlock == Material.WOODEN_DOOR
+							|| clickedBlock == Material.WOOD_DOOR)
+						return;
+				}
 				// Check for food level
 				if (player.getFoodLevel() != 20) {
 					int randomNumber = (int)(Math.random()*27) +1, randomEffectStrength = (int)(Math.random()*16);
@@ -157,7 +170,7 @@ public class CookMePlayerListener extends PlayerListener {
 					}
 					// Instant Damage
 					if (plugin.config.getBoolean("effects.instant_damage") == true) {
-						if ((randomNumber == 12) || (randomNumber == 21)) {
+						if (randomNumber == 12) {
 							if (plugin.config.getBoolean("configuration.messages") == true) {
 								String effect = plugin.localization.getString("instant_damage");
 								message(player, effect);
@@ -187,9 +200,9 @@ public class CookMePlayerListener extends PlayerListener {
 			}
 			catch (Exception e) {
 				// Prevent spamming
-				if (message == 0) {
+				if (message == true) {
 					CookMe.log.warning("CookMe couldn't load the foods! Please check your config!");
-					message = 1;
+					message = false;
 				}
 			}
 		}
@@ -214,14 +227,12 @@ public class CookMePlayerListener extends PlayerListener {
 		ItemStack afterEating = player.getItemInHand();
 		if (afterEating.getAmount() == 1) {
 			player.setItemInHand(null);
-			player.updateInventory();
-			event.setCancelled(true);
 		}
 		else {
 			afterEating.setAmount(afterEating.getAmount() -1);
 			player.setItemInHand(afterEating);
-			player.updateInventory();
-			event.setCancelled(true);
 		}
+		player.updateInventory();
+		event.setCancelled(true);
 	}
 }

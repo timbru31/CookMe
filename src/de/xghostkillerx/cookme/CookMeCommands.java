@@ -1,5 +1,6 @@
 package de.xghostkillerx.cookme;
 
+import java.util.Arrays;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -26,6 +27,7 @@ public class CookMeCommands {
 		plugin = instance;
 	}
 	public String message, effect;
+	String[] effects = {"damage", "death", "venom", "hungervenom", "hungerdecrease", "weakness", "slowness", "slowness_blocks", "confusion", "blindness", "hungervenom", "hungerdecrease"};
 	public int i;
 
 	//Commands; always check for permissions!
@@ -115,11 +117,11 @@ public class CookMeCommands {
 						return true;
 					}
 				}
-				// damage
-				if (args.length > 1 && args[1].equalsIgnoreCase("damage")) {
+				// Enable an effect
+				if (args.length > 1 && Arrays.asList(effects).contains(args[1])) {
 					effect = args[1];
 					if (plugin.config.getBoolean("configuration.permissions") == true) {
-						if (sender.hasPermission("cookme.enable.damage")) {
+						if (sender.hasPermission("cookme.enable." + args[1])) {
 							CookMeEnableEffect(sender, args, effect);
 							return true;
 						}
@@ -133,197 +135,7 @@ public class CookMeCommands {
 						CookMeEnableEffect(sender, args, effect);
 						return true;
 					}
-				}
-				// death
-				if (args.length > 1 && args[1].equalsIgnoreCase("death")) {
-					effect = args[1];
-					if (plugin.config.getBoolean("configuration.permissions") == true) {
-						if (sender.hasPermission("cookme.enable.death")) {
-							CookMeEnableEffect(sender, args, effect);
-							return true;
-						}
-						else {
-							message = plugin.localization.getString("permission_denied");
-							message(sender, message);
-							return true;
-						}
-					}
-					if (plugin.config.getBoolean("configuration.permissions") == false) {
-						CookMeEnableEffect(sender, args, effect);
-						return true;
-					}
-				}
-				// venom
-				if (args.length > 1 && args[1].equalsIgnoreCase("venom")) {
-					effect = args[1];
-					if (plugin.config.getBoolean("configuration.permissions") == true) {
-						if (sender.hasPermission("cookme.enable.venom")) {
-							CookMeEnableEffect(sender, args, effect);
-							return true;
-						} 
-						else {
-							message = plugin.localization.getString("permission_denied");
-							message(sender, message);
-							return true;
-						}
-					}
-					if (plugin.config.getBoolean("configuration.permissions") == false) {
-						CookMeEnableEffect(sender, args, effect);
-						return true;
-					}
-				}
-				// hungervenom
-				if (args.length > 1 && args[1].equalsIgnoreCase("hungervenom")) {
-					effect = args[1];
-					if (plugin.config.getBoolean("configuration.permissions") == true) {
-						if (sender.hasPermission("cookme.enable.hungervenom")) {
-							CookMeEnableEffect(sender, args, effect);
-							return true;
-						}
-						else {
-							message = plugin.localization.getString("permission_denied");
-							message(sender, message);
-							return true;
-						}
-					}
-					if (plugin.config.getBoolean("configuration.permissions") == false) {
-						CookMeEnableEffect(sender, args, effect);
-						return true;
-					}
-				}
-				// hungerdecrease
-				if (args.length > 1 && args[1].equalsIgnoreCase("hungerdecrease")) {
-					effect = args[1];
-					if (plugin.config.getBoolean("configuration.permissions") == true) {
-						if (sender.hasPermission("cookme.enable.hungerdecrease")) {
-							CookMeEnableEffect(sender, args, effect);
-							return true;
-						}
-						else {
-							message = plugin.localization.getString("permission_denied");
-							message(sender, message);
-							return true;
-						}
-					}
-					if (plugin.config.getBoolean("configuration.permissions") == false) {
-						CookMeEnableEffect(sender, args, effect);
-						return true;
-					}
-				}
-				// confusion
-				if (args.length > 1 && args[1].equalsIgnoreCase("confusion")) {
-					effect = args[1];
-					if (plugin.config.getBoolean("configuration.permissions") == true) {
-						if (sender.hasPermission("cookme.enable.confusion")) {
-							CookMeEnableEffect(sender, args, effect);
-							return true;
-						}
-						else {
-							message = plugin.localization.getString("permission_denied");
-							message(sender, message);
-							return true;
-						}
-					}
-					if (plugin.config.getBoolean("configuration.permissions") == false) {
-						CookMeEnableEffect(sender, args, effect);
-						return true;
-					}
-				}
-				// blindness
-				if (args.length > 1 && args[1].equalsIgnoreCase("blindness")) {
-					effect = args[1];
-					if (plugin.config.getBoolean("configuration.permissions") == true) {
-						if (sender.hasPermission("cookme.enable.blindness")) {
-							CookMeEnableEffect(sender, args, effect);
-							return true;
-						}
-						else {
-							message = plugin.localization.getString("permission_denied");
-							message(sender, message);
-							return true;
-						}
-					}
-					if (plugin.config.getBoolean("configuration.permissions") == false) {
-						CookMeEnableEffect(sender, args, effect);
-						return true;
-					}
-				}
-				// weakness
-				if (args.length > 1 && args[1].equalsIgnoreCase("weakness")) {
-					effect = args[1];
-					if (plugin.config.getBoolean("configuration.permissions") == true) {
-						if (sender.hasPermission("cookme.enable.weakness")) {
-							CookMeEnableEffect(sender, args, effect);
-							return true;
-						}
-						else {
-							message = plugin.localization.getString("permission_denied");
-							message(sender, message);
-							return true;
-						}
-					}
-					if (plugin.config.getBoolean("configuration.permissions") == false) {
-						CookMeEnableEffect(sender, args, effect);
-						return true;
-					}
-				}
-				// slowness
-				if (args.length > 1 && args[1].equalsIgnoreCase("slowness")) {
-					effect = args[1];
-					if (plugin.config.getBoolean("configuration.permissions") == true) {
-						if (sender.hasPermission("cookme.enable.slowness")) {
-							CookMeEnableEffect(sender, args, effect);
-							return true;
-						}
-						else {
-							message = plugin.localization.getString("permission_denied");
-							message(sender, message);
-							return true;
-						}
-					}
-					if (plugin.config.getBoolean("configuration.permissions") == false) {
-						CookMeEnableEffect(sender, args, effect);
-						return true;
-					}
-				}
-				// slowness_blocks
-				if (args.length > 1 && args[1].equalsIgnoreCase("slowness_blocks")) {
-					effect = args[1];
-					if (plugin.config.getBoolean("configuration.permissions") == true) {
-						if (sender.hasPermission("cookme.enable.slowness_blocks")) {
-							CookMeEnableEffect(sender, args, effect);
-							return true;
-						}
-						else {
-							message = plugin.localization.getString("permission_denied");
-							message(sender, message);
-							return true;
-						}
-					}
-					if (plugin.config.getBoolean("configuration.permissions") == false) {
-						CookMeEnableEffect(sender, args, effect);
-						return true;
-					}
-				}
-				// instant_damage
-				if (args.length > 1 && args[1].equalsIgnoreCase("instant_damage")) {
-					effect = args[1];
-					if (plugin.config.getBoolean("configuration.permissions") == true) {
-						if (sender.hasPermission("cookme.enable.instant_damage")) {
-							CookMeEnableEffect(sender, args, effect);
-							return true;
-						}
-						else {
-							message = plugin.localization.getString("permission_denied");
-							message(sender, message);
-							return true;
-						}
-					}
-					if (plugin.config.getBoolean("configuration.permissions") == false) {
-						CookMeEnableEffect(sender, args, effect);
-						return true;
-					}
-				}
+				}				
 				// all
 				if (args.length > 1 && args[1].equalsIgnoreCase("all")) {
 					if (plugin.config.getBoolean("configuration.permissions") == true) {
@@ -380,201 +192,11 @@ public class CookMeCommands {
 						return true;
 					}
 				}
-				// damage
-				if (args.length > 1 && args[1].equalsIgnoreCase("damage")) {
+				// Disbale an effect
+				if (args.length > 1 && Arrays.asList(effects).contains(args[1])) {
 					effect = args[1];
 					if (plugin.config.getBoolean("configuration.permissions") == true) {
-						if (sender.hasPermission("cookme.disable.damage")) {
-							CookMeDisableEffect(sender, args, effect);
-							return true;
-						}
-						else {
-							message = plugin.localization.getString("permission_denied");
-							message(sender, message);
-							return true;
-						}
-					}
-					if (plugin.config.getBoolean("configuration.permissions") == false) {
-						CookMeDisableEffect(sender, args, effect);
-						return true;
-					}
-				}
-				// death
-				if (args.length > 1 && args[1].equalsIgnoreCase("death")) {
-					effect = args[1];
-					if (plugin.config.getBoolean("configuration.permissions") == true) {
-						if (sender.hasPermission("cookme.disable.death")) {
-							CookMeDisableEffect(sender, args, effect);
-							return true;
-						}
-						else {
-							message = plugin.localization.getString("permission_denied");
-							message(sender, message);
-							return true;
-						}
-					}
-					if (plugin.config.getBoolean("configuration.permissions") == false) {
-						CookMeDisableEffect(sender, args, effect);
-						return true;
-					}
-				}
-				// venom
-				if (args.length > 1 && args[1].equalsIgnoreCase("venom")) {
-					effect = args[1];
-					if (plugin.config.getBoolean("configuration.permissions") == true) {
-						if (sender.hasPermission("cookme.disable.venom")) {
-							CookMeDisableEffect(sender, args, effect);
-							return true;
-						}
-						else {
-							message = plugin.localization.getString("permission_denied");
-							message(sender, message);
-							return true;
-						}
-					}
-					if (plugin.config.getBoolean("configuration.permissions") == false) {
-						CookMeDisableEffect(sender, args, effect);
-						return true;
-					}
-				}
-				// hungervenom
-				if (args.length > 1 && args[1].equalsIgnoreCase("hungervenom")) {
-					effect = args[1];
-					if (plugin.config.getBoolean("configuration.permissions") == true) {
-						if (sender.hasPermission("cookme.disable.hungervenom")) {
-							CookMeDisableEffect(sender, args, effect);
-							return true;
-						} 
-						else {
-							message = plugin.localization.getString("permission_denied");
-							message(sender, message);
-							return true;
-						}
-					}
-					if (plugin.config.getBoolean("configuration.permissions") == false) {
-						CookMeDisableEffect(sender, args, effect);
-						return true;
-					}
-				}
-				// hungerdecrease
-				if (args.length > 1 && args[1].equalsIgnoreCase("hungerdecrease")) {
-					effect = args[1];
-					if (plugin.config.getBoolean("configuration.permissions") == true) {
-						if (sender.hasPermission("cookme.disable.hungerdecrease")) {
-							CookMeDisableEffect(sender, args, effect);
-							return true;
-						}
-						else {
-							message = plugin.localization.getString("permission_denied");
-							message(sender, message);
-							return true;
-						}
-					}
-					if (plugin.config.getBoolean("configuration.permissions") == false) {
-						CookMeDisableEffect(sender, args, effect);
-						return true;
-					}
-				}
-				// confusion
-				if (args.length > 1 && args[1].equalsIgnoreCase("confusion")) {
-					effect = args[1];
-					if (plugin.config.getBoolean("configuration.permissions") == true) {
-						if (sender.hasPermission("cookme.disable.confusion")) {
-							CookMeDisableEffect(sender, args, effect);
-							return true;
-						}
-						else {
-							message = plugin.localization.getString("permission_denied");
-							message(sender, message);
-							return true;
-						}
-					}
-					if (plugin.config.getBoolean("configuration.permissions") == false) {
-						CookMeDisableEffect(sender, args, effect);
-						return true;
-					}
-				}
-				// blindness
-				if (args.length > 1 && args[1].equalsIgnoreCase("blindness")) {
-					effect = args[1];
-					if (plugin.config.getBoolean("configuration.permissions") == true) {
-						if (sender.hasPermission("cookme.disable.blindness")) {
-							CookMeDisableEffect(sender, args, effect);
-							return true;
-						}
-						else {
-							message = plugin.localization.getString("permission_denied");
-							message(sender, message);
-							return true;
-						}
-					}
-					if (plugin.config.getBoolean("configuration.permissions") == false) {
-						CookMeDisableEffect(sender, args, effect);
-						return true;
-					}
-				}
-				// weakness
-				if (args.length > 1 && args[1].equalsIgnoreCase("weakness")) {
-					effect = args[1];
-					if (plugin.config.getBoolean("configuration.permissions") == true) {
-						if (sender.hasPermission("cookme.disable.weakness")) {
-							CookMeDisableEffect(sender, args, effect);
-							return true;
-						}
-						else {
-							message = plugin.localization.getString("permission_denied");
-							message(sender, message);
-							return true;
-						}
-					}
-					if (plugin.config.getBoolean("configuration.permissions") == false) {
-						CookMeDisableEffect(sender, args, effect);
-						return true;
-					}
-				}
-				// slowness
-				if (args.length > 1 && args[1].equalsIgnoreCase("slowness")) {
-					effect = args[1];
-					if (plugin.config.getBoolean("configuration.permissions") == true) {
-						if (sender.hasPermission("cookme.disable.slowness")) {
-							CookMeDisableEffect(sender, args, effect);
-							return true;
-						}
-						else {
-							message = plugin.localization.getString("permission_denied");
-							message(sender, message);
-							return true;
-						}
-					}
-					if (plugin.config.getBoolean("configuration.permissions") == false) {
-						CookMeDisableEffect(sender, args, effect);
-						return true;
-					}
-				}
-				// slowness_blocks
-				if (args.length > 1 && args[1].equalsIgnoreCase("slowness_blocks")) {
-					effect = args[1];
-					if (plugin.config.getBoolean("configuration.permissions") == true) {
-						if (sender.hasPermission("cookme.disable.slowness_blocks")) {
-							CookMeDisableEffect(sender, args, effect);
-							return true;
-						}
-						else {
-							message = plugin.localization.getString("permission_denied");
-							message(sender, message);
-							return true;
-						}
-					}
-					if (plugin.config.getBoolean("configuration.permissions") == false) {
-						CookMeDisableEffect(sender, args, effect);
-						return true;
-					}
-				}
-				// instant_damage
-				if (args.length > 1 && args[1].equalsIgnoreCase("instant_damage")) {
-					effect = args[1];
-					if (plugin.config.getBoolean("configuration.permissions") == true) {
-						if (sender.hasPermission("cookme.disable.instant_damage")) {
+						if (sender.hasPermission("cookme.disable." + args[1])) {
 							CookMeDisableEffect(sender, args, effect);
 							return true;
 						}
@@ -612,16 +234,22 @@ public class CookMeCommands {
 		return false;
 	}
 
+	// Message sender
 	private void message(CommandSender sender, String message) {
 		PluginDescriptionFile pdfFile = plugin.getDescription();
-		sender.sendMessage(message.replaceAll("&([0-9a-f])", "\u00A7$1")
+		sender.sendMessage(message
+				.replaceAll("&([0-9a-f])", "\u00A7$1")
 				.replaceAll("%version", pdfFile.getVersion()));
 		
 	}
 
+	// Message sender
 	private void message(CommandSender sender, String message, String effect) {
-		sender.sendMessage(message.replaceAll("&([0-9a-f])", "\u00A7$1")
-				.replaceAll("%effect", effect));
+		PluginDescriptionFile pdfFile = plugin.getDescription();
+		sender.sendMessage(message
+				.replaceAll("&([0-9a-f])", "\u00A7$1")
+				.replaceAll("%effect", effect)
+				.replaceAll("%version", pdfFile.getVersion()));
 		
 	}
 
