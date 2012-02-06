@@ -9,13 +9,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import org.bukkit.event.Event;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.*;
+import org.bukkit.entity.Player;
 
 /**
  * CookeMe for CraftBukkit/Bukkit
@@ -27,21 +26,22 @@ import org.bukkit.configuration.file.*;
  * http://bit.ly/cookmebukkitdev
  *
  * @author xGhOsTkiLLeRx
- * @thanks nisovin
+ * @thanks nisovin for his awesome code snippet!
  * 
  */
 
 public class CookMe extends JavaPlugin {
-	
+
 	public static final Logger log = Logger.getLogger("Minecraft");
 	private final CookMePlayerListener playerListener = new CookMePlayerListener(this);
 	public FileConfiguration config;
 	public FileConfiguration localization;
 	public File configFile;
 	public File localizationFile;
-	List<String> itemList = new ArrayList<String>();
-	String[] rawFood = {"RAW_BEEF", "RAW_CHICKEN", "RAW_FISH", "PORK", "ROTTEN_FLESH"};
-	
+	public List<String> itemList = new ArrayList<String>();
+	private String[] rawFood = {"RAW_BEEF", "RAW_CHICKEN", "RAW_FISH", "PORK", "ROTTEN_FLESH"};
+	private CookMeCommands executor;
+
 	// Shutdown
 	public void onDisable() {
 		PluginDescriptionFile pdfFile = this.getDescription();
@@ -52,23 +52,23 @@ public class CookMe extends JavaPlugin {
 	public void onEnable() {
 		// Events
 		PluginManager pm = getServer().getPluginManager();
-		pm.registerEvent(Event.Type.PLAYER_INTERACT, playerListener, Event.Priority.Normal, this);
-		
+		pm.registerEvents(playerListener, this);
+
 		// Config
 		configFile = new File(getDataFolder(), "config.yml");
 		if(!configFile.exists()){
-	        configFile.getParentFile().mkdirs();
-	        copy(getResource("config.yml"), configFile);
-	    }
+			configFile.getParentFile().mkdirs();
+			copy(getResource("config.yml"), configFile);
+		}
 		config = this.getConfig();
 		loadConfig();
-		
+
 		// Localization
 		localizationFile = new File(getDataFolder(), "localization.yml");
 		if(!localizationFile.exists()){
-	        localizationFile.getParentFile().mkdirs();
-	        copy(getResource("localization.yml"), localizationFile);
-	    }
+			localizationFile.getParentFile().mkdirs();
+			copy(getResource("localization.yml"), localizationFile);
+		}
 		// Try to load
 		try {
 			localization = YamlConfiguration.loadConfiguration(localizationFile);
@@ -78,19 +78,38 @@ public class CookMe extends JavaPlugin {
 		catch (Exception e) {
 			log.warning("CookMe failed to load the localization!");
 		}
-		
+
+		// Refer to CookMeCommands
+		executor = new CookMeCommands(this);
+		getCommand("cookme").setExecutor(executor);
+
 		// Message
 		PluginDescriptionFile pdfFile = this.getDescription();
 		log.info(pdfFile.getName() + " " + pdfFile.getVersion() + " is enabled!");
-		
+
 		// Stats
 		try {
 			Metrics metrics = new Metrics();
+			// Custom plotter for each item
+			for (int i = 0; i < itemList.size(); i++) {
+				final String itemName = itemList.get(i);
+				metrics.addCustomData(this, new Metrics.Plotter() {
+					@Override
+					public String getColumnName() {
+						return itemName;
+					}
+
+					@Override
+					public int getValue() {
+						return 1;
+					}
+				});
+			}
 			metrics.beginMeasuringPlugin(this);
 		}
 		catch (IOException e) {}
 	}
-	
+
 	// Loads the config at start
 	public void loadConfig() {
 		config.options().header("For help please refer to http://bit.ly/cookmebukkitdev or http://bit.ly/cookmebukkit");
@@ -116,9 +135,10 @@ public class CookMe extends JavaPlugin {
 		config.options().copyDefaults(true);
 		saveConfig();
 	}
-	
+
 	// Loads the localization
 	public void loadLocalization() {
+		localization.options().header("The underscores are used for the different lines!");
 		localization.addDefault("damage", "&4You got some random damage! Eat some cooked food!");
 		localization.addDefault("hungervenom", "&4Your foodbar is a random time venomed! Eat some cooked food!");
 		localization.addDefault("death", "&4The raw food killed you! :(");
@@ -152,14 +172,14 @@ public class CookMe extends JavaPlugin {
 		localization.addDefault("help_8", "slowness, slowness_blocks, instant_damage");
 		localization.options().copyDefaults(true);
 		saveLocalization();
-		
 	}
-	
+
 	// Saves the localization
 	public void saveLocalization() {
 		try {
 			localization.save(localizationFile);
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			log.warning("CookMe failed to save the localization! Please report this!");
 		}
 	}
@@ -172,7 +192,8 @@ public class CookMe extends JavaPlugin {
 			localization.load(localizationFile);
 			saveLocalization();
 			itemList = config.getStringList("food");
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -183,19 +204,29 @@ public class CookMe extends JavaPlugin {
 			OutputStream out = new FileOutputStream(file);
 			byte[] buf = new byte[1024];
 			int len;
-			while ((len=in.read(buf)) >0) {
-				out.write(buf,0,len);
+			while ((len=in.read(buf)) > 0) {
+				out.write(buf, 0, len);
 			}
 			out.close();
 			in.close();
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
-	// Refer to CookMeCommands
-	public boolean onCommand(CommandSender sender, Command command, String commandLabel, String[] args) {
-		CookMeCommands cmd = new CookMeCommands(this);
-		return cmd.CookMeCommand(sender, command, commandLabel, args);
+	// Message the sender or player
+	public void message(CommandSender sender, Player player, String message, String effect) {
+		PluginDescriptionFile pdfFile = this.getDescription();
+		message = message
+				.replaceAll("&([0-9a-fk])", "\u00A7$1")
+				.replaceAll("%version", pdfFile.getVersion())
+				.replaceAll("%effect", effect);
+		if (player != null) {
+			player.sendMessage(message);
+		}
+		else if (sender != null) {
+			sender.sendMessage(message);
+		}
 	}
 }

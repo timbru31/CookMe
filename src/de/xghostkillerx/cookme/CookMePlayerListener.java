@@ -5,9 +5,10 @@ import org.bukkit.Material;
 import org.bukkit.craftbukkit.entity.CraftLivingEntity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerListener;
 import org.bukkit.inventory.ItemStack;
 
 /**
@@ -20,35 +21,36 @@ import org.bukkit.inventory.ItemStack;
  * http://bit.ly/cookmebukkitdev
  *
  * @author xGhOsTkiLLeRx
- * @thanks nisovin
+ * @thanks nisovin for his awesome code snippet!
  *
  */
 
-public class CookMePlayerListener extends PlayerListener {
+public class CookMePlayerListener implements Listener {
 
 	public static CookMe plugin;
 	public CookMePlayerListener(CookMe instance) {
 		plugin = instance;
 	}
-	public boolean message = true;
+	private boolean message = true;
+	private String effect;
 
-	public void onPlayerInteract(PlayerInteractEvent event) {
+	@EventHandler
+	public void onPlayerInteract(final PlayerInteractEvent event) {
 		Player player = event.getPlayer();
-		Material clickedBlock = event.getClickedBlock().getType();
 		// Check if player is affected
 		if (!player.hasPermission("cookme.safe")) {
 			// Check for item & right clicking
 			if (sameItem(player.getItemInHand().getTypeId()) == true && (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK)) {
 				if (plugin.config.getBoolean("configuration.noBlocks") == true) {
-					if (clickedBlock == Material.BED
-							|| clickedBlock == Material.BED_BLOCK
-							|| clickedBlock == Material.FENCE_GATE
-							|| clickedBlock == Material.FURNACE
-							|| clickedBlock == Material.WORKBENCH
-							|| clickedBlock == Material.IRON_DOOR
-							|| clickedBlock == Material.IRON_DOOR_BLOCK
-							|| clickedBlock == Material.WOODEN_DOOR
-							|| clickedBlock == Material.WOOD_DOOR)
+					if (event.getClickedBlock().getType() == Material.BED
+							|| event.getClickedBlock().getType() == Material.BED_BLOCK
+							|| event.getClickedBlock().getType() == Material.FENCE_GATE
+							|| event.getClickedBlock().getType() == Material.FURNACE
+							|| event.getClickedBlock().getType() == Material.WORKBENCH
+							|| event.getClickedBlock().getType() == Material.IRON_DOOR
+							|| event.getClickedBlock().getType() == Material.IRON_DOOR_BLOCK
+							|| event.getClickedBlock().getType() == Material.WOODEN_DOOR
+							|| event.getClickedBlock().getType()== Material.WOOD_DOOR)
 						return;
 				}
 				// Check for food level
@@ -60,10 +62,8 @@ public class CookMePlayerListener extends PlayerListener {
 					if (plugin.config.getBoolean("effects.damage") == true) {
 						if ((randomNumber == 1) || (randomNumber == 12)) {
 							int randomDamage = (int) (Math.random()*9) +1;
-							if (plugin.config.getBoolean("configuration.messages") == true) {
-								String effect = plugin.localization.getString("damage");
-								message(player, effect);
-							}
+							effect = plugin.localization.getString("damage");
+							message(player, effect);
 							decreaseItem(player, event);
 							player.damage(randomDamage);
 						}
@@ -71,10 +71,8 @@ public class CookMePlayerListener extends PlayerListener {
 					// Food bar turns green (poison)
 					if (plugin.config.getBoolean("effects.hungervenom") == true) {
 						if ((randomNumber == 2 ) || (randomNumber == 13)) {
-							if (plugin.config.getBoolean("configuration.messages") == true) {
-								String effect = plugin.localization.getString("hungervenom");
-								message(player, effect);
-							}
+							effect = plugin.localization.getString("hungervenom");
+							message(player, effect);
 							decreaseItem(player, event);
 							setMobEffect(player, 17, randomEffectTime, randomEffectStrength);
 						}
@@ -82,10 +80,8 @@ public class CookMePlayerListener extends PlayerListener {
 					// Player dies, stack minus 1
 					if (plugin.config.getBoolean("effects.death") == true) {
 						if (randomNumber == 4 ) {
-							if (plugin.config.getBoolean("configuration.messages") == true) {
-								String effect = plugin.localization.getString("death");
-								message(player, effect);
-							}
+							effect = plugin.localization.getString("death");
+							message(player, effect);
 							decreaseItem(player, event);
 							player.setHealth(0);
 						}
@@ -93,10 +89,8 @@ public class CookMePlayerListener extends PlayerListener {
 					// Random venom damage (including green hearts :) )
 					if (plugin.config.getBoolean("effects.venom") == true) {
 						if ((randomNumber == 5) || (randomNumber == 14)) {
-							if (plugin.config.getBoolean("configuration.messages") == true) {
-								String effect = plugin.localization.getString("venom");
-								message(player, effect);
-							}
+							effect = plugin.localization.getString("venom");
+							message(player, effect);
 							decreaseItem(player, event);
 							setMobEffect(player, 19, randomEffectTime, randomEffectStrength);
 						}
@@ -105,10 +99,8 @@ public class CookMePlayerListener extends PlayerListener {
 					if (plugin.config.getBoolean("effects.hungerdecrease") == true) {
 						if ((randomNumber == 6) || (randomNumber == 15)) {
 							int currentFoodLevel = player.getFoodLevel(), randomFoodLevel = (int)(Math.random()*currentFoodLevel);
-							if (plugin.config.getBoolean("configuration.messages") == true) {
-								String effect = plugin.localization.getString("hungerdecrease");
-								message(player, effect);
-							}
+							effect = plugin.localization.getString("hungerdecrease");
+							message(player, effect);
 							decreaseItem(player, event);
 							player.setFoodLevel(randomFoodLevel);
 						}
@@ -116,10 +108,8 @@ public class CookMePlayerListener extends PlayerListener {
 					// Confusion
 					if (plugin.config.getBoolean("effects.confusion") == true) {
 						if ((randomNumber == 7) || (randomNumber == 16)) {
-							if (plugin.config.getBoolean("configuration.messages") == true) {
-								String effect = plugin.localization.getString("confusion");
-								message(player, effect);
-							}
+							effect = plugin.localization.getString("confusion");
+							message(player, effect);
 							decreaseItem(player, event);
 							setMobEffect(player, 9, randomEffectTime, randomEffectStrength);
 						}
@@ -127,10 +117,8 @@ public class CookMePlayerListener extends PlayerListener {
 					// Blindness
 					if (plugin.config.getBoolean("effects.blindness") == true) {
 						if ((randomNumber == 8) || (randomNumber == 17)) {
-							if (plugin.config.getBoolean("configuration.messages") == true) {
-								String effect = plugin.localization.getString("blindness");
-								message(player, effect);
-							}
+							effect = plugin.localization.getString("blindness");
+							message(player, effect);
 							decreaseItem(player, event);
 							setMobEffect(player, 15, randomEffectTime, randomEffectStrength);
 						}
@@ -138,10 +126,8 @@ public class CookMePlayerListener extends PlayerListener {
 					// Weakness
 					if (plugin.config.getBoolean("effects.weakness") == true) {
 						if ((randomNumber == 9) || (randomNumber == 18)) {
-							if (plugin.config.getBoolean("configuration.messages") == true) {
-								String effect = plugin.localization.getString("weakness");
-								message(player, effect);
-							}
+							effect = plugin.localization.getString("weakness");
+							message(player, effect);
 							decreaseItem(player, event);
 							setMobEffect(player, 18, randomEffectTime, randomEffectStrength);
 						}
@@ -149,10 +135,8 @@ public class CookMePlayerListener extends PlayerListener {
 					// Slowness
 					if (plugin.config.getBoolean("effects.slowness") == true) {
 						if ((randomNumber == 10) || (randomNumber == 19)) {
-							if (plugin.config.getBoolean("configuration.messages") == true) {
-								String effect = plugin.localization.getString("slowness");
-								message(player, effect);
-							}
+							effect = plugin.localization.getString("slowness");
+							message(player, effect);
 							decreaseItem(player, event);
 							setMobEffect(player, 2, randomEffectTime, randomEffectStrength);
 						}
@@ -160,10 +144,8 @@ public class CookMePlayerListener extends PlayerListener {
 					// Slowness for blocks
 					if (plugin.config.getBoolean("effects.slowness_blocks") == true) {
 						if ((randomNumber == 11) || (randomNumber == 20)) {
-							if (plugin.config.getBoolean("configuration.messages") == true) {
-								String effect = plugin.localization.getString("slowness_blocks");
-								message(player, effect);
-							}
+							effect = plugin.localization.getString("slowness_blocks");
+							message(player, effect);
 							decreaseItem(player, event);
 							setMobEffect(player, 4, randomEffectTime, randomEffectStrength);
 						}
@@ -171,10 +153,8 @@ public class CookMePlayerListener extends PlayerListener {
 					// Instant Damage
 					if (plugin.config.getBoolean("effects.instant_damage") == true) {
 						if (randomNumber == 12) {
-							if (plugin.config.getBoolean("configuration.messages") == true) {
-								String effect = plugin.localization.getString("instant_damage");
-								message(player, effect);
-							}
+							effect = plugin.localization.getString("instant_damage");
+							message(player, effect);
 							decreaseItem(player, event);
 							setMobEffect(player, 7, randomEffectTime, randomEffectStrength);
 						}
@@ -184,8 +164,10 @@ public class CookMePlayerListener extends PlayerListener {
 		}
 	}
 
-	private void message(Player player, String effect) {
-		player.sendMessage(effect.replaceAll("&([0-9a-f])", "\u00A7$1"));
+	private void message(Player player, String message) {
+		if (plugin.config.getBoolean("configuration.messages") == true) {
+			plugin.message(null, player, message, null);
+		}
 	}
 
 	// Is the item in the list? Yes or no
