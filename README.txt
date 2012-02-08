@@ -16,6 +16,8 @@ configuration:
   duration:
     min: 15
     max: 30
+  noBlocks: true
+  cooldown: 30
 effects:
   damage: true
   death: true
@@ -27,6 +29,7 @@ effects:
   weakness: true
   slowness: true
   slowness_blocks: true
+  instant_damage: true
 food:
 - RAW_BEEF
 - RAW_CHICKEN
@@ -151,3 +154,15 @@ Description: Disables the permissions! ALL players can use the commands!
 /cookme disable messages
 Node: cookme.disable.messages
 Description: Disables the messages!
+
+/cookme set cooldown <value>
+Node: cookme.cooldown
+Description: Sets the cooldown value in seconds
+
+/cookme set duration min <value>
+Node: cookme.duration
+Description: Sets the minimum duration value in seconds
+
+/cookme set duration max <value>
+Node: cookme.duration
+Description: Sets the maximum duration value in seconds

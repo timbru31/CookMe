@@ -34,7 +34,7 @@ public class CookMe extends JavaPlugin {
 
 	public static final Logger log = Logger.getLogger("Minecraft");
 	private final CookMePlayerListener playerListener = new CookMePlayerListener(this);
-	public FileConfiguration config;
+	public static FileConfiguration config;
 	public FileConfiguration localization;
 	public File configFile;
 	public File localizationFile;
@@ -118,6 +118,7 @@ public class CookMe extends JavaPlugin {
 		config.addDefault("configuration.noBlocks", true);
 		config.addDefault("configuration.duration.min", 15);
 		config.addDefault("configuration.duration.max", 30);
+		config.addDefault("configuration.cooldown", 30);
 		config.addDefault("effects.damage", true);
 		config.addDefault("effects.death", true);
 		config.addDefault("effects.venom", true);
@@ -162,14 +163,19 @@ public class CookMe extends JavaPlugin {
 		localization.addDefault("disable_permissions_1", "&2CookMe &4permissions &4disabled!");
 		localization.addDefault("disable_permissions_2", "&2All players can use the plugin!");
 		localization.addDefault("reload", "&2CookMe &4%version &2reloaded!");
+		localization.addDefault("changed_cooldown", "&2The cooldown time has been changed to &e%value!");
+		localization.addDefault("changed_duration_max", "&2The maximum duration time has been changed to &e%value!");
+		localization.addDefault("changed_duration_min", "&2The minimum duration time has been changed to &e%value!");
 		localization.addDefault("help_1", "&2Welcome to the CookMe version &4%version &2help");
 		localization.addDefault("help_2", "To see the help type &4/cookme help");
 		localization.addDefault("help_3", "To reload use &4/cookme reload");
-		localization.addDefault("help_4", "To enable something use &4/cookme enable &e<value>");
-		localization.addDefault("help_5", "To disable something use &4/cookme disable &e<value>");
-		localization.addDefault("help_6", "&eValues: &fpermissions, messages, damage, death, venom,");
-		localization.addDefault("help_7", "hungervenom, hungerdecrease, confusion, blindness, weakness");
-		localization.addDefault("help_8", "slowness, slowness_blocks, instant_damage");
+		localization.addDefault("help_4", "To change the cooldown or duration values, type");
+		localization.addDefault("help_5", "&4/cookme set cooldown <value> &for &4/cookme set duration min <value>");
+		localization.addDefault("help_6", "&4/cookme set duration max <value>");
+		localization.addDefault("help_7", "To disable something use &4/cookme disable &e<value>");
+		localization.addDefault("help_8", "&eValues: &fpermissions, messages, damage, death, venom,");
+		localization.addDefault("help_9", "hungervenom, hungerdecrease, confusion, blindness, weakness");
+		localization.addDefault("help_10", "slowness, slowness_blocks, instant_damage");
 		localization.options().copyDefaults(true);
 		saveLocalization();
 	}
@@ -216,12 +222,13 @@ public class CookMe extends JavaPlugin {
 	}
 	
 	// Message the sender or player
-	public void message(CommandSender sender, Player player, String message, String effect) {
+	public void message(CommandSender sender, Player player, String message, String value) {
 		PluginDescriptionFile pdfFile = this.getDescription();
 		message = message
 				.replaceAll("&([0-9a-fk])", "\u00A7$1")
 				.replaceAll("%version", pdfFile.getVersion())
-				.replaceAll("%effect", effect);
+				.replaceAll("%effect", value)
+				.replaceAll("%value", value);
 		if (player != null) {
 			player.sendMessage(message);
 		}

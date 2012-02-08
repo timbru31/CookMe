@@ -17,6 +17,8 @@ permissions:
       cookme.disable.*: true
       cookme.help: true
       cookme.safe: true
+      cookme.cooldown: true
+      cookme.duration: true
   cookme.enable.*:
     description: Gives access to all CookMe enable commands
     children:
@@ -135,4 +137,10 @@ permissions:
     default: op
   cookme.disable.messages:
     description: Allows you to disable messages
+    default: op
+  cookme.duration:
+    description: Used for duration things
+    default: op
+  cookme.cooldown:
+    description: Used for cooldown things
     default: op

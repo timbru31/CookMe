@@ -5,6 +5,8 @@ configuration:
   duration:
     min: 15
     max: 30
+  noBlocks: true
+  cooldown: 30
 effects:
   damage: true
   death: true
@@ -16,6 +18,7 @@ effects:
   weakness: true
   slowness: true
   slowness_blocks: true
+  instant_damage: true
 food:
 - RAW_BEEF
 - RAW_CHICKEN
