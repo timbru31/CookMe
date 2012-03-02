@@ -16,6 +16,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.*;
 import org.bukkit.entity.Player;
 
+import de.xghostkillerx.cookme.Metrics.Graph;
+
 /**
  * CookeMe for CraftBukkit/Bukkit
  * Handles some general stuff!
@@ -90,20 +92,18 @@ public class CookMe extends JavaPlugin {
 		// Stats
 		try {
 			Metrics metrics = new Metrics();
+			// Construct a graph, which can be immediately used and considered as valid
+			Graph graph = metrics.createGraph(this, Graph.Type.Pie, "Percentage of affected items");
 			// Custom plotter for each item
 			for (int i = 0; i < itemList.size(); i++) {
 				final String itemName = itemList.get(i);
-				metrics.addCustomData(this, new Metrics.Plotter() {
-					@Override
-					public String getColumnName() {
-						return itemName;
-					}
-
+				graph.addPlotter(new Metrics.Plotter(itemName) {
 					@Override
 					public int getValue() {
 						return 1;
 					}
 				});
+
 			}
 			metrics.beginMeasuringPlugin(this);
 		}
@@ -152,7 +152,7 @@ public class CookMe extends JavaPlugin {
 		localization.addDefault("slowness", "&4You are for a random time slower! Eat some cooked food!");
 		localization.addDefault("slowness_blocks", "&4You mine for a random time slower! Eat some cooked food!");
 		localization.addDefault("instant_damage", "&4You got some magic damage! Eat some cooked food!");
-		localization.addDefault("refusing", "&4You decided to save your life and didn't eat this food!");
+		localization.addDefault("refusing", "&4You decided to save your life and didn''t eat this food!");
 		localization.addDefault("permission_denied", "&4You don''t have the permission to do this!");
 		localization.addDefault("enable_effect", "&2Effect &4%effect &2enabled!");
 		localization.addDefault("enable_all", "&4All &2effects enabled!");
@@ -222,7 +222,7 @@ public class CookMe extends JavaPlugin {
 			e.printStackTrace();
 		}
 	}
-	
+
 	// Message the sender or player
 	public void message(CommandSender sender, Player player, String message, String value) {
 		PluginDescriptionFile pdfFile = this.getDescription();
