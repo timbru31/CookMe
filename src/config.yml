@@ -19,6 +19,7 @@ effects:
   slowness: true
   slowness_blocks: true
   instant_damage: true
+  refusing: true
 food:
 - RAW_BEEF
 - RAW_CHICKEN

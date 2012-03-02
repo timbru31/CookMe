@@ -26,7 +26,7 @@ public class CookMeCommands implements CommandExecutor {
 		plugin = instance;
 	}
 	private String message, effect, cooldown, duration;
-	private String[] effects = {"damage", "death", "venom", "hungervenom", "hungerdecrease", "weakness", "slowness", "slowness_blocks", "confusion", "blindness", "hungervenom", "hungerdecrease", "instant_damage"};
+	private String[] effects = {"damage", "death", "venom", "hungervenom", "hungerdecrease", "weakness", "slowness", "slowness_blocks", "confusion", "blindness", "hungervenom", "hungerdecrease", "instant_damage", "refusing"};
 	private int i, durationInt, cooldownInt;
 
 	// Commands; always check for permissions!
@@ -384,6 +384,7 @@ public class CookMeCommands implements CommandExecutor {
 		CookMe.config.set("effects.slowness", true);
 		CookMe.config.set("effects.slowness_blocks", true);
 		CookMe.config.set("effects.instant_damage", true);
+		CookMe.config.set("effects.refusing", true);
 		plugin.saveConfig();
 		message = plugin.localization.getString("enable_all");
 		plugin.message(sender, null, message, null);
@@ -403,6 +404,7 @@ public class CookMeCommands implements CommandExecutor {
 		CookMe.config.set("effects.slowness", false);
 		CookMe.config.set("effects.slowness_blocks", false);
 		CookMe.config.set("effects.instant_damage", false);
+		CookMe.config.set("effects.refusing", false);
 		plugin.saveConfig();
 		message = plugin.localization.getString("disable_all");
 		plugin.message(sender, null, message, null);

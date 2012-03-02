@@ -131,6 +131,7 @@ public class CookMe extends JavaPlugin {
 		config.addDefault("effects.slowness", true);
 		config.addDefault("effects.slowness_blocks", true);
 		config.addDefault("effects.instant_damage", true);
+		config.addDefault("effects.refusing", true);
 		config.addDefault("food", Arrays.asList(rawFood));
 		itemList = config.getStringList("food");
 		config.options().copyDefaults(true);
@@ -151,6 +152,7 @@ public class CookMe extends JavaPlugin {
 		localization.addDefault("slowness", "&4You are for a random time slower! Eat some cooked food!");
 		localization.addDefault("slowness_blocks", "&4You mine for a random time slower! Eat some cooked food!");
 		localization.addDefault("instant_damage", "&4You got some magic damage! Eat some cooked food!");
+		localization.addDefault("refusing", "&4You decided to save your life and didn't eat this food!");
 		localization.addDefault("permission_denied", "&4You don''t have the permission to do this!");
 		localization.addDefault("enable_effect", "&2Effect &4%effect &2enabled!");
 		localization.addDefault("enable_all", "&4All &2effects enabled!");

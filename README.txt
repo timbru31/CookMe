@@ -30,6 +30,7 @@ effects:
   slowness: true
   slowness_blocks: true
   instant_damage: true
+  refusing: true
 food:
 - RAW_BEEF
 - RAW_CHICKEN
@@ -95,6 +96,10 @@ Description: Allows you to enable the slowness
 Node: cookme.enable.slowness_blocks
 Description: Allows you to enable the slowness for blocks
 
+/cookme enable refusing
+Node: cookme.enable.refusing
+Description: Allows you to enable the refusing of raw food
+
 /cookme enable permissions
 Node: cookme.enable.permissions
 Description: Enables the permissions! (Only OPs or player with the permission can use a specific command)
@@ -146,6 +151,10 @@ Description: Allows you to disable the slowness
 /cookme disable slowness_blocks
 Node: cookme.disable.slowness_blocks
 Description: Allows you to disable the slowness for blocks
+
+/cookme disable refusing
+Node: cookme.disable.refusing
+Description: Allows you to disable the refusing of raw food
 
 /cookme disable permissions
 Node: cookme.disable.permissions

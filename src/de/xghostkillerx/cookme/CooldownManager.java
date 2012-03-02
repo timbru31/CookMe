@@ -61,6 +61,5 @@ public class CooldownManager {
 			}
 		}
 		return false;
-		
 	}
 }
