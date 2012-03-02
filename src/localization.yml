@@ -35,4 +35,4 @@ help_6: '&4/cookme set duration max <value>'
 help_7: To disable something use &4/cookme disable &e<value>
 help_8: '&eValues: &fpermissions, messages, damage, death, venom,'
 help_9: hungervenom, hungerdecrease, confusion, blindness, weakness
-help_10: slowness, slowness_blocks, instant_damage
+help_10: slowness, slowness_blocks, instant_damage, refusing

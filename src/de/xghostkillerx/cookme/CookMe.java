@@ -177,7 +177,7 @@ public class CookMe extends JavaPlugin {
 		localization.addDefault("help_7", "To disable something use &4/cookme disable &e<value>");
 		localization.addDefault("help_8", "&eValues: &fpermissions, messages, damage, death, venom,");
 		localization.addDefault("help_9", "hungervenom, hungerdecrease, confusion, blindness, weakness");
-		localization.addDefault("help_10", "slowness, slowness_blocks, instant_damage");
+		localization.addDefault("help_10", "slowness, slowness_blocks, instant_damage, refusing");
 		localization.options().copyDefaults(true);
 		saveLocalization();
 	}
