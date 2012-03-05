@@ -295,83 +295,75 @@ public class CookMeCommands implements CommandExecutor {
 	}
 
 	// See the help with /cookme help
-	private boolean CookMeHelp(CommandSender sender) {
+	private void CookMeHelp(CommandSender sender) {
 		for (i=1; i <= 10; i++) {
 			message = plugin.localization.getString("help_" + Integer.toString(i));
 			plugin.message(sender, null, message, null);
 		}
-		return true;
 	}
 
 	// Reloads the config with /cookme reload
-	private boolean CookMeReload(CommandSender sender) {
+	private void CookMeReload(CommandSender sender) {
 		plugin.loadConfigsAgain();		
 		message = plugin.localization.getString("reload");
 		plugin.message(sender, null, message, null);
-		return true;
 	}
 
 	// Enables permissions with /cookme enable permissions
-	private boolean CookMeEnablePermissions(CommandSender sender) {
+	private void CookMeEnablePermissions(CommandSender sender) {
 		CookMe.config.set("configuration.permissions", true);
 		plugin.saveConfig();
 		for (i=1; i <= 2; i++) {
 			message = plugin.localization.getString("enable_permissions_" + Integer.toString(i));
 			plugin.message(sender, null, message, null);
 		}
-		return true;
 	}
 
 	// Disables permissions with /cookme disable permissions
-	private boolean CookMeDisablePermissions(CommandSender sender) {
+	private void CookMeDisablePermissions(CommandSender sender) {
 		CookMe.config.set("configuration.permissions", false);
 		plugin.saveConfig();
 		for (i=1; i <= 2; i++) {
 			message = plugin.localization.getString("disable_permissions_" + Integer.toString(i));
 			plugin.message(sender, null, message, null);
 		}
-		return true;
 	}
 
 	// Enables messages with /cookme enable messages
-	private boolean CookMeEnableMessages(CommandSender sender) {
+	private void CookMeEnableMessages(CommandSender sender) {
 		CookMe.config.set("configuration.messages", true);
 		plugin.saveConfig();
 		message = plugin.localization.getString("enable_messages");
 		plugin.message(sender, null, message, null);
-		return true;
 	}
 
 	// Disables messages with /cookme disable messages
-	private boolean CookMeDisableMessages(CommandSender sender) {
+	private void CookMeDisableMessages(CommandSender sender) {
 		CookMe.config.set("configuration.messages", false);
 		plugin.saveConfig();
 		message = plugin.localization.getString("disable_messages");
 		plugin.message(sender, null, message, null);
-		return true;
 	}
 
 	// CookMe enable effect
-	private boolean CookMeEnableEffect(CommandSender sender, String effect) {
+	private void CookMeEnableEffect(CommandSender sender, String effect) {
 		CookMe.config.set("effects." + effect, true);
 		plugin.saveConfig();
 		message = plugin.localization.getString("enable_effect");
 		plugin.message(sender, null, message, effect);
-		return true;
 	}
 
 
 	// CookMe disable effect
-	private boolean CookMeDisableEffect(CommandSender sender, String effect) {
+	private void CookMeDisableEffect(CommandSender sender, String effect) {
 		CookMe.config.set("effects." + effect, false);
 		plugin.saveConfig();
 		message = plugin.localization.getString("disable_effect");
 		plugin.message(sender, null, message, effect);
-		return true;
 	}
 
 	// Enables all effects with /cookme enable all
-	private boolean CookMeEnableAll(CommandSender sender) {
+	private void CookMeEnableAll(CommandSender sender) {
 		CookMe.config.set("effects.damage", true);
 		CookMe.config.set("effects.death", true);
 		CookMe.config.set("effects.venom", true);
@@ -388,10 +380,9 @@ public class CookMeCommands implements CommandExecutor {
 		plugin.saveConfig();
 		message = plugin.localization.getString("enable_all");
 		plugin.message(sender, null, message, null);
-		return true;
 	}
 	// Disables all effects with /cookme disable all
-	private boolean CookMeDisableAll(CommandSender sender) {
+	private void CookMeDisableAll(CommandSender sender) {
 		CookMe.config.set("effects.damage", false);
 		CookMe.config.set("effects.death", false);
 		CookMe.config.set("effects.venom", false);
@@ -408,6 +399,5 @@ public class CookMeCommands implements CommandExecutor {
 		plugin.saveConfig();
 		message = plugin.localization.getString("disable_all");
 		plugin.message(sender, null, message, null);
-		return true;
 	}
 }
