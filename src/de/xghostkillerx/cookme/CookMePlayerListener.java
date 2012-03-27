@@ -73,9 +73,6 @@ public class CookMePlayerListener implements Listener {
 						// Set the percentages like the config
 						for (i = 0; i < plugin.effects.length; i++) {
 							percentages[i] = CookMe.config.getDouble("effects." + plugin.effects[i]);
-						}
-						// Calculate end percentage
-						for (i = 0; i <percentages.length; i++) {
 							temp += percentages[i];
 						}
 						// If percentage is higher than 100, reset it, log it
@@ -86,10 +83,10 @@ public class CookMePlayerListener implements Listener {
 								}
 								percentages[i] = 8.75;
 							}
-							temp = 0;
 							CookMe.log.warning(ChatColor.RED + "CookMe detected that the entire procentage is higer than 100. Resetting it to default...");
 							CookMe.log.warning(ChatColor.RED + "The config wasn't changed, please review it to make CookMe work right again!");
 						}
+						temp = 0;
 						// Get the number for the effect
 						for(i = 0; i < percentages.length; i++) {
 							temp += percentages[i];
