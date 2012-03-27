@@ -56,8 +56,6 @@ Description: Displays the help
 Node: cookme.set.<effect>
 Description: Sets the percentage for the specified effect
 
-Description: Allows you to enable the refusing of raw food
-
 /cookme enable permissions
 Node: cookme.enable.permissions
 Description: Enables the permissions! (Only OPs or player with the permission can use a specific command)
