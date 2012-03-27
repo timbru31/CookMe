@@ -12,17 +12,14 @@ slowness_blocks: '&4You mine for a random time slower! Eat some cooked food!'
 instant_damage: '&4You got some magic damage! Eat some cooked food!'
 refusing: '&4You decided to save your life and didn''t eat this food!'
 permission_denied: '&4You don''t have the permission to do this!'
-enable_effect: '&2Effect &4%effect &2enabled!'
-enable_all: '&4All &2effects enabled!'
 enable_messages: '&2CookMe &4messages &2enabled!'
 enable_permissions_1: '&2CookMe &4permissions &2enabled! Only OPs'
 enable_permissions_2: '&2and players with the permission can use the plugin!'
-disable_effect: '&2Effect &4%effect &2disabled!'
-disable_all: '&4All &2effects disabled!'
 disable_messages: '&2CookMe &4messages &2disabled!'
 disable_permissions_1: '&2CookMe &4permissions &4disabled!'
 disable_permissions_2: '&2All players can use the plugin!'
 reload: '&2CookMe &4%version &2reloaded!'
+changed_effect: '&2The percentage of the effect &e%effect &4 has been changed to &e%percentage%'
 changed_cooldown: '&2The cooldown time has been changed to &e%value!'
 changed_duration_max: '&2The maximum duration time has been changed to &e%value!'
 changed_duration_min: '&2The minimum duration time has been changed to &e%value!'
@@ -32,7 +29,7 @@ help_3: To reload use &4/cookme reload
 help_4: To change the cooldown or duration values, type
 help_5: '&4/cookme set cooldown <value> &for &4/cookme set duration min <value>'
 help_6: '&4/cookme set duration max <value>'
-help_7: To disable something use &4/cookme disable &e<value>
+help_7: Set the percentages with &4/cookme set &e<value> <percentage>
 help_8: '&eValues: &fpermissions, messages, damage, death, venom,'
 help_9: hungervenom, hungerdecrease, confusion, blindness, weakness
 help_10: slowness, slowness_blocks, instant_damage, refusing

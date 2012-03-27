@@ -1,6 +1,6 @@
 name: CookMe
 main: de.xghostkillerx.cookme.CookMe
-version: 1.3.1
+version: 1.4
 author: xGhOsTkiLLeRx
 website: http://bit.ly/cookmebukkitdev
 website: http://bit.ly/cookmebukkit
@@ -19,42 +19,33 @@ permissions:
       cookme.safe: true
       cookme.cooldown: true
       cookme.duration: true
+      cookme.set.*: true
   cookme.enable.*:
     description: Gives access to all CookMe enable commands
     children:
-      cookme.enable.all: true
-      cookme.enable.damage: true
-      cookme.enable.death: true
-      cookme.enable.venom: true
-      cookme.enable.confusion: true
-      cookme.enable.blindness: true
-      cookme.enable.weakness: true
-      cookme.enable.slowness: true
-      cookme.enable.slowness_blocks: true
-      cookme.enable.hungerdecrease: true
-      cookme.enable.hungervenom: true
-      cookme.enable.instant_damage: true
-      cookme.enable.refusing: true
       cookme.enable.permissions: true
       cookme.enable.messages: true
   cookme.disable.*:
     description: Gives access to all CookMe disable commands
     children:
-      cookme.disable.all: true
-      cookme.disable.damage: true
-      cookme.disable.death: true
-      cookme.disable.venom: true
-      cookme.disable.confusion: true
-      cookme.disable.blindness: true
-      cookme.disable.weakness: true
-      cookme.disable.slowness: true
-      cookme.disable.slowness_blocks: true
-      cookme.disable.hungervenom: true
-      cookme.disable.hungerdecrease: true
-      cookme.disable.instant_damage: true
-      cookme.disable.refusing: true
       cookme.disable.permissions: true
       cookme.disable.messages: true
+  cookme.set.*:
+    description: Gives access to all CookMe set commands
+    children:
+      cookme.set.all: true
+      cookme.set.damage: true
+      cookme.set.death: true
+      cookme.set.venom: true
+      cookme.set.confusion: true
+      cookme.set.blindness: true
+      cookme.set.weakness: true
+      cookme.set.slowness: true
+      cookme.set.slowness_blocks: true
+      cookme.set.hungerdecrease: true
+      cookme.set.hungervenom: true
+      cookme.set.instant_damage: true
+      cookme.set.refusing: true
   cookme.help:
     description: Allows you to see the help
     default: op
@@ -64,89 +55,47 @@ permissions:
   cookme.safe:
     description: Allows you to be safe against the effects
     default: op
-  cookme.enable.all:
-    description: Allows you to enable all effects
+  cookme.set.damage:
+    description: Allows you to set the damage
     default: op
-  cookme.enable.damage:
-    description: Allows you to enable the damage
+  cookme.set.death:
+    description: Allows you to set the death
     default: op
-  cookme.enable.death:
-    description: Allows you to enable the death
+  cookme.set.venom:
+    description: Allows you to set the venom
     default: op
-  cookme.enable.venom:
-    description: Allows you to enable the venom
+  cookme.set.hungervenom:
+    description: Allows you to set the hungervenom
     default: op
-  cookme.enable.hungervenom:
-    description: Allows you to enable the hungervenom
+  cookme.set.hungerdecrease:
+    description: Allows you to set the hungerdecrease
     default: op
-  cookme.enable.hungerdecrease:
-    description: Allows you to enable the hungerdecrease
+  cookme.set.confusion:
+    description: Allows you to set the confusion
     default: op
-  cookme.enable.confusion:
-    description: Allows you to enable the confusion
+  cookme.set.blindness:
+    description: Allows you to set the blindness
     default: op
-  cookme.enable.blindness:
-    description: Allows you to enable the blindness
+  cookme.set.weakness:
+    description: Allows you to set the weakness
     default: op
-  cookme.enable.weakness:
-    description: Allows you to enable the weakness
+  cookme.set.slowness:
+    description: Allows you to set the slowness
     default: op
-  cookme.enable.slowness:
-    description: Allows you to enable the slowness
+  cookme.set.slowness_blocks:
+    description: Allows you to set the slowness for blocks
     default: op
-  cookme.enable.slowness_blocks:
-    description: Allows you to enable the slowness for blocks
+  cookme.set.instant_damage:
+    description: Allows you to set the instant_damage
     default: op
-  cookme.enable.instant_damage:
-    description: Allows you to enable the instant_damage
-    default: op
-  cookme.enable.refusing:
-    description: Allows you to enable the refusing of raw food
+  cookme.set.refusing:
+    description: Allows you to set the refusing of raw food
     default: op
   cookme.enable.permissions:
     description: Allows you to enable permissions
     default: op
   cookme.enable.messages:
     description: Allows you to enable messages
-    default: op
-  cookme.disable.all:
-    description: Allows you to disable all effects
-    default: op
-  cookme.disable.damage:
-    description: Allows you to disable the damage
-    default: op
-  cookme.disable.death:
-    description: Allows you to disable the death
-    default: op
-  cookme.disable.venom:
-    description: Allows you to disable the venom
-    default: op
-  cookme.disable.hungervenom:
-    description: Allows you to disable the hungervenom
-    default: op
-  cookme.disable.hungerdecrease:
-    description: Allows you to disable the hungerdecrease
-    default: op
-  cookme.disable.confusion:
-    description: Allows you to disable the confusion
-    default: op
-  cookme.disable.blindness:
-    description: Allows you to disable the blindness
-    default: op
-  cookme.disable.weakness:
-    description: Allows you to disable the weakness
-    default: op
-  cookme.disable.slowness:
-    description: Allows you to disable the slowness
-    default: op
-  cookme.disable.slowness_blocks:
-    description: Allows you to disable the slowness for blocks
-    default: op
-  cookme.disable.instant_damage:
-    description: Allows you to disable the instant_damage
-    default: op
-  cookme.disable.refusing:
-    description: Allows you to disable the refusing of raw food
     default: op
   cookme.disable.permissions:
     description: Allows you to disable permissions

@@ -3,23 +3,23 @@ configuration:
   permissions: true
   messages: true
   duration:
-    min: 15
-    max: 30
+    min: 2
+    max: 5
   noBlocks: true
-  cooldown: 30
+  cooldown: 0
 effects:
-  damage: true
-  death: true
-  venom: true
-  hungervenom: true
-  hungerdecrease: true
-  confusion: true
-  blindness: true
-  weakness: true
-  slowness: true
-  slowness_blocks: true
-  instant_damage: true
-  refusing: true
+  damage: 8.75
+  death: 4.25
+  venom: 8.75
+  hungervenom: 8.75
+  hungerdecrease: 8.75
+  confusion: 8.75
+  blindness: 8.75
+  weakness: 8.75
+  slowness: 8.75
+  slowness_blocks: 8.75
+  instant_damage: 8.75
+  refusing: 8.75
 food:
 - RAW_BEEF
 - RAW_CHICKEN

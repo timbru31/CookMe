@@ -14,23 +14,23 @@ configuration:
   permissions: true
   messages: true
   duration:
-    min: 15
-    max: 30
+    min: 2
+    max: 5
   noBlocks: true
-  cooldown: 30
+  cooldown: 0
 effects:
-  damage: true
-  death: true
-  venom: true
-  hungervenom: true
-  hungerdecrease: true
-  confusion: true
-  blindness: true
-  weakness: true
-  slowness: true
-  slowness_blocks: true
-  instant_damage: true
-  refusing: true
+  damage: 8.75
+  death: 4.25
+  venom: 8.75
+  hungervenom: 8.75
+  hungerdecrease: 8.75
+  confusion: 8.75
+  blindness: 8.75
+  weakness: 8.75
+  slowness: 8.75
+  slowness_blocks: 8.75
+  instant_damage: 8.75
+  refusing: 8.75
 food:
 - RAW_BEEF
 - RAW_CHICKEN
@@ -52,52 +52,10 @@ Description: Reloads the config
 Node: cookme.help
 Description: Displays the help
 
-/cookme enable all
-Node: cookme.enable.all
-Description: Enables all effects
+/cookme set <effect> <percentage>
+Node: cookme.set.<effect>
+Description: Sets the percentage for the specified effect
 
-/cookme enable damage
-Node: cookme.enable.damage
-Description: Enables the damage effect
-
-/cookme enable death
-Node: cookme.enable.death
-Description: Enables the death effect
-
-/cookme enable venom
-Node: cookme.enable.venom
-Description: Enables the venom effect (Cave Spider bite)
-
-/cookme enable hungervenom
-Node: cookme.enable.hungervenom
-Description: Enables the hunger-venom effect (green food bar)
-
-/cookme enable hungerdecrease
-Node: cookme.enable.hungerdecrease
-Description: Enables the hunger-decrease effect (food level goes down)
-
-/cookme enable confusion
-Node: cookme.enable.confusion
-Description: Allows you to enable the confusion
-
-/cookme enable blindness
-Node: cookme.enable.blindness
-Description: Allows you to enable the blindness
-
-/cookme enable weakness
-Node: cookme.enable.weakness
-Description: Allows you to enable the weakness
-
-/cookme enable slowness
-Node: cookme.enable.slowness
-Description: Allows you to enable the slowness
-
-/cookme enable slowness_blocks
-Node: cookme.enable.slowness_blocks
-Description: Allows you to enable the slowness for blocks
-
-/cookme enable refusing
-Node: cookme.enable.refusing
 Description: Allows you to enable the refusing of raw food
 
 /cookme enable permissions
@@ -107,54 +65,6 @@ Description: Enables the permissions! (Only OPs or player with the permission ca
 /cookme enable messages
 Node: cookme.enable.messages
 Description: Enables the messages!
-
-/cookme disable all
-Node: cookme.disable.all
-Description: Disables all effects
-
-/cookme disable damage
-Node: cookme.disable.damage
-Description: Disables the damage effect
-
-/cookme disable death
-Node: cookme.disable.death
-Description: Disables the death effect
-
-/cookme disable venom
-Node: cookme.disable.venom
-Description: Disables the venom effect
-
-/cookme disable hungervenom
-Node: cookme.disable.hungervenom
-Description: Disables the hungervenom effect
-
-/cookme disable hungerdecrease
-Node: cookme.disable.hungerdecrease
-Description: Disables the hungerdecrease effect
-
-/cookme disable confusion
-Node: cookme.disable.confusion
-Description: Allows you to disable the confusion
-
-/cookme disable blindness
-Node: cookme.disable.blindness
-Description: Allows you to disable the blindness
-
-/cookme disable weakness
-Node: cookme.disable.weakness
-Description: Allows you to disable the weakness
-
-/cookme disable slowness
-Node: cookme.disable.slowness
-Description: Allows you to disable the slowness
-
-/cookme disable slowness_blocks
-Node: cookme.disable.slowness_blocks
-Description: Allows you to disable the slowness for blocks
-
-/cookme disable refusing
-Node: cookme.disable.refusing
-Description: Allows you to disable the refusing of raw food
 
 /cookme disable permissions
 Node: cookme.disable.permissions

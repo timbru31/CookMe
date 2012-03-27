@@ -42,6 +42,7 @@ public class CookMe extends JavaPlugin {
 	public File localizationFile;
 	public List<String> itemList = new ArrayList<String>();
 	private String[] rawFood = {"RAW_BEEF", "RAW_CHICKEN", "RAW_FISH", "PORK", "ROTTEN_FLESH"};
+	public String[] effects = {"damage", "death", "venom", "hungervenom", "hungerdecrease", "confusion", "blindness", "weakness", "slowness", "slowness_blocks", "instant_damage", "refusing"};	
 	private CookMeCommands executor;
 
 	// Shutdown
@@ -119,19 +120,18 @@ public class CookMe extends JavaPlugin {
 		config.addDefault("configuration.duration.min", 15);
 		config.addDefault("configuration.duration.max", 30);
 		config.addDefault("configuration.cooldown", 30);
-		config.addDefault("effects.damage", true);
-		config.addDefault("effects.death", true);
-		config.addDefault("effects.venom", true);
-		config.addDefault("effects.hungervenom", true);
-		config.addDefault("effects.hungerdecrease", true);
-		config.addDefault("effects.confusion", true);
-		config.addDefault("effects.blindness", true);
-		config.addDefault("effects.weakness", true);
-		config.addDefault("effects.venom", true);
-		config.addDefault("effects.slowness", true);
-		config.addDefault("effects.slowness_blocks", true);
-		config.addDefault("effects.instant_damage", true);
-		config.addDefault("effects.refusing", true);
+		config.addDefault("effects.damage", 8.75);
+		config.addDefault("effects.death", 4.25);
+		config.addDefault("effects.venom", 8.75);
+		config.addDefault("effects.hungervenom", 8.75);
+		config.addDefault("effects.hungerdecrease", 8.75);
+		config.addDefault("effects.confusion", 8.75);
+		config.addDefault("effects.blindness", 8.75);
+		config.addDefault("effects.weakness", 8.75);
+		config.addDefault("effects.slowness", 8.75);
+		config.addDefault("effects.slowness_blocks", 8.75);
+		config.addDefault("effects.instant_damage", 8.75);
+		config.addDefault("effects.refusing", 8.75);
 		config.addDefault("food", Arrays.asList(rawFood));
 		itemList = config.getStringList("food");
 		config.options().copyDefaults(true);
@@ -152,19 +152,16 @@ public class CookMe extends JavaPlugin {
 		localization.addDefault("slowness", "&4You are for a random time slower! Eat some cooked food!");
 		localization.addDefault("slowness_blocks", "&4You mine for a random time slower! Eat some cooked food!");
 		localization.addDefault("instant_damage", "&4You got some magic damage! Eat some cooked food!");
-		localization.addDefault("refusing", "&4You decided to save your life and didn''t eat this food!");
-		localization.addDefault("permission_denied", "&4You don''t have the permission to do this!");
-		localization.addDefault("enable_effect", "&2Effect &4%effect &2enabled!");
-		localization.addDefault("enable_all", "&4All &2effects enabled!");
+		localization.addDefault("refusing", "&4You decided to save your life and didn't eat this food!");
+		localization.addDefault("permission_denied", "&4You don't have the permission to do this!");
 		localization.addDefault("enable_messages", "&2CookMe &4messages &2enabled!");
 		localization.addDefault("enable_permissions_1", "&2CookMe &4permissions &2enabled! Only OPs");
 		localization.addDefault("enable_permissions_2", "&2and players with the permission can use the plugin!");
-		localization.addDefault("disable_effect", "&2Effect &4%effect &2disabled!");
-		localization.addDefault("disable_all", "&4All &2effects disabled!");
 		localization.addDefault("disable_messages", "&2CookMe &4messages &2disabled!");
 		localization.addDefault("disable_permissions_1", "&2CookMe &4permissions &4disabled!");
 		localization.addDefault("disable_permissions_2", "&2All players can use the plugin!");
 		localization.addDefault("reload", "&2CookMe &4%version &2reloaded!");
+		localization.addDefault("changed_effect", "&2The percentage of the effect &e%effect &4 has been changed to &e%percentage%");
 		localization.addDefault("changed_cooldown", "&2The cooldown time has been changed to &e%value!");
 		localization.addDefault("changed_duration_max", "&2The maximum duration time has been changed to &e%value!");
 		localization.addDefault("changed_duration_min", "&2The minimum duration time has been changed to &e%value!");
@@ -174,7 +171,7 @@ public class CookMe extends JavaPlugin {
 		localization.addDefault("help_4", "To change the cooldown or duration values, type");
 		localization.addDefault("help_5", "&4/cookme set cooldown <value> &for &4/cookme set duration min <value>");
 		localization.addDefault("help_6", "&4/cookme set duration max <value>");
-		localization.addDefault("help_7", "To disable something use &4/cookme disable &e<value>");
+		localization.addDefault("help_7", "Set the percentages with &4/cookme set &e<value> <percentage>");
 		localization.addDefault("help_8", "&eValues: &fpermissions, messages, damage, death, venom,");
 		localization.addDefault("help_9", "hungervenom, hungerdecrease, confusion, blindness, weakness");
 		localization.addDefault("help_10", "slowness, slowness_blocks, instant_damage, refusing");
@@ -224,13 +221,14 @@ public class CookMe extends JavaPlugin {
 	}
 
 	// Message the sender or player
-	public void message(CommandSender sender, Player player, String message, String value) {
+	public void message(CommandSender sender, Player player, String message, String value, String percentage) {
 		PluginDescriptionFile pdfFile = this.getDescription();
 		message = message
-				.replaceAll("&([0-9a-fk])", "\u00A7$1")
+				.replaceAll("&([0-9a-fk-or])", "\u00A7$1")
 				.replaceAll("%version", pdfFile.getVersion())
 				.replaceAll("%effect", value)
-				.replaceAll("%value", value);
+				.replaceAll("%value", value)
+				.replaceAll("%percentage", percentage);
 		if (player != null) {
 			player.sendMessage(message);
 		}

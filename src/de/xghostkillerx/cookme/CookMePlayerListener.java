@@ -1,6 +1,8 @@
 package de.xghostkillerx.cookme;
 
 import java.sql.Timestamp;
+
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -35,7 +37,7 @@ public class CookMePlayerListener implements Listener {
 	private String effect;
 
 	@EventHandler
-	public void onPlayerInteract(final PlayerInteractEvent event) {
+	public void onPlayerInteract(PlayerInteractEvent event) {
 		Player player = event.getPlayer();
 		Timestamp now = new Timestamp(System.currentTimeMillis());
 		// Check if player is affected
@@ -63,118 +65,131 @@ public class CookMePlayerListener implements Listener {
 				if (!CooldownManager.hasCooldown(player, now)) {
 					// Check for food level
 					if (player.getFoodLevel() != 20) {
-						int randomNumber = (int)(Math.random()*29) +1, randomEffectStrength = (int)(Math.random()*16);
+						// Store the percentages
+						double[] percentages = new double[12];
+						// Make a temp double and a value between 0 and 99
+						double random = Math.random() * 100, temp = 0;
+						int i = 0;
+						// Set the percentages like the config
+						for (i = 0; i < plugin.effects.length; i++) {
+							percentages[i] = CookMe.config.getDouble("effects." + plugin.effects[i]);
+						}
+						// Calculate end percentage
+						for (i = 0; i <percentages.length; i++) {
+							temp += percentages[i];
+						}
+						// If percentage is higher than 100, reset it, log it
+						if (temp > 100) {
+							for (i = 0; i <percentages.length; i++) {
+								if (i == 1) {
+									percentages[i] = 4.25;
+								}
+								percentages[i] = 8.75;
+							}
+							temp = 0;
+							CookMe.log.warning(ChatColor.RED + "CookMe detected that the entire procentage is higer than 100. Resetting it to default...");
+							CookMe.log.warning(ChatColor.RED + "The config wasn't changed, please review it to make CookMe work right again!");
+						}
+						// Get the number for the effect
+						for(i = 0; i < percentages.length; i++) {
+							temp += percentages[i];
+							if (random <= temp) break;
+						}
+						// EffectStrenght, Duration etc.
+						int randomEffectStrength = (int)(Math.random()*16);
 						int minimum = 20*CookMe.config.getInt("configuration.duration.min"), maximum = 20*CookMe.config.getInt("configuration.duration.max");
 						int randomEffectTime = (int)(Math.random() * ((maximum - minimum)  + 1)  + minimum);
 						// Player gets random damage, stack minus 1
-						if (CookMe.config.getBoolean("effects.damage") == true) {
-							if ((randomNumber == 1) || (randomNumber == 14)) {
-								int randomDamage = (int) (Math.random()*9) +1;
-								effect = plugin.localization.getString("damage");
-								message(player, effect);
-								decreaseItem(player, event);
-								player.damage(randomDamage);
-							}
-						}
-						// Food bar turns green (poison)
-						if (CookMe.config.getBoolean("effects.hungervenom") == true) {
-							if ((randomNumber == 2 ) || (randomNumber == 15)) {
-								effect = plugin.localization.getString("hungervenom");
-								message(player, effect);
-								decreaseItem(player, event);
-								player.addPotionEffect(new PotionEffect(PotionEffectType.HUNGER, randomEffectTime, randomEffectStrength));
-							}
-						}
+						if (i == 0) {
+							int randomDamage = (int) (Math.random()*9) +1;
+							effect = plugin.localization.getString("damage");
+							message(player, effect);
+							decreaseItem(player, event);
+							player.damage(randomDamage);
+						}			
 						// Player dies, stack minus 1
-						if (CookMe.config.getBoolean("effects.death") == true) {
-							if (randomNumber == 4) {
-								effect = plugin.localization.getString("death");
-								message(player, effect);
-								decreaseItem(player, event);
-								player.setHealth(0);
-							}
+						if (i == 1) {
+							effect = plugin.localization.getString("death");
+							message(player, effect);
+							decreaseItem(player, event);
+							player.setHealth(0);
 						}
 						// Random venom damage (including green hearts :) )
-						if (CookMe.config.getBoolean("effects.venom") == true) {
-							if ((randomNumber == 5) || (randomNumber == 16)) {
-								effect = plugin.localization.getString("venom");
-								message(player, effect);
-								decreaseItem(player, event);
-								player.addPotionEffect(new PotionEffect(PotionEffectType.POISON, randomEffectTime, randomEffectStrength));
-							}
+						if (i == 2) {
+							effect = plugin.localization.getString("venom");
+							message(player, effect);
+							decreaseItem(player, event);
+							player.addPotionEffect(new PotionEffect(PotionEffectType.POISON, randomEffectTime, randomEffectStrength));
+						}
+						// Food bar turns green (poison)
+						if (i == 3) {
+							effect = plugin.localization.getString("hungervenom");
+							message(player, effect);
+							decreaseItem(player, event);
+							player.addPotionEffect(new PotionEffect(PotionEffectType.HUNGER, randomEffectTime, randomEffectStrength));
 						}
 						// Sets the food level down. Stack minus 1
-						if (CookMe.config.getBoolean("effects.hungerdecrease") == true) {
-							if ((randomNumber == 6) || (randomNumber == 17)) {
-								int currentFoodLevel = player.getFoodLevel(), randomFoodLevel = (int)(Math.random()*currentFoodLevel);
-								effect = plugin.localization.getString("hungerdecrease");
-								message(player, effect);
-								decreaseItem(player, event);
-								player.setFoodLevel(randomFoodLevel);
-							}
+						if (i == 4) {
+							int currentFoodLevel = player.getFoodLevel(), randomFoodLevel = (int)(Math.random()*currentFoodLevel);
+							effect = plugin.localization.getString("hungerdecrease");
+							message(player, effect);
+							decreaseItem(player, event);
+							player.setFoodLevel(randomFoodLevel);
 						}
 						// Confusion
-						if (CookMe.config.getBoolean("effects.confusion") == true) {
-							if ((randomNumber == 7) || (randomNumber == 18)) {
-								effect = plugin.localization.getString("confusion");
-								message(player, effect);
-								decreaseItem(player, event);
-								player.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, randomEffectTime, randomEffectStrength));
-							}
+						if (i == 5) {
+							effect = plugin.localization.getString("confusion");
+							message(player, effect);
+							decreaseItem(player, event);
+							player.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, randomEffectTime, randomEffectStrength));
 						}
 						// Blindness
-						if (CookMe.config.getBoolean("effects.blindness") == true) {
-							if ((randomNumber == 8) || (randomNumber == 19)) {
-								effect = plugin.localization.getString("blindness");
-								message(player, effect);
-								decreaseItem(player, event);
-								player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, randomEffectTime, randomEffectStrength));
-							}
+						if (i == 6) {
+							effect = plugin.localization.getString("blindness");
+							message(player, effect);
+							decreaseItem(player, event);
+							player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, randomEffectTime, randomEffectStrength));
 						}
+
 						// Weakness
-						if (CookMe.config.getBoolean("effects.weakness") == true) {
-							if ((randomNumber == 9) || (randomNumber == 20)) {
-								effect = plugin.localization.getString("weakness");
-								message(player, effect);
-								decreaseItem(player, event);
-								player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, randomEffectTime, randomEffectStrength));
-							}
+						if (i == 7) {
+							effect = plugin.localization.getString("weakness");
+							message(player, effect);
+							decreaseItem(player, event);
+							player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, randomEffectTime, randomEffectStrength));
+
 						}
 						// Slowness
-						if (CookMe.config.getBoolean("effects.slowness") == true) {
-							if ((randomNumber == 10) || (randomNumber == 21)) {
-								effect = plugin.localization.getString("slowness");
-								message(player, effect);
-								decreaseItem(player, event);
-								player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, randomEffectTime, randomEffectStrength));
-							}
+						if (i == 8) {
+							effect = plugin.localization.getString("slowness");
+							message(player, effect);
+							decreaseItem(player, event);
+							player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, randomEffectTime, randomEffectStrength));
+
 						}
 						// Slowness for blocks
-						if (CookMe.config.getBoolean("effects.slowness_blocks") == true) {
-							if ((randomNumber == 11) || (randomNumber == 22)) {
-								effect = plugin.localization.getString("slowness_blocks");
-								message(player, effect);
-								decreaseItem(player, event);
-								player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, randomEffectTime, randomEffectStrength));
-							}
+						if (i == 9) {
+							effect = plugin.localization.getString("slowness_blocks");
+							message(player, effect);
+							decreaseItem(player, event);
+							player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, randomEffectTime, randomEffectStrength));
+
 						}
 						// Instant Damage
-						if (CookMe.config.getBoolean("effects.instant_damage") == true) {
-							if (randomNumber == 12 || (randomNumber == 23)) {
-								effect = plugin.localization.getString("instant_damage");
-								message(player, effect);
-								decreaseItem(player, event);
-								player.addPotionEffect(new PotionEffect(PotionEffectType.HARM, randomEffectTime, randomEffectStrength));
-							}
+						if (i == 10) {
+							effect = plugin.localization.getString("instant_damage");
+							message(player, effect);
+							decreaseItem(player, event);
+							player.addPotionEffect(new PotionEffect(PotionEffectType.HARM, randomEffectTime, randomEffectStrength));
+
 						}
 						// Refusing
-						if (CookMe.config.getBoolean("effects.refusing") == true) {
-							if (randomNumber == 13 || (randomNumber == 24)) {
-								effect = plugin.localization.getString("refusing");
-								message(player, effect);
-								event.setCancelled(true);
-							}
+						if (i == 11) {
+							effect = plugin.localization.getString("refusing");
+							message(player, effect);
+							event.setCancelled(true);
 						}
+						
 						// Add player to cooldown list
 						if (CookMe.config.getInt("configuration.cooldown") != 0) CooldownManager.addPlayer(player);
 					}
@@ -185,7 +200,7 @@ public class CookMePlayerListener implements Listener {
 
 	private void message(Player player, String message) {
 		if (CookMe.config.getBoolean("configuration.messages") == true) {
-			plugin.message(null, player, message, null);
+			plugin.message(null, player, message, null, null);
 		}
 	}
 
@@ -209,7 +224,7 @@ public class CookMePlayerListener implements Listener {
 		}
 		return false;
 	}
-	
+
 	// Sets the raw food -1
 	@SuppressWarnings("deprecation")
 	public void decreaseItem (Player player, PlayerInteractEvent event) {
