@@ -36,12 +36,12 @@ public class CooldownManager {
 	// Add the player with the now time to the hashmap
 	public static void addPlayer(Player name) {
 		Timestamp time = new Timestamp(System.currentTimeMillis());
-		cooldownList.put(name, time);
+		if (!cooldownList.containsKey(name)) cooldownList.put(name, time);
 	}
 	
 	// Remove player
 	public static void removePlayer(Player name) {
-		cooldownList.remove(name);
+		if (cooldownList.containsKey(name)) cooldownList.remove(name);
 	}
 	
 	// Check for the cooldown
