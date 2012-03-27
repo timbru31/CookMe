@@ -14,10 +14,10 @@ configuration:
   permissions: true
   messages: true
   duration:
-    min: 2
-    max: 5
+    min: 15
+    max: 30
   noBlocks: true
-  cooldown: 0
+  cooldown: 30
 effects:
   damage: 8.75
   death: 4.25
