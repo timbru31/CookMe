@@ -1,4 +1,4 @@
-package de.xghostkillerx.cookme;
+package de.dustplanet.cookme;
 
 import java.sql.Timestamp;
 import java.util.HashMap;

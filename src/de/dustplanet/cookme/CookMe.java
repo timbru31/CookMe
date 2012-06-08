@@ -1,4 +1,4 @@
-package de.xghostkillerx.cookme;
+package de.dustplanet.cookme;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -16,7 +16,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.*;
 import org.bukkit.entity.Player;
 
-import de.xghostkillerx.cookme.Metrics.Graph;
+import de.dustplanet.cookme.Metrics.Graph;
 
 /**
  * CookeMe for CraftBukkit/Bukkit

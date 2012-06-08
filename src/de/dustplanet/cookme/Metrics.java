@@ -1,4 +1,4 @@
-package de.xghostkillerx.cookme;
+package de.dustplanet.cookme;
 
 /*
  * Copyright 2011 Tyler Blair. All rights reserved.

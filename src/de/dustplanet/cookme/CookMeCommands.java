@@ -1,4 +1,4 @@
-package de.xghostkillerx.cookme;
+package de.dustplanet.cookme;
 
 import java.util.Arrays;
 import org.bukkit.command.Command;
