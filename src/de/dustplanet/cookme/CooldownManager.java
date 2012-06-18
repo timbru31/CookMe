@@ -26,7 +26,7 @@ public class CooldownManager {
 		plugin = instance;
 	}
 	private static int cooldown;
-	private static HashMap<Player, Timestamp> cooldownList = new HashMap<Player, Timestamp>();
+	private static HashMap<String, Timestamp> cooldownList = new HashMap<String, Timestamp>();
 	
 	// Get the cooldown value
 	public static void getCooldown() {
@@ -34,26 +34,26 @@ public class CooldownManager {
 	}
 	
 	// Add the player with the now time to the hashmap
-	public static void addPlayer(Player name) {
+	public static void addPlayer(Player player) {
 		Timestamp time = new Timestamp(System.currentTimeMillis());
-		if (!cooldownList.containsKey(name)) cooldownList.put(name, time);
+		if (!cooldownList.containsKey(player.getName())) cooldownList.put(player.getName(), time);
 	}
 	
 	// Remove player
-	public static void removePlayer(Player name) {
-		if (cooldownList.containsKey(name)) cooldownList.remove(name);
+	public static void removePlayer(Player player) {
+		if (cooldownList.containsKey(player.getName())) cooldownList.remove(player.getName());
 	}
 	
 	// Check for the cooldown
-	public static boolean hasCooldown(Player name, Timestamp now) {
+	public static boolean hasCooldown(Player player, Timestamp now) {
 		getCooldown();
 		// If the player is on the list
-		if (cooldownList.containsKey(name)) {
-			Timestamp time = cooldownList.get(name);
+		if (cooldownList.containsKey(player.getName())) {
+			Timestamp time = cooldownList.get(player.getName());
 			long difference = (now.getTime()- time.getTime()) / 1000;
 			// If the difference is bigger than the cooldown time -> no cooldown anymore
 			if (difference > cooldown) {
-				removePlayer(name);
+				removePlayer(player);
 				return false;
 			}
 			else {
