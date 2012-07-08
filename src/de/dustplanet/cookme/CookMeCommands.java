@@ -25,233 +25,167 @@ public class CookMeCommands implements CommandExecutor {
 	public CookMeCommands(CookMe instance) {
 		plugin = instance;
 	}
-	private String message, effect, cooldown, duration, percentage;
-	private int i, durationInt, cooldownInt;
 
 	// Commands; always check for permissions!
 	public boolean onCommand (CommandSender sender, Command command, String commandLabel, String[] args) {
 		// reload
 		if (args.length > 0 && args[0].equalsIgnoreCase("reload")) {
-			if (CookMe.config.getBoolean("configuration.permissions") == true) {
-				if (sender.hasPermission("cookme.reload")) {
-					CookMeReload(sender);
-					return true;
-				}
-				else {
-					message = plugin.localization.getString("permission_denied");
-					plugin.message(sender, null, message, null, null);
-					return true;
-				}
-			}
-			if (CookMe.config.getBoolean("configuration.permissions") == false) {
+			if (sender.hasPermission("cookme.reload") || !plugin.permissions) {
 				CookMeReload(sender);
-				return true;
 			}
+			else {
+				String message = plugin.localization.getString("permission_denied");
+				plugin.message(sender, null, message, null, null);
+			}
+			return true;
 		}
 		// help
 		if (args.length > 0 && args[0].equalsIgnoreCase("help")) {
-			if (CookMe.config.getBoolean("configuration.permissions") == true) {
-				if (sender.hasPermission("cookme.help")) {
-					CookMeHelp(sender);						
-					return true;
-				}
-				else {
-					message = plugin.localization.getString("permission_denied");
-					plugin.message(sender, null, message, null, null);
-					return true;
-				}
+			if (sender.hasPermission("cookme.help") || !plugin.permissions) {
+				CookMeHelp(sender);						
 			}
-			if (CookMe.config.getBoolean("configuration.permissions") == false) {
-				CookMeHelp(sender);
-				return true;
+			else {
+				String message = plugin.localization.getString("permission_denied");
+				plugin.message(sender, null, message, null, null);
 			}
+			return true;
 		}
 		// Set cooldown, duration or percentage of an effect
 		if (args.length > 1 && args[0].equalsIgnoreCase("set")) {
-			if (CookMe.config.getBoolean("configuration.permissions") == true) {
-				if (args[1].equalsIgnoreCase("cooldown")) {
-					if (sender.hasPermission("cookme.cooldown")) {
-						if (args.length > 2) {
-							cooldown = args[2];
-							cooldownInt = Integer.valueOf(args[2]);
-							CookMe.config.set("configuration.cooldown", cooldownInt);
-							plugin.saveConfig();
-							message = plugin.localization.getString("changed_cooldown");
-							plugin.message(sender, null, message, cooldown, null);
-							return true;
-						}
-					}
-					else {
-						message = plugin.localization.getString("permission_denied");
-						plugin.message(sender, null, message, null, null);
-						return true;
-					}
-				}
-				// Duration
-				if (args[1].equalsIgnoreCase("duration")) {
+			if (args[1].equalsIgnoreCase("cooldown")) {
+				if (sender.hasPermission("cookme.cooldown") || !plugin.permissions) {
 					if (args.length > 2) {
-						if (sender.hasPermission("cookme.duration")) {
-							// Max or Min
-							if (args[2].equalsIgnoreCase("max") || args[2].equalsIgnoreCase("min")) {
-								if (args.length > 3) {
-									duration = args[3];
-									durationInt = Integer.valueOf(args[3]);
-									CookMe.config.set("configuration.duration." + args[2].toLowerCase(), durationInt);
-									plugin.saveConfig();
-									message = plugin.localization.getString("changed_duration_" + args[2].toLowerCase());
-									plugin.message(sender, null, message, duration, null);
-									return true;
-								}
-							}
+						int cooldown = 0;
+						try {
+							cooldown = Integer.valueOf(args[2]);
 						}
-						else {
-							message = plugin.localization.getString("permission_denied");
+						// Cooldown not a number?
+						catch (NumberFormatException e) {
+							String message = plugin.localization.getString("no_number");
 							plugin.message(sender, null, message, null, null);
 							return true;
 						}
-					}
-				}
-				// Effect
-				if (Arrays.asList(plugin.effects).contains(args[1])) {
-					effect = args[1];
-					if (args.length > 2) {
-						percentage = args[2];
-						if (sender.hasPermission("cookme.set." + effect)) {
-							CookMe.config.set("effects." + effect.toLowerCase(), Double.valueOf(percentage));
-							plugin.saveConfig();
-							message = plugin.localization.getString("changed_effect");
-							plugin.message(sender, null, message, effect, percentage);
-							return true;
-						}
-					}
-					else {
-						message = plugin.localization.getString("permission_denied");
-						plugin.message(sender, null, message, null, null);
-						return true;
-					}
-				}
-			}
-			if (CookMe.config.getBoolean("configuration.permissions") == false) {
-				// Cooldown
-				if (args[1].equalsIgnoreCase("cooldown")) {
-					if (args.length > 2) {
-						cooldown = args[2];
-						cooldownInt = Integer.valueOf(args[2]);
-						CookMe.config.set("configuration.cooldown", cooldownInt);
+						CookMe.config.set("configuration.cooldown", cooldown);
 						plugin.saveConfig();
-						message = plugin.localization.getString("changed_cooldown");
-						plugin.message(sender, null, message, cooldown, null);
-						return true;
+						String message = plugin.localization.getString("changed_cooldown");
+						plugin.message(sender, null, message, Integer.toString(cooldown), null);
 					}
 				}
-				// Duration (min or max)
-				if (args[1].equalsIgnoreCase("duration")) {
-					if (args[2].length() > 2) {
+				else {
+					String message = plugin.localization.getString("permission_denied");
+					plugin.message(sender, null, message, null, null);
+				}
+				return true;
+			}
+			// Duration
+			if (args[1].equalsIgnoreCase("duration")) {
+				if (args.length > 2) {
+					if (sender.hasPermission("cookme.duration") || !plugin.permissions) {
+						// Max or Min
 						if (args[2].equalsIgnoreCase("max") || args[2].equalsIgnoreCase("min")) {
 							if (args.length > 3) {
-								duration = args[3];
-								durationInt = Integer.valueOf(args[3]);
-								CookMe.config.set("configuration.duration." + args[2].toLowerCase(), durationInt);
+								int duration = 0;
+								try {
+									duration = Integer.valueOf(args[3]);
+								}
+								// Duration not a number?
+								catch (NumberFormatException e) {
+									String message = plugin.localization.getString("no_number");
+									plugin.message(sender, null, message, null, null);
+									return true;
+								}
+								CookMe.config.set("configuration.duration." + args[2].toLowerCase(), duration);
 								plugin.saveConfig();
-								message = plugin.localization.getString("changed_duration_" + args[2].toLowerCase());
-								plugin.message(sender, null, message, duration, null);
-								return true;
+								String message = plugin.localization.getString("changed_duration_" + args[2].toLowerCase());
+								plugin.message(sender, null, message, Integer.toString(duration), null);
 							}
 						}
+						else return false;
 					}
+					else {
+						String message = plugin.localization.getString("permission_denied");
+						plugin.message(sender, null, message, null, null);
+					}
+					return true;
 				}
-				// Effect
-				if (Arrays.asList(plugin.effects).contains(args[1])) {
-					effect = args[1];
-					if (args.length > 2) {
-						percentage = args[2];
-						if (sender.hasPermission("cookme.set." + effect)) {
-							CookMe.config.set("effects." + effect.toLowerCase(), Double.valueOf(percentage));
-							plugin.saveConfig();
-							message = plugin.localization.getString("changed_effect");
-							plugin.message(sender, null, message, effect, percentage);
+			}
+			// Effect
+			if (Arrays.asList(plugin.effects).contains(args[1].toLowerCase())) {
+				String effect = args[1].toLowerCase();
+				if (args.length > 2) {
+					if (sender.hasPermission("cookme.set." + effect) || !plugin.permissions) {
+						double percentage = 0.0;
+						try {
+							percentage = Double.valueOf(args[2]);
+						}
+						// Percentage not a number?
+						catch (NumberFormatException e) {
+							String message = plugin.localization.getString("no_number");
+							plugin.message(sender, null, message, null, null);
 							return true;
 						}
+						CookMe.config.set("effects." + effect.toLowerCase(), percentage);
+						plugin.saveConfig();
+						String message = plugin.localization.getString("changed_effect");
+						plugin.message(sender, null, message, effect, Double.toString(percentage));
 					}
+					else {
+						String message = plugin.localization.getString("permission_denied");
+						plugin.message(sender, null, message, null, null);
+					}
+					return true;
 				}
+				else return false;
 			}
 		}
 		// enable
 		if (args.length > 0 && args[0].equalsIgnoreCase("enable")) {
 			// permissions
 			if (args.length > 1 && args[1].equalsIgnoreCase("permissions")) {
-				if (CookMe.config.getBoolean("configuration.permissions") == true) {
-					if (sender.hasPermission("cookme.enable.permissions")) {
-						CookMeEnablePermissions(sender);
-						return true;
-					}
-					else {
-						message = plugin.localization.getString("permission_denied");
-						plugin.message(sender, null, message, null, null);
-						return true;
-					}
-				}
-				if (CookMe.config.getBoolean("configuration.permissions") == false) {
+				if (sender.hasPermission("cookme.enable.permissions") || !plugin.permissions) {
 					CookMeEnablePermissions(sender);
-					return true;
 				}
+				else {
+					String message = plugin.localization.getString("permission_denied");
+					plugin.message(sender, null, message, null, null);
+				}
+				return true;
 			}
 			// messages
 			if (args.length > 1 && args[1].equalsIgnoreCase("messages")) {
-				if (CookMe.config.getBoolean("configuration.permissions") == true) {
-					if (sender.hasPermission("cookme.enable.messages")) {
-						CookMeEnableMessages(sender);
-						return true;
-					}
-					else {
-						message = plugin.localization.getString("permission_denied");
-						plugin.message(sender, null, message, null, null);
-						return true;
-					}
-				}
-				if (CookMe.config.getBoolean("configuration.permissions") == false) {
+				if (sender.hasPermission("cookme.enable.messages") || !plugin.permissions) {
 					CookMeEnableMessages(sender);
-					return true;
 				}
+				else {
+					String message = plugin.localization.getString("permission_denied");
+					plugin.message(sender, null, message, null, null);
+				}
+				return true;
 			}
 		}
 		// disable
 		if (args.length > 0 && args[0].equalsIgnoreCase("disable")) {
 			// permissions
 			if (args.length > 1 && args[1].equalsIgnoreCase("permissions")) {
-				if (CookMe.config.getBoolean("configuration.permissions") == true) {
-					if (sender.hasPermission("cookme.disable.permissions")) {
-						CookMeDisablePermissions(sender);
-						return true;
-					}
-					else {
-						message = plugin.localization.getString("permission_denied");
-						plugin.message(sender, null, message, null, null);
-						return true;
-					}
-				}
-				if (CookMe.config.getBoolean("configuration.permissions") == false) {
+				if (sender.hasPermission("cookme.disable.permissions") || !plugin.permissions) {
 					CookMeDisablePermissions(sender);
-					return true;
 				}
+				else {
+					String message = plugin.localization.getString("permission_denied");
+					plugin.message(sender, null, message, null, null);
+				}
+				return true;
 			}
 			// messages
 			if (args.length > 1 && args[1].equalsIgnoreCase("messages")) {
-				if (CookMe.config.getBoolean("configuration.permissions") == true) {
-					if (sender.hasPermission("cookme.disable.messages")) {
-						CookMeDisableMessages(sender);
-						return true;
-					}
-					else {
-						message = plugin.localization.getString("permission_denied");
-						plugin.message(sender, null, message, null, null);
-						return true;
-					}
-				}
-				if (CookMe.config.getBoolean("configuration.permissions") == false) {
+				if (sender.hasPermission("cookme.disable.messages") || !plugin.permissions) {
 					CookMeDisableMessages(sender);
-					return true;
 				}
+				else {
+					String message = plugin.localization.getString("permission_denied");
+					plugin.message(sender, null, message, null, null);
+				}
+				return true;
 			}
 		}
 		return false;
@@ -259,8 +193,8 @@ public class CookMeCommands implements CommandExecutor {
 
 	// See the help with /cookme help
 	private void CookMeHelp(CommandSender sender) {
-		for (i=1; i <= 10; i++) {
-			message = plugin.localization.getString("help_" + Integer.toString(i));
+		for (int i = 1; i <= 11; i++) {
+			String message = plugin.localization.getString("help_" + Integer.toString(i));
 			plugin.message(sender, null, message, null, null);
 		}
 	}
@@ -268,7 +202,7 @@ public class CookMeCommands implements CommandExecutor {
 	// Reloads the config with /cookme reload
 	private void CookMeReload(CommandSender sender) {
 		plugin.loadConfigsAgain();		
-		message = plugin.localization.getString("reload");
+		String message = plugin.localization.getString("reload");
 		plugin.message(sender, null, message, null, null);
 	}
 
@@ -276,8 +210,8 @@ public class CookMeCommands implements CommandExecutor {
 	private void CookMeEnablePermissions(CommandSender sender) {
 		CookMe.config.set("configuration.permissions", true);
 		plugin.saveConfig();
-		for (i=1; i <= 2; i++) {
-			message = plugin.localization.getString("enable_permissions_" + Integer.toString(i));
+		for (int i = 1; i <= 2; i++) {
+			String message = plugin.localization.getString("enable_permissions_" + Integer.toString(i));
 			plugin.message(sender, null, message, null, null);
 		}
 	}
@@ -286,8 +220,8 @@ public class CookMeCommands implements CommandExecutor {
 	private void CookMeDisablePermissions(CommandSender sender) {
 		CookMe.config.set("configuration.permissions", false);
 		plugin.saveConfig();
-		for (i=1; i <= 2; i++) {
-			message = plugin.localization.getString("disable_permissions_" + Integer.toString(i));
+		for (int i = 1; i <= 2; i++) {
+			String message = plugin.localization.getString("disable_permissions_" + Integer.toString(i));
 			plugin.message(sender, null, message, null, null);
 		}
 	}
@@ -296,7 +230,7 @@ public class CookMeCommands implements CommandExecutor {
 	private void CookMeEnableMessages(CommandSender sender) {
 		CookMe.config.set("configuration.messages", true);
 		plugin.saveConfig();
-		message = plugin.localization.getString("enable_messages");
+		String message = plugin.localization.getString("enable_messages");
 		plugin.message(sender, null, message, null, null);
 	}
 
@@ -304,7 +238,7 @@ public class CookMeCommands implements CommandExecutor {
 	private void CookMeDisableMessages(CommandSender sender) {
 		CookMe.config.set("configuration.messages", false);
 		plugin.saveConfig();
-		message = plugin.localization.getString("disable_messages");
+		String message = plugin.localization.getString("disable_messages");
 		plugin.message(sender, null, message, null, null);
 	}
 }

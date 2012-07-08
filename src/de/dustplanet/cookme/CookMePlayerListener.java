@@ -2,7 +2,6 @@ package de.dustplanet.cookme;
 
 import java.sql.Timestamp;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -45,7 +44,7 @@ public class CookMePlayerListener implements Listener {
 			// Check for item & right clicking
 			if (sameItem(player.getItemInHand().getTypeId()) == true && (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK)) {
 				// No block like bed, chest, etc...
-				if (CookMe.config.getBoolean("configuration.noBlocks") == true) {
+				if (plugin.noBlocks) {
 					if (event.hasBlock()) {
 						if (event.getClickedBlock().getType() == Material.BED
 								|| event.getClickedBlock().getType() == Material.BED_BLOCK
@@ -65,36 +64,17 @@ public class CookMePlayerListener implements Listener {
 				if (!CooldownManager.hasCooldown(player, now)) {
 					// Check for food level
 					if (player.getFoodLevel() != 20) {
-						// Store the percentages
-						double[] percentages = new double[12];
 						// Make a temp double and a value between 0 and 99
 						double random = Math.random() * 100, temp = 0;
 						int i = 0;
-						// Set the percentages like the config
-						for (i = 0; i < plugin.effects.length; i++) {
-							percentages[i] = CookMe.config.getDouble("effects." + plugin.effects[i]);
-							temp += percentages[i];
-						}
-						// If percentage is higher than 100, reset it, log it
-						if (temp > 100) {
-							for (i = 0; i <percentages.length; i++) {
-								if (i == 1) {
-									percentages[i] = 4.25;
-								}
-								percentages[i] = 8.75;
-							}
-							CookMe.log.warning(ChatColor.RED + "CookMe detected that the entire procentage is higer than 100. Resetting it to default...");
-							CookMe.log.warning(ChatColor.RED + "The config wasn't changed, please review it to make CookMe work right again!");
-						}
-						temp = 0;
 						// Get the number for the effect
-						for(i = 0; i < percentages.length; i++) {
-							temp += percentages[i];
+						for(i = 0; i < plugin.percentages.length; i++) {
+							temp += plugin.percentages[i];
 							if (random <= temp) break;
 						}
 						// EffectStrenght, Duration etc.
 						int randomEffectStrength = (int)(Math.random()*16);
-						int minimum = 20*CookMe.config.getInt("configuration.duration.min"), maximum = 20*CookMe.config.getInt("configuration.duration.max");
+						int minimum = plugin.minDuration, maximum = plugin.maxDuration;
 						int randomEffectTime = (int)(Math.random() * ((maximum - minimum)  + 1)  + minimum);
 						// Player gets random damage, stack minus 1
 						if (i == 0) {
@@ -188,7 +168,7 @@ public class CookMePlayerListener implements Listener {
 						}
 						
 						// Add player to cooldown list
-						if (CookMe.config.getInt("configuration.cooldown") != 0) CooldownManager.addPlayer(player);
+						if (CookMe.cooldown != 0) CooldownManager.addPlayer(player);
 					}
 				}
 			}
@@ -196,7 +176,7 @@ public class CookMePlayerListener implements Listener {
 	}
 
 	private void message(Player player, String message) {
-		if (CookMe.config.getBoolean("configuration.messages") == true) {
+		if (plugin.messages) {
 			plugin.message(null, player, message, null, null);
 		}
 	}
@@ -211,9 +191,9 @@ public class CookMePlayerListener implements Listener {
 					return true;
 				}
 			}
-			catch (Exception e) {
+			catch (IllegalArgumentException e) {
 				// Prevent spamming
-				if (message == true) {
+				if (message) {
 					CookMe.log.warning("CookMe couldn't load the foods! Please check your config!");
 					message = false;
 				}

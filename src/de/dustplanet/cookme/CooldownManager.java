@@ -1,7 +1,7 @@
 package de.dustplanet.cookme;
 
 import java.sql.Timestamp;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 import org.bukkit.entity.Player;
 
@@ -21,16 +21,12 @@ import org.bukkit.entity.Player;
 
 public class CooldownManager {
 
-	public CookMe plugin;
-	public CooldownManager(CookMe instance) {
-		plugin = instance;
-	}
 	private static int cooldown;
-	private static HashMap<String, Timestamp> cooldownList = new HashMap<String, Timestamp>();
+	private static LinkedHashMap<String, Timestamp> cooldownList = new LinkedHashMap<String, Timestamp>();
 	
 	// Get the cooldown value
 	public static void getCooldown() {
-		cooldown = CookMe.config.getInt("configuration.cooldown");
+		cooldown = CookMe.cooldown;
 	}
 	
 	// Add the player with the now time to the hashmap
@@ -61,5 +57,10 @@ public class CooldownManager {
 			}
 		}
 		return false;
+	}
+	
+	// Makes the list empty
+	public static void clearCooldownList() {
+		cooldownList.clear();
 	}
 }

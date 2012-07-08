@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
+
+import org.bukkit.ChatColor;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -41,6 +43,11 @@ public class CookMe extends JavaPlugin {
 	public File configFile;
 	public File localizationFile;
 	public List<String> itemList = new ArrayList<String>();
+	public static int cooldown;
+	public int minDuration;
+	public int maxDuration;
+	public double[] percentages = new double[12];
+	public boolean noBlocks, messages, permissions;
 	private String[] rawFood = {"RAW_BEEF", "RAW_CHICKEN", "RAW_FISH", "PORK", "ROTTEN_FLESH"};
 	public String[] effects = {"damage", "death", "venom", "hungervenom", "hungerdecrease", "confusion", "blindness", "weakness", "slowness", "slowness_blocks", "instant_damage", "refusing"};	
 	private CookMeCommands executor;
@@ -49,6 +56,8 @@ public class CookMe extends JavaPlugin {
 	public void onDisable() {
 		PluginDescriptionFile pdfFile = this.getDescription();
 		log.info(pdfFile.getName() + " " + pdfFile.getVersion()	+ " has been disabled!");
+		itemList.clear();
+		CooldownManager.clearCooldownList();
 	}
 
 	// Start
@@ -65,6 +74,7 @@ public class CookMe extends JavaPlugin {
 		}
 		config = this.getConfig();
 		loadConfig();
+		checkStuff();
 
 		// Localization
 		localizationFile = new File(getDataFolder(), "localization.yml");
@@ -92,9 +102,9 @@ public class CookMe extends JavaPlugin {
 
 		// Stats
 		try {
-			Metrics metrics = new Metrics();
+			Metrics metrics = new Metrics(this);
 			// Construct a graph, which can be immediately used and considered as valid
-			Graph graph = metrics.createGraph(this, Graph.Type.Pie, "Percentage of affected items");
+			Graph graph = metrics.createGraph("Percentage of affected items");
 			// Custom plotter for each item
 			for (int i = 0; i < itemList.size(); i++) {
 				final String itemName = itemList.get(i);
@@ -106,9 +116,39 @@ public class CookMe extends JavaPlugin {
 				});
 
 			}
-			metrics.beginMeasuringPlugin(this);
+			metrics.start();
 		}
 		catch (IOException e) {}
+	}
+	
+	private void checkStuff() {
+		noBlocks = config.getBoolean("configuration.noBlocks");
+		permissions = config.getBoolean("configuration.permissions");
+		messages = config.getBoolean("configuration.messages");
+		cooldown = config.getInt("configuration.cooldown");
+		minDuration = 20 * config.getInt("configuration.duration.min");
+		maxDuration = 20 * config.getInt("configuration.duration.max");
+		itemList = config.getStringList("food");
+		int i = 0;
+		double temp = 0;
+		for (i = 0; i < effects.length; i++) {
+			percentages[i] = config.getDouble("effects." + effects[i]);
+			temp += percentages[i];
+		}
+		// If percentage is higher than 100, reset it, log it
+		if ((int) temp > 100) {
+			for (i = 0; i < percentages.length; i++) {
+				if (i == 1) {
+					percentages[i] = 4.3;
+					config.set("effects." + effects[i], 4.3);
+					continue;
+				}
+				percentages[i] = 8.7;
+				config.set("effects." + effects[i], 8.7);
+			}
+			log.warning(ChatColor.RED + "CookMe detected that the entire procentage is higer than 100. Resetting it to default...");
+			saveConfig();
+		}
 	}
 
 	// Loads the config at start
@@ -120,20 +160,19 @@ public class CookMe extends JavaPlugin {
 		config.addDefault("configuration.duration.min", 15);
 		config.addDefault("configuration.duration.max", 30);
 		config.addDefault("configuration.cooldown", 30);
-		config.addDefault("effects.damage", 8.75);
-		config.addDefault("effects.death", 4.25);
-		config.addDefault("effects.venom", 8.75);
-		config.addDefault("effects.hungervenom", 8.75);
-		config.addDefault("effects.hungerdecrease", 8.75);
-		config.addDefault("effects.confusion", 8.75);
-		config.addDefault("effects.blindness", 8.75);
-		config.addDefault("effects.weakness", 8.75);
-		config.addDefault("effects.slowness", 8.75);
-		config.addDefault("effects.slowness_blocks", 8.75);
-		config.addDefault("effects.instant_damage", 8.75);
-		config.addDefault("effects.refusing", 8.75);
+		config.addDefault("effects.damage", 8.7);
+		config.addDefault("effects.death", 4.3);
+		config.addDefault("effects.venom", 8.7);
+		config.addDefault("effects.hungervenom", 8.7);
+		config.addDefault("effects.hungerdecrease", 8.7);
+		config.addDefault("effects.confusion", 8.7);
+		config.addDefault("effects.blindness", 8.7);
+		config.addDefault("effects.weakness", 8.7);
+		config.addDefault("effects.slowness", 8.7);
+		config.addDefault("effects.slowness_blocks", 8.7);
+		config.addDefault("effects.instant_damage", 8.7);
+		config.addDefault("effects.refusing", 8.7);
 		config.addDefault("food", Arrays.asList(rawFood));
-		itemList = config.getStringList("food");
 		config.options().copyDefaults(true);
 		saveConfig();
 	}
@@ -167,14 +206,16 @@ public class CookMe extends JavaPlugin {
 		localization.addDefault("changed_duration_min", "&2The minimum duration time has been changed to &e%value!");
 		localization.addDefault("help_1", "&2Welcome to the CookMe version &4%version &2help");
 		localization.addDefault("help_2", "To see the help type &4/cookme help");
-		localization.addDefault("help_3", "To reload use &4/cookme reload");
-		localization.addDefault("help_4", "To change the cooldown or duration values, type");
-		localization.addDefault("help_5", "&4/cookme set cooldown <value> &for &4/cookme set duration min <value>");
-		localization.addDefault("help_6", "&4/cookme set duration max <value>");
-		localization.addDefault("help_7", "Set the percentages with &4/cookme set &e<value> <percentage>");
-		localization.addDefault("help_8", "&eValues: &fpermissions, messages, damage, death, venom,");
-		localization.addDefault("help_9", "hungervenom, hungerdecrease, confusion, blindness, weakness");
-		localization.addDefault("help_10", "slowness, slowness_blocks, instant_damage, refusing");
+		localization.addDefault("help_3", "You can enable permissions and messages with &4/cookme enable &e<value> &fand &4/cookme disable &e<value>");
+		localization.addDefault("help_4", "To reload use &4/cookme reload");
+		localization.addDefault("help_5", "To change the cooldown or duration values, type");
+		localization.addDefault("help_6", "&4/cookme set cooldown <value> &for &4/cookme set duration min <value>");
+		localization.addDefault("help_7", "&4/cookme set duration max <value>");
+		localization.addDefault("help_8", "Set the percentages with &4/cookme set &e<value> <percentage>");
+		localization.addDefault("help_9", "&eValues: &fpermissions, messages, damage, death, venom,");
+		localization.addDefault("help_10", "hungervenom, hungerdecrease, confusion, blindness, weakness");
+		localization.addDefault("help_11", "slowness, slowness_blocks, instant_damage, refusing");
+		localization.addDefault("no_number", "&4The given argument wasn't a number!");
 		localization.options().copyDefaults(true);
 		saveLocalization();
 	}
@@ -194,9 +235,9 @@ public class CookMe extends JavaPlugin {
 		try {
 			config.load(configFile);
 			saveConfig();
+			checkStuff();
 			localization.load(localizationFile);
 			saveLocalization();
-			itemList = config.getStringList("food");
 		}
 		catch (Exception e) {
 			e.printStackTrace();
