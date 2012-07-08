@@ -19,18 +19,18 @@ configuration:
   noBlocks: true
   cooldown: 30
 effects:
-  damage: 8.75
-  death: 4.25
-  venom: 8.75
-  hungervenom: 8.75
-  hungerdecrease: 8.75
-  confusion: 8.75
-  blindness: 8.75
-  weakness: 8.75
-  slowness: 8.75
-  slowness_blocks: 8.75
-  instant_damage: 8.75
-  refusing: 8.75
+  damage: 8.7
+  death: 4.3
+  venom: 8.7
+  hungervenom: 8.7
+  hungerdecrease: 8.7
+  confusion: 8.7
+  blindness: 8.7
+  weakness: 8.7
+  slowness: 8.7
+  slowness_blocks: 8.7
+  instant_damage: 8.7
+  refusing: 8.7
 food:
 - RAW_BEEF
 - RAW_CHICKEN
