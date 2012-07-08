@@ -14,6 +14,7 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.*;
 import org.bukkit.entity.Player;
 import de.dustplanet.cookme.Metrics.Graph;
@@ -81,14 +82,8 @@ public class CookMe extends JavaPlugin {
 			copy(getResource("localization.yml"), localizationFile);
 		}
 		// Try to load
-		try {
-			localization = YamlConfiguration.loadConfiguration(localizationFile);
-			loadLocalization();
-		}
-		// if it failed, tell it
-		catch (Exception e) {
-			log.warning("CookMe failed to load the localization!");
-		}
+		localization = YamlConfiguration.loadConfiguration(localizationFile);
+		loadLocalization();
 
 		// Refer to CookMeCommands
 		executor = new CookMeCommands(this);
@@ -118,7 +113,7 @@ public class CookMe extends JavaPlugin {
 		}
 		catch (IOException e) {}
 	}
-	
+
 	private void checkStuff() {
 		noBlocks = config.getBoolean("configuration.noBlocks");
 		permissions = config.getBoolean("configuration.permissions");
@@ -224,7 +219,7 @@ public class CookMe extends JavaPlugin {
 			localization.save(localizationFile);
 		}
 		catch (IOException e) {
-			log.warning("CookMe failed to save the localization! Please report this!");
+			log.warning("CookMe failed to save the localization! Please report this! IOException");
 		}
 	}
 
@@ -237,8 +232,10 @@ public class CookMe extends JavaPlugin {
 			localization.load(localizationFile);
 			saveLocalization();
 		}
-		catch (Exception e) {
-			e.printStackTrace();
+		catch (IOException e) {
+			log.warning("CookMe failed to save the localization! Please report this! IOException");
+		} catch (InvalidConfigurationException e) {
+			log.warning("CookMe failed to save the localization! Please report this! InvalidConfiguration");
 		}
 	}
 
@@ -254,8 +251,8 @@ public class CookMe extends JavaPlugin {
 			out.close();
 			in.close();
 		}
-		catch (Exception e) {
-			e.printStackTrace();
+		catch (IOException e) {
+			log.warning("CookMe failed to copy the file! Please report this! IOException");
 		}
 	}
 
