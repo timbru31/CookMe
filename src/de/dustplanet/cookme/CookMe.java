@@ -16,7 +16,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.*;
 import org.bukkit.entity.Player;
-
 import de.dustplanet.cookme.Metrics.Graph;
 
 /**
