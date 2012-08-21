@@ -1,7 +1,6 @@
 package de.dustplanet.cookme;
 
 import java.sql.Timestamp;
-
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -27,16 +26,15 @@ import org.bukkit.potion.PotionEffectType;
  */
 
 public class CookMePlayerListener implements Listener {
-
-	public CookMe plugin;
+	private CookMe plugin;
+	private boolean message = true;
 	public CookMePlayerListener(CookMe instance) {
 		plugin = instance;
 	}
-	private boolean message = true;
-	private String effect;
 
 	@EventHandler
 	public void onPlayerInteract(PlayerInteractEvent event) {
+		String effect;
 		Player player = event.getPlayer();
 		Timestamp now = new Timestamp(System.currentTimeMillis());
 		// Check if player is affected
@@ -61,7 +59,8 @@ public class CookMePlayerListener implements Listener {
 					}
 				}
 				// If the player is in cooldown phase cancel it
-				if (!CooldownManager.hasCooldown(player, now)) {
+				CooldownManager cooldown = new CooldownManager();
+				if (!cooldown.hasCooldown(player, now)) {
 					// Check for food level
 					if (player.getFoodLevel() != 20) {
 						// Make a temp double and a value between 0 and 99
@@ -166,9 +165,9 @@ public class CookMePlayerListener implements Listener {
 							message(player, effect);
 							event.setCancelled(true);
 						}
-						
+
 						// Add player to cooldown list
-						if (CookMe.cooldown != 0) CooldownManager.addPlayer(player);
+						if (plugin.cooldown != 0) cooldown.addPlayer(player);
 					}
 				}
 			}
@@ -183,19 +182,23 @@ public class CookMePlayerListener implements Listener {
 
 	// Is the item in the list? Yes or no
 	private boolean sameItem(int item) {
-		for (int i = 0; i < plugin.itemList.size(); i++) {
-			String itemName = plugin.itemList.get(i);
+		for (String itemName : plugin.itemList) {
 			try {
 				Material material = Material.valueOf(itemName);
-				if (material.getId() == item) {
-					return true;
-				}
+				if (material.getId() == item) return true;
 			}
-			catch (IllegalArgumentException e) {
-				// Prevent spamming
-				if (message) {
-					CookMe.log.warning("CookMe couldn't load the foods! Please check your config!");
-					message = false;
+			catch (IllegalArgumentException e1) {
+				try {
+					int id = Integer.valueOf(itemName);
+					if (id == item) return true;
+				}
+				catch (NumberFormatException e2) {
+					// Prevent spamming
+					if (message) {
+						plugin.log.warning("[CookMe] couldn't load the foods! Please check your config!");
+						plugin.log.warning("[CookMe] The following item id/name is invalid: " + itemName);
+						message = false;
+					}
 				}
 			}
 		}
@@ -204,11 +207,9 @@ public class CookMePlayerListener implements Listener {
 
 	// Sets the raw food -1
 	@SuppressWarnings("deprecation")
-	public void decreaseItem (Player player, PlayerInteractEvent event) {
+	private void decreaseItem (Player player, PlayerInteractEvent event) {
 		ItemStack afterEating = player.getItemInHand();
-		if (afterEating.getAmount() == 1) {
-			player.setItemInHand(null);
-		}
+		if (afterEating.getAmount() == 1) player.setItemInHand(null);
 		else {
 			afterEating.setAmount(afterEating.getAmount() -1);
 			player.setItemInHand(afterEating);

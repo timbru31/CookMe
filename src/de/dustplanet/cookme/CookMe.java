@@ -34,17 +34,13 @@ import de.dustplanet.cookme.Metrics.Graph;
  */
 
 public class CookMe extends JavaPlugin {
-
-	public static final Logger log = Logger.getLogger("Minecraft");
-	private final CookMePlayerListener playerListener = new CookMePlayerListener(this);
-	public static FileConfiguration config;
-	public FileConfiguration localization;
-	public File configFile;
-	public File localizationFile;
+	public Logger log = Logger.getLogger("Minecraft");
+	private CookMePlayerListener playerListener;
+	public CooldownManager cooldownManager;
+	public FileConfiguration config, localization;
+	private File configFile, localizationFile;
 	public List<String> itemList = new ArrayList<String>();
-	public static int cooldown;
-	public int minDuration;
-	public int maxDuration;
+	public int cooldown, minDuration,maxDuration;
 	public double[] percentages = new double[12];
 	public boolean noBlocks, messages, permissions;
 	private String[] rawFood = {"RAW_BEEF", "RAW_CHICKEN", "RAW_FISH", "PORK", "ROTTEN_FLESH"};
@@ -56,11 +52,12 @@ public class CookMe extends JavaPlugin {
 		PluginDescriptionFile pdfFile = this.getDescription();
 		log.info(pdfFile.getName() + " " + pdfFile.getVersion()	+ " has been disabled!");
 		itemList.clear();
-		CooldownManager.clearCooldownList();
+		cooldownManager.clearCooldownList();
 	}
 
 	// Start
 	public void onEnable() {
+		playerListener = new CookMePlayerListener(this);
 		// Events
 		PluginManager pm = getServer().getPluginManager();
 		pm.registerEvents(playerListener, this);
@@ -74,6 +71,9 @@ public class CookMe extends JavaPlugin {
 		config = this.getConfig();
 		loadConfig();
 		checkStuff();
+		
+		// Sets the cooldown
+		cooldownManager = new CooldownManager(cooldown);
 
 		// Localization
 		localizationFile = new File(getDataFolder(), "localization.yml");
@@ -145,7 +145,7 @@ public class CookMe extends JavaPlugin {
 	}
 
 	// Loads the config at start
-	public void loadConfig() {
+	private void loadConfig() {
 		config.options().header("For help please refer to http://bit.ly/cookmebukkitdev or http://bit.ly/cookmebukkit");
 		config.addDefault("configuration.permissions", true);
 		config.addDefault("configuration.messages", true);
@@ -171,7 +171,7 @@ public class CookMe extends JavaPlugin {
 	}
 
 	// Loads the localization
-	public void loadLocalization() {
+	private void loadLocalization() {
 		localization.options().header("The underscores are used for the different lines!");
 		localization.addDefault("damage", "&4You got some random damage! Eat some cooked food!");
 		localization.addDefault("hungervenom", "&4Your foodbar is a random time venomed! Eat some cooked food!");
@@ -214,7 +214,7 @@ public class CookMe extends JavaPlugin {
 	}
 
 	// Saves the localization
-	public void saveLocalization() {
+	private void saveLocalization() {
 		try {
 			localization.save(localizationFile);
 		}

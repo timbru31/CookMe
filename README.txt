@@ -11,13 +11,19 @@ Standard config:
 
 # For help please refer to http://bit.ly/cookmebukkitdev or http://bit.ly/cookmebukkit
 configuration:
+  # Should permissions be used?
   permissions: true
+  # Display a message when eating?
   messages: true
+  # The minimum and maximum duration of the effect in seconds
   duration:
     min: 15
     max: 30
+  # Blocks like a chest, door or furnace won't trigger the event
   noBlocks: true
+  # Cooldown in seconds, how long the player is safe before the next effect happens.
   cooldown: 30
+# The percentage for each effect. Make sure all together are exactly 100! 0 means disabled!
 effects:
   damage: 8.7
   death: 4.3
@@ -31,6 +37,7 @@ effects:
   slowness_blocks: 8.7
   instant_damage: 8.7
   refusing: 8.7
+# Add your own stuff here, IDs are supported, too!
 food:
 - RAW_BEEF
 - RAW_CHICKEN

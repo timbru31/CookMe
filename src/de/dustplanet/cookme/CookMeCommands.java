@@ -20,8 +20,7 @@ import org.bukkit.command.CommandSender;
  */
 
 public class CookMeCommands implements CommandExecutor {
-
-	CookMe plugin;
+	private CookMe plugin;
 	public CookMeCommands(CookMe instance) {
 		plugin = instance;
 	}
@@ -65,10 +64,11 @@ public class CookMeCommands implements CommandExecutor {
 							plugin.message(sender, null, message, null, null);
 							return true;
 						}
-						CookMe.config.set("configuration.cooldown", cooldown);
+						plugin.config.set("configuration.cooldown", cooldown);
 						plugin.saveConfig();
 						String message = plugin.localization.getString("changed_cooldown");
 						plugin.message(sender, null, message, Integer.toString(cooldown), null);
+						plugin.cooldownManager.setCooldown(cooldown);
 					}
 				}
 				else {
@@ -94,7 +94,7 @@ public class CookMeCommands implements CommandExecutor {
 									plugin.message(sender, null, message, null, null);
 									return true;
 								}
-								CookMe.config.set("configuration.duration." + args[2].toLowerCase(), duration);
+								plugin.config.set("configuration.duration." + args[2].toLowerCase(), duration);
 								plugin.saveConfig();
 								String message = plugin.localization.getString("changed_duration_" + args[2].toLowerCase());
 								plugin.message(sender, null, message, Integer.toString(duration), null);
@@ -124,7 +124,7 @@ public class CookMeCommands implements CommandExecutor {
 							plugin.message(sender, null, message, null, null);
 							return true;
 						}
-						CookMe.config.set("effects." + effect.toLowerCase(), percentage);
+						plugin.config.set("effects." + effect.toLowerCase(), percentage);
 						plugin.saveConfig();
 						String message = plugin.localization.getString("changed_effect");
 						plugin.message(sender, null, message, effect, Double.toString(percentage));
@@ -208,7 +208,7 @@ public class CookMeCommands implements CommandExecutor {
 
 	// Enables permissions with /cookme enable permissions
 	private void CookMeEnablePermissions(CommandSender sender) {
-		CookMe.config.set("configuration.permissions", true);
+		plugin.config.set("configuration.permissions", true);
 		plugin.saveConfig();
 		for (int i = 1; i <= 2; i++) {
 			String message = plugin.localization.getString("enable_permissions_" + Integer.toString(i));
@@ -218,7 +218,7 @@ public class CookMeCommands implements CommandExecutor {
 
 	// Disables permissions with /cookme disable permissions
 	private void CookMeDisablePermissions(CommandSender sender) {
-		CookMe.config.set("configuration.permissions", false);
+		plugin.config.set("configuration.permissions", false);
 		plugin.saveConfig();
 		for (int i = 1; i <= 2; i++) {
 			String message = plugin.localization.getString("disable_permissions_" + Integer.toString(i));
@@ -228,7 +228,7 @@ public class CookMeCommands implements CommandExecutor {
 
 	// Enables messages with /cookme enable messages
 	private void CookMeEnableMessages(CommandSender sender) {
-		CookMe.config.set("configuration.messages", true);
+		plugin.config.set("configuration.messages", true);
 		plugin.saveConfig();
 		String message = plugin.localization.getString("enable_messages");
 		plugin.message(sender, null, message, null, null);
@@ -236,7 +236,7 @@ public class CookMeCommands implements CommandExecutor {
 
 	// Disables messages with /cookme disable messages
 	private void CookMeDisableMessages(CommandSender sender) {
-		CookMe.config.set("configuration.messages", false);
+		plugin.config.set("configuration.messages", false);
 		plugin.saveConfig();
 		String message = plugin.localization.getString("disable_messages");
 		plugin.message(sender, null, message, null, null);

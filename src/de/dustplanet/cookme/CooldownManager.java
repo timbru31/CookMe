@@ -20,47 +20,73 @@ import org.bukkit.entity.Player;
  */
 
 public class CooldownManager {
-
-	private static int cooldown;
-	private static LinkedHashMap<String, Timestamp> cooldownList = new LinkedHashMap<String, Timestamp>();
+	private int cooldown = 0;
+	private LinkedHashMap<String, Timestamp> cooldownList = new LinkedHashMap<String, Timestamp>();
+	
+	// Sets the cooldown!
+	public CooldownManager(int cooldownValue) {
+		cooldown = cooldownValue;
+	}
+	
+	// Remember to set the cooldown!
+	public CooldownManager() {}
 	
 	// Get the cooldown value
-	public static void getCooldown() {
-		cooldown = CookMe.cooldown;
+	public int getCooldown() {
+		return cooldown;
+	}
+	
+	// Set the cooldown value
+	public void setCooldown(int cooldownValue) {
+		cooldown = cooldownValue;
 	}
 	
 	// Add the player with the now time to the hashmap
-	public static void addPlayer(Player player) {
+	public boolean addPlayer(Player player) {
 		Timestamp time = new Timestamp(System.currentTimeMillis());
-		if (!cooldownList.containsKey(player.getName())) cooldownList.put(player.getName(), time);
+		if (!cooldownList.containsKey(player.getName())) {
+			cooldownList.put(player.getName(), time);
+			return true;
+		}
+		return false;
 	}
 	
 	// Remove player
-	public static void removePlayer(Player player) {
-		if (cooldownList.containsKey(player.getName())) cooldownList.remove(player.getName());
+	public boolean removePlayer(Player player) {
+		if (cooldownList.containsKey(player.getName())) {
+			cooldownList.remove(player.getName());
+			return true;
+		}
+		return false;
 	}
 	
 	// Check for the cooldown
-	public static boolean hasCooldown(Player player, Timestamp now) {
-		getCooldown();
+	public boolean hasCooldown(Player player, Timestamp now) {
 		// If the player is on the list
 		if (cooldownList.containsKey(player.getName())) {
 			Timestamp time = cooldownList.get(player.getName());
 			long difference = (now.getTime()- time.getTime()) / 1000;
 			// If the difference is bigger than the cooldown time -> no cooldown anymore
-			if (difference > cooldown) {
-				removePlayer(player);
-				return false;
-			}
-			else {
-				return true;
-			}
+			if (difference > cooldown) removePlayer(player);
+			else return true;
 		}
 		return false;
 	}
 	
 	// Makes the list empty
-	public static void clearCooldownList() {
+	public void clearCooldownList() {
 		cooldownList.clear();
+	}
+	
+	// Returns the rest of the cooldown time
+	public long getRemainingCooldownTime(Player player, Timestamp now) {
+		if (cooldownList.containsKey(player.getName())) {
+			Timestamp time = cooldownList.get(player.getName());
+			long difference = (now.getTime()- time.getTime()) / 1000;
+			// If the difference is bigger than the cooldown time -> no cooldown anymore
+			if (difference > cooldown) return 0;
+			else return difference;
+		}
+		return 0;
 	}
 }
