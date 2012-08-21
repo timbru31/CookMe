@@ -229,6 +229,7 @@ public class CookMe extends JavaPlugin {
 			config.load(configFile);
 			saveConfig();
 			checkStuff();
+			cooldownManager.setCooldown(cooldown);
 			localization.load(localizationFile);
 			saveLocalization();
 		}

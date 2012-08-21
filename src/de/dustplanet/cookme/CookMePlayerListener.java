@@ -37,10 +37,11 @@ public class CookMePlayerListener implements Listener {
 		String effect;
 		Player player = event.getPlayer();
 		Timestamp now = new Timestamp(System.currentTimeMillis());
+		if (!event.hasItem()) return;
 		// Check if player is affected
 		if (!player.hasPermission("cookme.safe")) {
 			// Check for item & right clicking
-			if (sameItem(player.getItemInHand().getTypeId()) == true && (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK)) {
+			if (sameItem(player.getItemInHand().getTypeId()) && (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK)) {
 				// No block like bed, chest, etc...
 				if (plugin.noBlocks) {
 					if (event.hasBlock()) {
@@ -59,8 +60,7 @@ public class CookMePlayerListener implements Listener {
 					}
 				}
 				// If the player is in cooldown phase cancel it
-				CooldownManager cooldown = new CooldownManager();
-				if (!cooldown.hasCooldown(player, now)) {
+				if (!plugin.cooldownManager.hasCooldown(player, now)) {
 					// Check for food level
 					if (player.getFoodLevel() != 20) {
 						// Make a temp double and a value between 0 and 99
@@ -167,7 +167,7 @@ public class CookMePlayerListener implements Listener {
 						}
 
 						// Add player to cooldown list
-						if (plugin.cooldown != 0) cooldown.addPlayer(player);
+						if (plugin.cooldown != 0) plugin.cooldownManager.addPlayer(player);
 					}
 				}
 			}

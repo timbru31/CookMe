@@ -4,6 +4,7 @@ import java.util.Arrays;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 /**
  * CookMe for CraftBukkit/Bukkit
@@ -27,6 +28,13 @@ public class CookMeCommands implements CommandExecutor {
 
 	// Commands; always check for permissions!
 	public boolean onCommand (CommandSender sender, Command command, String commandLabel, String[] args) {
+		// Debug command to set the hunger...
+		if (args.length > 0 && args[0].equalsIgnoreCase("debug")) {
+			Player player = (Player) sender;
+			player.setFoodLevel(10);
+			player.sendMessage("§cDONE");
+			return true;
+		}
 		// reload
 		if (args.length > 0 && args[0].equalsIgnoreCase("reload")) {
 			if (sender.hasPermission("cookme.reload") || !plugin.permissions) {
