@@ -8,7 +8,6 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Logger;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.PluginDescriptionFile;
@@ -34,7 +33,6 @@ import de.dustplanet.cookme.Metrics.Graph;
  */
 
 public class CookMe extends JavaPlugin {
-	public Logger log = Logger.getLogger("Minecraft");
 	private CookMePlayerListener playerListener;
 	public CooldownManager cooldownManager;
 	public FileConfiguration config, localization;
@@ -49,16 +47,14 @@ public class CookMe extends JavaPlugin {
 
 	// Shutdown
 	public void onDisable() {
-		PluginDescriptionFile pdfFile = this.getDescription();
-		log.info(pdfFile.getName() + " " + pdfFile.getVersion()	+ " has been disabled!");
 		itemList.clear();
 		cooldownManager.clearCooldownList();
 	}
 
 	// Start
 	public void onEnable() {
-		playerListener = new CookMePlayerListener(this);
 		// Events
+		playerListener = new CookMePlayerListener(this);
 		PluginManager pm = getServer().getPluginManager();
 		pm.registerEvents(playerListener, this);
 
@@ -88,10 +84,6 @@ public class CookMe extends JavaPlugin {
 		// Refer to CookMeCommands
 		executor = new CookMeCommands(this);
 		getCommand("cookme").setExecutor(executor);
-
-		// Message
-		PluginDescriptionFile pdfFile = this.getDescription();
-		log.info(pdfFile.getName() + " " + pdfFile.getVersion() + " is enabled!");
 
 		// Stats
 		try {
@@ -139,7 +131,7 @@ public class CookMe extends JavaPlugin {
 				percentages[i] = 8.7;
 				config.set("effects." + effects[i], 8.7);
 			}
-			log.warning(ChatColor.RED + "CookMe detected that the entire procentage is higer than 100. Resetting it to default...");
+			getLogger().warning(ChatColor.RED + "Detected that the entire procentage is higer than 100. Resetting it to default...");
 			saveConfig();
 		}
 	}
@@ -219,7 +211,7 @@ public class CookMe extends JavaPlugin {
 			localization.save(localizationFile);
 		}
 		catch (IOException e) {
-			log.warning("CookMe failed to save the localization! Please report this! IOException");
+			getLogger().warning("Failed to save the localization! Please report this! IOException");
 		}
 	}
 
@@ -234,9 +226,10 @@ public class CookMe extends JavaPlugin {
 			saveLocalization();
 		}
 		catch (IOException e) {
-			log.warning("CookMe failed to save the localization! Please report this! IOException");
-		} catch (InvalidConfigurationException e) {
-			log.warning("CookMe failed to save the localization! Please report this! InvalidConfiguration");
+			getLogger().warning("Failed to save the localization! Please report this! IOException");
+		}
+		catch (InvalidConfigurationException e) {
+			getLogger().warning("Failed to save the localization! Please report this! InvalidConfiguration");
 		}
 	}
 
@@ -246,31 +239,27 @@ public class CookMe extends JavaPlugin {
 			OutputStream out = new FileOutputStream(file);
 			byte[] buf = new byte[1024];
 			int len;
-			while ((len=in.read(buf)) > 0) {
+			while ((len = in.read(buf)) > 0) {
 				out.write(buf, 0, len);
 			}
 			out.close();
 			in.close();
 		}
 		catch (IOException e) {
-			log.warning("CookMe failed to copy the file! Please report this! IOException");
+			getLogger().warning("Failed to copy the file! Please report this! IOException");
 		}
 	}
 
 	// Message the sender or player
 	public void message(CommandSender sender, Player player, String message, String value, String percentage) {
-		PluginDescriptionFile pdfFile = this.getDescription();
+		PluginDescriptionFile pdfFile = getDescription();
 		message = message
 				.replaceAll("&([0-9a-fk-or])", "\u00A7$1")
 				.replaceAll("%version", pdfFile.getVersion())
 				.replaceAll("%effect", value)
 				.replaceAll("%value", value)
 				.replaceAll("%percentage", percentage);
-		if (player != null) {
-			player.sendMessage(message);
-		}
-		else if (sender != null) {
-			sender.sendMessage(message);
-		}
+		if (player != null)	player.sendMessage(message);
+		else if (sender != null) sender.sendMessage(message);
 	}
 }

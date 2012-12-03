@@ -1,6 +1,7 @@
 package de.dustplanet.cookme;
 
 import java.sql.Timestamp;
+
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -10,6 +11,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+
 
 /**
  * CookMePlayerListener
@@ -28,16 +30,17 @@ import org.bukkit.potion.PotionEffectType;
 public class CookMePlayerListener implements Listener {
 	private CookMe plugin;
 	private boolean message = true;
+	
 	public CookMePlayerListener(CookMe instance) {
 		plugin = instance;
 	}
 
 	@EventHandler
 	public void onPlayerInteract(PlayerInteractEvent event) {
+		if (!event.hasItem()) return;
 		String effect;
 		Player player = event.getPlayer();
 		Timestamp now = new Timestamp(System.currentTimeMillis());
-		if (!event.hasItem()) return;
 		// Check if player is affected
 		if (!player.hasPermission("cookme.safe")) {
 			// Check for item & right clicking
@@ -195,8 +198,8 @@ public class CookMePlayerListener implements Listener {
 				catch (NumberFormatException e2) {
 					// Prevent spamming
 					if (message) {
-						plugin.log.warning("[CookMe] couldn't load the foods! Please check your config!");
-						plugin.log.warning("[CookMe] The following item id/name is invalid: " + itemName);
+						plugin.getLogger().warning("Couldn't load the foods! Please check your config!");
+						plugin.getLogger().warning("The following item id/name is invalid: " + itemName);
 						message = false;
 					}
 				}
@@ -211,7 +214,7 @@ public class CookMePlayerListener implements Listener {
 		ItemStack afterEating = player.getItemInHand();
 		if (afterEating.getAmount() == 1) player.setItemInHand(null);
 		else {
-			afterEating.setAmount(afterEating.getAmount() -1);
+			afterEating.setAmount(afterEating.getAmount() - 1);
 			player.setItemInHand(afterEating);
 		}
 		player.updateInventory();

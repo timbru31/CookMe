@@ -21,6 +21,7 @@ import org.bukkit.command.CommandSender;
 
 public class CookMeCommands implements CommandExecutor {
 	private CookMe plugin;
+	
 	public CookMeCommands(CookMe instance) {
 		plugin = instance;
 	}

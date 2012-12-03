@@ -1,9 +1,8 @@
 name: CookMe
 main: de.dustplanet.cookme.CookMe
-version: 1.5
+version: 1.5.1
 author: xGhOsTkiLLeRx
 website: http://bit.ly/cookmebukkitdev
-website: http://bit.ly/cookmebukkit
 commands:
   cookme:
     description: Handles all the CookMe commands
