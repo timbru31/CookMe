@@ -1,6 +1,6 @@
 name: CookMe
 main: de.dustplanet.cookme.CookMe
-version: 1.5.1
+version: 1.6
 author: xGhOsTkiLLeRx
 website: http://bit.ly/cookmebukkitdev
 commands:
@@ -45,6 +45,7 @@ permissions:
       cookme.set.hungervenom: true
       cookme.set.instant_damage: true
       cookme.set.refusing: true
+      cookme.set.wither: true
   cookme.help:
     description: Allows you to see the help
     default: op
@@ -89,6 +90,9 @@ permissions:
     default: op
   cookme.set.refusing:
     description: Allows you to set the refusing of raw food
+    default: op
+  cookme.set.wither:
+    description: Allows you to set the wither effect
     default: op
   cookme.enable.permissions:
     description: Allows you to enable permissions

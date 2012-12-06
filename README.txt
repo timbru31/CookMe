@@ -25,18 +25,19 @@ configuration:
   cooldown: 30
 # The percentage for each effect. Make sure all together are exactly 100! 0 means disabled!
 effects:
-  damage: 8.7
-  death: 4.3
-  venom: 8.7
-  hungervenom: 8.7
-  hungerdecrease: 8.7
-  confusion: 8.7
-  blindness: 8.7
-  weakness: 8.7
-  slowness: 8.7
-  slowness_blocks: 8.7
-  instant_damage: 8.7
-  refusing: 8.7
+  damage: 8.0
+  death: 4.0
+  venom: 8.0
+  hungervenom: 8.0
+  hungerdecrease: 8.0
+  confusion: 8.0
+  blindness: 8.0
+  weakness: 8.0
+  slowness: 8.0
+  slowness_blocks: 8.0
+  instant_damage: 8.0
+  refusing: 8.0
+  wither: 8.0
 # Add your own stuff here, IDs are supported, too!
 food:
 - RAW_BEEF

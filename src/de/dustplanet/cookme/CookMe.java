@@ -39,10 +39,10 @@ public class CookMe extends JavaPlugin {
 	private File configFile, localizationFile;
 	public List<String> itemList = new ArrayList<String>();
 	public int cooldown, minDuration,maxDuration;
-	public double[] percentages = new double[12];
+	public double[] percentages = new double[13];
 	public boolean noBlocks, messages, permissions;
 	private String[] rawFood = {"RAW_BEEF", "RAW_CHICKEN", "RAW_FISH", "PORK", "ROTTEN_FLESH"};
-	public String[] effects = {"damage", "death", "venom", "hungervenom", "hungerdecrease", "confusion", "blindness", "weakness", "slowness", "slowness_blocks", "instant_damage", "refusing"};	
+	public String[] effects = {"damage", "death", "venom", "hungervenom", "hungerdecrease", "confusion", "blindness", "weakness", "slowness", "slowness_blocks", "instant_damage", "refusing", "wither"};	
 	private CookMeCommands executor;
 
 	// Shutdown
@@ -64,7 +64,7 @@ public class CookMe extends JavaPlugin {
 			configFile.getParentFile().mkdirs();
 			copy(getResource("config.yml"), configFile);
 		}
-		config = this.getConfig();
+		config = getConfig();
 		loadConfig();
 		checkStuff();
 		
@@ -124,12 +124,12 @@ public class CookMe extends JavaPlugin {
 		if ((int) temp > 100) {
 			for (i = 0; i < percentages.length; i++) {
 				if (i == 1) {
-					percentages[i] = 4.3;
-					config.set("effects." + effects[i], 4.3);
+					percentages[i] = 4.0;
+					config.set("effects." + effects[i], 4.0);
 					continue;
 				}
-				percentages[i] = 8.7;
-				config.set("effects." + effects[i], 8.7);
+				percentages[i] = 8.0;
+				config.set("effects." + effects[i], 8.0);
 			}
 			getLogger().warning(ChatColor.RED + "Detected that the entire procentage is higer than 100. Resetting it to default...");
 			saveConfig();
@@ -145,18 +145,19 @@ public class CookMe extends JavaPlugin {
 		config.addDefault("configuration.duration.min", 15);
 		config.addDefault("configuration.duration.max", 30);
 		config.addDefault("configuration.cooldown", 30);
-		config.addDefault("effects.damage", 8.7);
-		config.addDefault("effects.death", 4.3);
-		config.addDefault("effects.venom", 8.7);
-		config.addDefault("effects.hungervenom", 8.7);
-		config.addDefault("effects.hungerdecrease", 8.7);
-		config.addDefault("effects.confusion", 8.7);
-		config.addDefault("effects.blindness", 8.7);
-		config.addDefault("effects.weakness", 8.7);
-		config.addDefault("effects.slowness", 8.7);
-		config.addDefault("effects.slowness_blocks", 8.7);
-		config.addDefault("effects.instant_damage", 8.7);
-		config.addDefault("effects.refusing", 8.7);
+		config.addDefault("effects.damage", 8.0);
+		config.addDefault("effects.death", 4.0);
+		config.addDefault("effects.venom", 8.0);
+		config.addDefault("effects.hungervenom", 8.0);
+		config.addDefault("effects.hungerdecrease", 8.0);
+		config.addDefault("effects.confusion", 8.0);
+		config.addDefault("effects.blindness", 8.0);
+		config.addDefault("effects.weakness", 8.0);
+		config.addDefault("effects.slowness", 8.0);
+		config.addDefault("effects.slowness_blocks", 8.0);
+		config.addDefault("effects.instant_damage", 8.0);
+		config.addDefault("effects.refusing", 8.0);
+		config.addDefault("effects.wither", 8.0);
 		config.addDefault("food", Arrays.asList(rawFood));
 		config.options().copyDefaults(true);
 		saveConfig();

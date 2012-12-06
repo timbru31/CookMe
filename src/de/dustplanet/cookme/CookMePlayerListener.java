@@ -1,7 +1,6 @@
 package de.dustplanet.cookme;
 
 import java.sql.Timestamp;
-
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -167,6 +166,13 @@ public class CookMePlayerListener implements Listener {
 							effect = plugin.localization.getString("refusing");
 							message(player, effect);
 							event.setCancelled(true);
+						}
+						// Wither effect
+						if (i == 12) {
+							effect = plugin.localization.getString("wither");
+							message(player, effect);
+							decreaseItem(player, event);
+							player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, randomEffectTime, randomEffectStrength));
 						}
 
 						// Add player to cooldown list

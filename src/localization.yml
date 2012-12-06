@@ -11,6 +11,7 @@ slowness: '&4You are for a random time slower! Eat some cooked food!'
 slowness_blocks: '&4You mine for a random time slower! Eat some cooked food!'
 instant_damage: '&4You got some magic damage! Eat some cooked food!'
 refusing: '&4You decided to save your life and didn''t eat this food!'
+wither: '&4The poison of the wither weakens you!'
 permission_denied: '&4You don''t have the permission to do this!'
 enable_messages: '&2CookMe &4messages &2enabled!'
 enable_permissions_1: '&2CookMe &4permissions &2enabled! Only OPs'
@@ -33,5 +34,5 @@ help_7: '&4/cookme set duration max <value>'
 help_8: Set the percentages with &4/cookme set &e<value> <percentage>
 help_9: '&eValues: &fpermissions, messages, damage, death, venom,'
 help_10: hungervenom, hungerdecrease, confusion, blindness, weakness
-help_11: slowness, slowness_blocks, instant_damage, refusing
+help_11: slowness, slowness_blocks, instant_damage, refusing, wither
 no_number: '&4The given argument wasn''t a number!'
