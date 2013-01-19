@@ -29,7 +29,7 @@ import org.bukkit.potion.PotionEffectType;
 public class CookMePlayerListener implements Listener {
 	private CookMe plugin;
 	private boolean message = true;
-	
+
 	public CookMePlayerListener(CookMe instance) {
 		plugin = instance;
 	}
@@ -192,24 +192,21 @@ public class CookMePlayerListener implements Listener {
 	// Is the item in the list? Yes or no
 	private boolean sameItem(int item) {
 		for (String itemName : plugin.itemList) {
-			try {
-				Material material = Material.valueOf(itemName);
-				if (material.getId() == item) return true;
-			}
-			catch (IllegalArgumentException e1) {
-				try {
-					int id = Integer.valueOf(itemName);
-					if (id == item) return true;
+			// Get the Material
+			Material mat = Material.matchMaterial(itemName);
+			// Not valid
+			if (mat == null) {
+				// Prevent spamming
+				if (message) {
+					plugin.getLogger().warning("Couldn't load the foods! Please check your config!");
+					plugin.getLogger().warning("The following item id/name is invalid: " + itemName);
+					message = false;
 				}
-				catch (NumberFormatException e2) {
-					// Prevent spamming
-					if (message) {
-						plugin.getLogger().warning("Couldn't load the foods! Please check your config!");
-						plugin.getLogger().warning("The following item id/name is invalid: " + itemName);
-						message = false;
-					}
-				}
+				// Go on
+				continue;
 			}
+			// Get ID & compare
+			if (mat.getId() == item) return true;
 		}
 		return false;
 	}
