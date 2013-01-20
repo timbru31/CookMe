@@ -1,6 +1,7 @@
 package de.dustplanet.cookme;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -67,7 +68,7 @@ public class CookMe extends JavaPlugin {
 		config = getConfig();
 		loadConfig();
 		checkStuff();
-		
+
 		// Sets the cooldown
 		cooldownManager = new CooldownManager(cooldown);
 
@@ -103,7 +104,9 @@ public class CookMe extends JavaPlugin {
 			}
 			metrics.start();
 		}
-		catch (IOException e) {}
+		catch (IOException e) {
+			getLogger().warning("Could not start Metrics!");
+		}
 	}
 
 	private void checkStuff() {
@@ -245,9 +248,10 @@ public class CookMe extends JavaPlugin {
 			}
 			out.close();
 			in.close();
-		}
-		catch (IOException e) {
-			getLogger().warning("Failed to copy the file! Please report this! IOException");
+		} catch (FileNotFoundException e) {
+			getLogger().warning("Failed to copy the default config! (FileNotFound)");
+		} catch (IOException e) {
+			getLogger().warning("Failed to copy the default config! (I/O)");
 		}
 	}
 
