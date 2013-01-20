@@ -1,6 +1,6 @@
 name: CookMe
 main: de.dustplanet.cookme.CookMe
-version: ${project.version}
+version: ${project.version}-b${BUILD_NUMBER}
 author: xGhOsTkiLLeRx
 website: http://bit.ly/cookmebukkitdev
 commands:
