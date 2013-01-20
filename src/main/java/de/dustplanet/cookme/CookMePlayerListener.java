@@ -1,6 +1,8 @@
 package de.dustplanet.cookme;
 
 import java.sql.Timestamp;
+import java.util.Random;
+
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -29,6 +31,7 @@ import org.bukkit.potion.PotionEffectType;
 public class CookMePlayerListener implements Listener {
 	private CookMe plugin;
 	private boolean message = true;
+	private Random random = new Random();
 
 	public CookMePlayerListener(CookMe instance) {
 		plugin = instance;
@@ -66,20 +69,20 @@ public class CookMePlayerListener implements Listener {
 					// Check for food level
 					if (player.getFoodLevel() != 20) {
 						// Make a temp double and a value between 0 and 99
-						double random = Math.random() * 100, temp = 0;
+						double temp = 0;
 						int i = 0;
 						// Get the number for the effect
 						for(i = 0; i < plugin.percentages.length; i++) {
 							temp += plugin.percentages[i];
-							if (random <= temp) break;
+							if (random.nextInt(100) <= temp) break;
 						}
 						// EffectStrenght, Duration etc.
-						int randomEffectStrength = (int)(Math.random()*16);
+						int randomEffectStrength = random.nextInt(16);
 						int minimum = plugin.minDuration, maximum = plugin.maxDuration;
-						int randomEffectTime = (int)(Math.random() * ((maximum - minimum)  + 1)  + minimum);
+						int randomEffectTime = (random.nextInt((maximum - minimum)  + 1)  + minimum);
 						// Player gets random damage, stack minus 1
 						if (i == 0) {
-							int randomDamage = (int) (Math.random()*9) +1;
+							int randomDamage = random.nextInt(9) +1;
 							effect = plugin.localization.getString("damage");
 							message(player, effect);
 							decreaseItem(player, event);
@@ -108,7 +111,7 @@ public class CookMePlayerListener implements Listener {
 						}
 						// Sets the food level down. Stack minus 1
 						if (i == 4) {
-							int currentFoodLevel = player.getFoodLevel(), randomFoodLevel = (int)(Math.random()*currentFoodLevel);
+							int currentFoodLevel = player.getFoodLevel(), randomFoodLevel = random.nextInt(currentFoodLevel);
 							effect = plugin.localization.getString("hungerdecrease");
 							message(player, effect);
 							decreaseItem(player, event);
