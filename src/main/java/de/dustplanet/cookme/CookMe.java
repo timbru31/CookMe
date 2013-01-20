@@ -62,8 +62,7 @@ public class CookMe extends JavaPlugin {
 		// Config
 		configFile = new File(getDataFolder(), "config.yml");
 		if(!configFile.exists()){
-			configFile.getParentFile().mkdirs();
-			copy(getResource("config.yml"), configFile);
+			if (configFile.getParentFile().mkdirs()) copy(getResource("config.yml"), configFile);
 		}
 		config = getConfig();
 		loadConfig();
@@ -75,8 +74,7 @@ public class CookMe extends JavaPlugin {
 		// Localization
 		localizationFile = new File(getDataFolder(), "localization.yml");
 		if(!localizationFile.exists()){
-			localizationFile.getParentFile().mkdirs();
-			copy(getResource("localization.yml"), localizationFile);
+			if (localizationFile.getParentFile().mkdirs()) copy(getResource("localization.yml"), localizationFile);
 		}
 		// Try to load
 		localization = YamlConfiguration.loadConfiguration(localizationFile);
