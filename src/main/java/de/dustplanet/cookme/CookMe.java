@@ -17,7 +17,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.*;
 import org.bukkit.entity.Player;
-import de.dustplanet.cookme.BukkitMetrics.Graph;
+import org.mcstats.Metrics;
+import org.mcstats.Metrics.Graph;
 
 /**
  * CookeMe for CraftBukkit/Bukkit
@@ -86,13 +87,13 @@ public class CookMe extends JavaPlugin {
 
 		// Stats
 		try {
-			BukkitMetrics metrics = new BukkitMetrics(this);
+			Metrics metrics = new Metrics(this);
 			// Construct a graph, which can be immediately used and considered as valid
 			Graph graph = metrics.createGraph("Percentage of affected items");
 			// Custom plotter for each item
 			for (int i = 0; i < itemList.size(); i++) {
 				final String itemName = itemList.get(i);
-				graph.addPlotter(new BukkitMetrics.Plotter(itemName) {
+				graph.addPlotter(new Metrics.Plotter(itemName) {
 					@Override
 					public int getValue() {
 						return 1;
