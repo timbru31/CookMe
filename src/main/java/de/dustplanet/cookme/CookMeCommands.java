@@ -21,7 +21,7 @@ import org.bukkit.command.CommandSender;
 
 public class CookMeCommands implements CommandExecutor {
 	private CookMe plugin;
-	
+
 	public CookMeCommands(CookMe instance) {
 		plugin = instance;
 	}
@@ -79,36 +79,34 @@ public class CookMeCommands implements CommandExecutor {
 				return true;
 			}
 			// Duration
-			if (args[1].equalsIgnoreCase("duration")) {
-				if (args.length > 2) {
-					if (sender.hasPermission("cookme.duration") || !plugin.permissions) {
-						// Max or Min
-						if (args[2].equalsIgnoreCase("max") || args[2].equalsIgnoreCase("min")) {
-							if (args.length > 3) {
-								int duration = 0;
-								try {
-									duration = Integer.valueOf(args[3]);
-								}
-								// Duration not a number?
-								catch (NumberFormatException e) {
-									String message = plugin.localization.getString("no_number");
-									plugin.message(sender, null, message, null, null);
-									return true;
-								}
-								plugin.config.set("configuration.duration." + args[2].toLowerCase(), duration);
-								plugin.saveConfig();
-								String message = plugin.localization.getString("changed_duration_" + args[2].toLowerCase());
-								plugin.message(sender, null, message, Integer.toString(duration), null);
+			if (args[1].equalsIgnoreCase("duration") && args.length > 2) {
+				if (sender.hasPermission("cookme.duration") || !plugin.permissions) {
+					// Max or Min
+					if (args[2].equalsIgnoreCase("max") || args[2].equalsIgnoreCase("min")) {
+						if (args.length > 3) {
+							int duration = 0;
+							try {
+								duration = Integer.valueOf(args[3]);
 							}
+							// Duration not a number?
+							catch (NumberFormatException e) {
+								String message = plugin.localization.getString("no_number");
+								plugin.message(sender, null, message, null, null);
+								return true;
+							}
+							plugin.config.set("configuration.duration." + args[2].toLowerCase(), duration);
+							plugin.saveConfig();
+							String message = plugin.localization.getString("changed_duration_" + args[2].toLowerCase());
+							plugin.message(sender, null, message, Integer.toString(duration), null);
 						}
-						else return false;
 					}
-					else {
-						String message = plugin.localization.getString("permission_denied");
-						plugin.message(sender, null, message, null, null);
-					}
-					return true;
+					else return false;
 				}
+				else {
+					String message = plugin.localization.getString("permission_denied");
+					plugin.message(sender, null, message, null, null);
+				}
+				return true;
 			}
 			// Effect
 			if (Arrays.asList(plugin.effects).contains(args[1].toLowerCase())) {
