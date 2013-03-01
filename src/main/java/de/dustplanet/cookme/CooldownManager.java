@@ -15,7 +15,7 @@ import org.bukkit.entity.Player;
  * http://bit.ly/cookmebukkitdev
  *
  * @author xGhOsTkiLLeRx
- * @thanks nisovin for his awesome code snippet!
+ * thanks nisovin for his awesome code snippet!
  * 
  */
 

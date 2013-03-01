@@ -1,7 +1,6 @@
 package de.dustplanet.cookme;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -30,7 +29,7 @@ import org.mcstats.Metrics.Graph;
  * http://bit.ly/cookmebukkitdev
  *
  * @author xGhOsTkiLLeRx
- * @thanks nisovin for his awesome code snippet!
+ * thanks nisovin for his awesome code snippet!
  * 
  */
 
@@ -236,21 +235,36 @@ public class CookMe extends JavaPlugin {
 		}
 	}
 
-	// If no config is found, copy the default one!
+	// If no config is found, copy the default one(s)!
 	private void copy(InputStream in, File file) {
+		OutputStream out = null;
 		try {
-			OutputStream out = new FileOutputStream(file);
+			out = new FileOutputStream(file);
 			byte[] buf = new byte[1024];
 			int len;
 			while ((len = in.read(buf)) > 0) {
 				out.write(buf, 0, len);
 			}
-			out.close();
-			in.close();
-		} catch (FileNotFoundException e) {
-			getLogger().warning("Failed to copy the default config! (FileNotFound)");
 		} catch (IOException e) {
 			getLogger().warning("Failed to copy the default config! (I/O)");
+			e.printStackTrace();
+		} finally {
+			try {
+				if (out != null) {
+					out.close();
+				}
+			} catch (IOException e) {
+				getLogger().warning("Failed to close the streams! (I/O -> Output)");
+				e.printStackTrace();
+			}
+			try {
+				if (in != null) {
+					in.close();
+				}
+			} catch (IOException e) {
+				getLogger().warning("Failed to close the streams! (I/O -> Input)");
+				e.printStackTrace();
+			}
 		}
 	}
 

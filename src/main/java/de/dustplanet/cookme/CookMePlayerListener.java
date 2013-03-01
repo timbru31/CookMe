@@ -24,7 +24,7 @@ import org.bukkit.potion.PotionEffectType;
  * http://bit.ly/cookmebukkitdev
  *
  * @author xGhOsTkiLLeRx
- * @thanks nisovin for his awesome code snippet!
+ * thanks nisovin for his awesome code snippet!
  *
  */
 
@@ -78,8 +78,7 @@ public class CookMePlayerListener implements Listener {
 						}
 						// EffectStrenght, Duration etc.
 						int randomEffectStrength = random.nextInt(16);
-						int minimum = plugin.minDuration, maximum = plugin.maxDuration;
-						int randomEffectTime = (random.nextInt((maximum - minimum)  + 1)  + minimum);
+						int randomEffectTime = (random.nextInt((plugin.maxDuration - plugin.minDuration)  + 1)  +  plugin.minDuration);
 						// Player gets random damage, stack minus 1
 						if (i == 0) {
 							int randomDamage = random.nextInt(9) +1;

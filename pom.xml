@@ -7,12 +7,12 @@
 	<name>CookMe</name>
 	<description>Beware of raw food!</description>
 	<url>http://dev.bukkit.org/server-mods/cookme/</url>
-	
+
 	<!-- Encode in UTF-8 -->
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
-	
+
 	<!-- Repositories -->
 	<repositories>
 		<repository>
@@ -24,7 +24,7 @@
 			<url>http://repo.mcstats.org/content/repositories/public</url>
 		</repository>
 	</repositories>
-	
+
 	<!-- Dependencies -->
 	<dependencies>
 		<dependency>
@@ -41,9 +41,9 @@
 			<scope>compile</scope>
 		</dependency>
 	</dependencies>
-	
+
 	<build>
-	<!-- Compile for 1.6 and clean before -->
+		<!-- Compile for 1.6 and clean before -->
 		<defaultGoal>clean compile package</defaultGoal>
 		<sourceDirectory>${basedir}/src/main/java</sourceDirectory>
 		<plugins>
@@ -59,8 +59,8 @@
 					<target>1.6</target>
 				</configuration>
 			</plugin>
-			
-						<!-- Shade Plugin to include Metrics -->
+
+			<!-- Shade Plugin to include Metrics -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-shade-plugin</artifactId>
@@ -90,7 +90,7 @@
 				</executions>
 			</plugin>
 		</plugins>
-		
+
 		<!-- Include .yml files -->
 		<resources>
 			<resource>
@@ -101,19 +101,20 @@
 					<include>plugin.yml</include>
 					<include>config.yml</include>
 					<include>localization.yml</include>
+					<include>README.txt</include>
 				</includes>
 			</resource>
 		</resources>
 	</build>
 
-<!-- Github information -->
+	<!-- Github information -->
 	<scm>
 		<url>https://github.com/xGhOsTkiLLeRx/CookMe</url>
 		<connection>scm:git:git://github.com/xGhOsTkiLLeRx/CookMe.git</connection>
 		<tag>master</tag>
 		<developerConnection>scm:git:git@github.com:xGhOsTkiLLeRx/CookMe.git</developerConnection>
 	</scm>
-	
+
 	<!-- Jenkins information -->
 	<ciManagement>
 		<url>http://ci.dustplanet.de/job/CookMe</url>
