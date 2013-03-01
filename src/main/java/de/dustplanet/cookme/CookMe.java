@@ -62,7 +62,15 @@ public class CookMe extends JavaPlugin {
 		// Config
 		configFile = new File(getDataFolder(), "config.yml");
 		if(!configFile.exists()){
-			if (configFile.getParentFile().mkdirs()) copy(getResource("config.yml"), configFile);
+			if (getDataFolder().mkdirs()) {
+				copy(getResource("config.yml"), configFile);
+			}
+			else {
+				getLogger().severe("The config folder could NOT be created, make sure it's writable!");
+				getLogger().severe("Disabling now!");
+				setEnabled(false);
+				return;
+			}
 		}
 		config = getConfig();
 		loadConfig();
