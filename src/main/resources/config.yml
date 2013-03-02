@@ -5,8 +5,8 @@ configuration:
   duration:
     min: 15
     max: 30
-  noBlocks: true
   cooldown: 30
+  debug: false
 effects:
   damage: 8.0
   death: 4.0
