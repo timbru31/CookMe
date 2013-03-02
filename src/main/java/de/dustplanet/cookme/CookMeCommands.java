@@ -1,9 +1,12 @@
 package de.dustplanet.cookme;
 
 import java.util.Arrays;
+
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 /**
  * CookMe for CraftBukkit/Bukkit Handles the commands!
@@ -27,25 +30,34 @@ public class CookMeCommands implements CommandExecutor {
 	// reload
 	if (args.length > 0 && args[0].equalsIgnoreCase("reload")) {
 	    if (sender.hasPermission("cookme.reload") || !plugin.permissions) {
-		CookMeReload(sender);
+		cookMeReload(sender);
 	    } else {
 		String message = plugin.localization.getString("permission_denied");
 		plugin.message(sender, null, message, null, null);
 	    }
 	    return true;
-	}
-	// help
-	if (args.length > 0 && args[0].equalsIgnoreCase("help")) {
+	} else if (args.length > 0 && args[0].equalsIgnoreCase("help")) {
+	    // help
 	    if (sender.hasPermission("cookme.help") || !plugin.permissions) {
-		CookMeHelp(sender);
+		cookMeHelp(sender);
 	    } else {
 		String message = plugin.localization.getString("permission_denied");
 		plugin.message(sender, null, message, null, null);
 	    }
 	    return true;
-	}
-	// Set cooldown, duration or percentage of an effect
-	if (args.length > 1 && args[0].equalsIgnoreCase("set")) {
+	} else if (args.length > 0 && args[0].equalsIgnoreCase("debug") && plugin.debug) {
+	    // Debug
+	    if (sender instanceof Player) {
+		Player player = (Player) sender;
+		player.setFoodLevel(10);
+		player.sendMessage(ChatColor.GREEN + "Food level reduced!");
+	    }
+	    else {
+		sender.sendMessage(ChatColor.RED + "Please use debug mode ingame!");
+	    }
+		return true;
+	} else if (args.length > 1 && args[0].equalsIgnoreCase("set")) {
+	    // Set cooldown, duration or percentage of an effect
 	    if (args[1].equalsIgnoreCase("cooldown")) {
 		if (sender.hasPermission("cookme.cooldown") || !plugin.permissions) {
 		    if (args.length > 2) {
@@ -69,9 +81,8 @@ public class CookMeCommands implements CommandExecutor {
 		    plugin.message(sender, null, message, null, null);
 		}
 		return true;
-	    }
-	    // Duration
-	    if (args[1].equalsIgnoreCase("duration") && args.length > 2) {
+	    } else if (args[1].equalsIgnoreCase("duration") && args.length > 2) {
+		// Duration
 		if (sender.hasPermission("cookme.duration") || !plugin.permissions) {
 		    // Max or Min
 		    if (args[2].equalsIgnoreCase("max") || args[2].equalsIgnoreCase("min")) {
@@ -98,9 +109,8 @@ public class CookMeCommands implements CommandExecutor {
 		    plugin.message(sender, null, message, null, null);
 		}
 		return true;
-	    }
-	    // Effect
-	    if (Arrays.asList(plugin.effects).contains(args[1].toLowerCase())) {
+	    } else if (Arrays.asList(plugin.effects).contains(args[1].toLowerCase())) {
+		// Effects
 		String effect = args[1].toLowerCase();
 		if (args.length > 2) {
 		    if (sender.hasPermission("cookme.set." + effect) || !plugin.permissions) {
@@ -126,46 +136,42 @@ public class CookMeCommands implements CommandExecutor {
 		    return false;
 		}
 	    }
-	}
-	// enable
-	if (args.length > 0 && args[0].equalsIgnoreCase("enable")) {
+	} else if (args.length > 0 && args[0].equalsIgnoreCase("enable")) {
+	    // Enable
 	    // permissions
 	    if (args.length > 1 && args[1].equalsIgnoreCase("permissions")) {
 		if (sender.hasPermission("cookme.enable.permissions") || !plugin.permissions) {
-		    CookMeEnablePermissions(sender);
+		    cookMeEnablePermissions(sender);
 		} else {
 		    String message = plugin.localization.getString("permission_denied");
 		    plugin.message(sender, null, message, null, null);
 		}
 		return true;
-	    }
-	    // messages
-	    if (args.length > 1 && args[1].equalsIgnoreCase("messages")) {
+	    } else if (args.length > 1 && args[1].equalsIgnoreCase("messages")) {
+		// Messages
 		if (sender.hasPermission("cookme.enable.messages") || !plugin.permissions) {
-		    CookMeEnableMessages(sender);
+		    cookMeEnableMessages(sender);
 		} else {
 		    String message = plugin.localization.getString("permission_denied");
 		    plugin.message(sender, null, message, null, null);
 		}
 		return true;
 	    }
-	}
-	// disable
-	if (args.length > 0 && args[0].equalsIgnoreCase("disable")) {
+	} else if (args.length > 0 && args[0].equalsIgnoreCase("disable")) {
+	    // Disable
 	    // permissions
 	    if (args.length > 1 && args[1].equalsIgnoreCase("permissions")) {
 		if (sender.hasPermission("cookme.disable.permissions") || !plugin.permissions) {
-		    CookMeDisablePermissions(sender);
+		    cookMeDisablePermissions(sender);
 		} else {
 		    String message = plugin.localization.getString("permission_denied");
 		    plugin.message(sender, null, message, null, null);
 		}
 		return true;
-	    }
-	    // messages
-	    if (args.length > 1 && args[1].equalsIgnoreCase("messages")) {
+	    } else if (args.length > 1 && args[1].equalsIgnoreCase("messages")) {
+		// Messages
 		if (sender.hasPermission("cookme.disable.messages") || !plugin.permissions) {
-		    CookMeDisableMessages(sender);
+		    cookMeDisableMessages(sender);
 		} else {
 		    String message = plugin.localization.getString("permission_denied");
 		    plugin.message(sender, null, message, null, null);
@@ -177,7 +183,7 @@ public class CookMeCommands implements CommandExecutor {
     }
 
     // See the help with /cookme help
-    private void CookMeHelp(CommandSender sender) {
+    private void cookMeHelp(CommandSender sender) {
 	for (int i = 1; i <= 11; i++) {
 	    String message = plugin.localization.getString("help_" + Integer.toString(i));
 	    plugin.message(sender, null, message, null, null);
@@ -185,14 +191,14 @@ public class CookMeCommands implements CommandExecutor {
     }
 
     // Reloads the config with /cookme reload
-    private void CookMeReload(CommandSender sender) {
+    private void cookMeReload(CommandSender sender) {
 	plugin.loadConfigsAgain();
 	String message = plugin.localization.getString("reload");
 	plugin.message(sender, null, message, null, null);
     }
 
     // Enables permissions with /cookme enable permissions
-    private void CookMeEnablePermissions(CommandSender sender) {
+    private void cookMeEnablePermissions(CommandSender sender) {
 	plugin.config.set("configuration.permissions", true);
 	plugin.saveConfig();
 	for (int i = 1; i <= 2; i++) {
@@ -202,7 +208,7 @@ public class CookMeCommands implements CommandExecutor {
     }
 
     // Disables permissions with /cookme disable permissions
-    private void CookMeDisablePermissions(CommandSender sender) {
+    private void cookMeDisablePermissions(CommandSender sender) {
 	plugin.config.set("configuration.permissions", false);
 	plugin.saveConfig();
 	for (int i = 1; i <= 2; i++) {
@@ -212,7 +218,7 @@ public class CookMeCommands implements CommandExecutor {
     }
 
     // Enables messages with /cookme enable messages
-    private void CookMeEnableMessages(CommandSender sender) {
+    private void cookMeEnableMessages(CommandSender sender) {
 	plugin.config.set("configuration.messages", true);
 	plugin.saveConfig();
 	String message = plugin.localization.getString("enable_messages");
@@ -220,7 +226,7 @@ public class CookMeCommands implements CommandExecutor {
     }
 
     // Disables messages with /cookme disable messages
-    private void CookMeDisableMessages(CommandSender sender) {
+    private void cookMeDisableMessages(CommandSender sender) {
 	plugin.config.set("configuration.messages", false);
 	plugin.saveConfig();
 	String message = plugin.localization.getString("disable_messages");

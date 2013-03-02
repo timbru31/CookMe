@@ -42,7 +42,7 @@ public class CookMe extends JavaPlugin {
     public List<String> itemList = new ArrayList<String>();
     public int cooldown, minDuration, maxDuration;
     public double[] percentages = new double[13];
-    public boolean noBlocks, messages, permissions;
+    public boolean debug, messages, permissions;
     private String[] rawFood = { "RAW_BEEF", "RAW_CHICKEN", "RAW_FISH", "PORK", "ROTTEN_FLESH" };
     public String[] effects = { "damage", "death", "venom", "hungervenom", "hungerdecrease", "confusion", "blindness", "weakness", "slowness", "slowness_blocks", "instant_damage", "refusing", "wither" };
     private CookMeCommands executor;
@@ -81,10 +81,8 @@ public class CookMe extends JavaPlugin {
 
 	// Localization
 	localizationFile = new File(getDataFolder(), "localization.yml");
-	if (!localizationFile.exists()) {
-	    if (localizationFile.getParentFile().mkdirs()) {
-		copy(getResource("localization.yml"), localizationFile);
-	    }
+	if (!localizationFile.exists() && localizationFile.getParentFile().mkdirs()) {
+	    copy(getResource("localization.yml"), localizationFile);
 	}
 	// Try to load
 	localization = YamlConfiguration.loadConfiguration(localizationFile);
@@ -97,12 +95,10 @@ public class CookMe extends JavaPlugin {
 	// Stats
 	try {
 	    Metrics metrics = new Metrics(this);
-	    // Construct a graph, which can be immediately used and considered
-	    // as valid
+	    // Construct a graph, which can be immediately used and considered as valid
 	    Graph graph = metrics.createGraph("Percentage of affected items");
 	    // Custom plotter for each item
-	    for (int i = 0; i < itemList.size(); i++) {
-		final String itemName = itemList.get(i);
+	    for (String itemName : itemList) {
 		graph.addPlotter(new Metrics.Plotter(itemName) {
 		    public int getValue() {
 			return 1;
@@ -112,17 +108,18 @@ public class CookMe extends JavaPlugin {
 	    metrics.start();
 	} catch (IOException e) {
 	    getLogger().warning("Could not start Metrics!");
+	    e.printStackTrace();
 	}
     }
 
     private void checkStuff() {
-	noBlocks = config.getBoolean("configuration.noBlocks");
 	permissions = config.getBoolean("configuration.permissions");
 	messages = config.getBoolean("configuration.messages");
 	cooldown = config.getInt("configuration.cooldown");
 	minDuration = 20 * config.getInt("configuration.duration.min");
 	maxDuration = 20 * config.getInt("configuration.duration.max");
 	itemList = config.getStringList("food");
+	debug = config.getBoolean("configuration.debug");
 	int i = 0;
 	double temp = 0;
 	for (i = 0; i < effects.length; i++) {
@@ -130,7 +127,7 @@ public class CookMe extends JavaPlugin {
 	    temp += percentages[i];
 	}
 	// If percentage is higher than 100, reset it, log it
-	if ((int) temp > 100) {
+	if (temp > 100) {
 	    for (i = 0; i < percentages.length; i++) {
 		if (i == 1) {
 		    percentages[i] = 4.0;
@@ -140,7 +137,7 @@ public class CookMe extends JavaPlugin {
 		percentages[i] = 8.0;
 		config.set("effects." + effects[i], 8.0);
 	    }
-	    getLogger().warning(ChatColor.RED + "Detected that the entire procentage is higer than 100. Resetting it to default...");
+	    getLogger().warning(ChatColor.RED + "Detected that the entire procentage is higer than 100. Resetting to default...");
 	    saveConfig();
 	}
     }
@@ -150,10 +147,10 @@ public class CookMe extends JavaPlugin {
 	config.options().header("For help please refer to http://bit.ly/cookmebukkitdev or http://bit.ly/cookmebukkit");
 	config.addDefault("configuration.permissions", true);
 	config.addDefault("configuration.messages", true);
-	config.addDefault("configuration.noBlocks", true);
 	config.addDefault("configuration.duration.min", 15);
 	config.addDefault("configuration.duration.max", 30);
 	config.addDefault("configuration.cooldown", 30);
+	config.addDefault("configuration.debug", false);
 	config.addDefault("effects.damage", 8.0);
 	config.addDefault("effects.death", 4.0);
 	config.addDefault("effects.venom", 8.0);
