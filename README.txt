@@ -19,10 +19,10 @@ configuration:
   duration:
     min: 15
     max: 30
-  # Blocks like a chest, door or furnace won't trigger the event
-  noBlocks: true
   # Cooldown in seconds, how long the player is safe before the next effect happens.
   cooldown: 30
+  # Should /cookme debug be enabled (modifies the food level)
+  debug: false
 # The percentage for each effect. Make sure all together are exactly 100! 0 means disabled!
 effects:
   damage: 8.0
