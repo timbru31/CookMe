@@ -85,7 +85,11 @@ public class CookMePlayerListener implements Listener {
 		    }
 		    // Sets the food level down. Stack minus 1
 		    else if (i == 4) {
-			int currentFoodLevel = player.getFoodLevel(), randomFoodLevel = random.nextInt(currentFoodLevel);
+			int currentFoodLevel = player.getFoodLevel();
+			int randomFoodLevel = 0;
+			if (currentFoodLevel != 0) {
+			    randomFoodLevel = random.nextInt(currentFoodLevel);
+			}
 			effect = plugin.localization.getString("hungerdecrease");
 			message(player, effect);
 			player.setFoodLevel(randomFoodLevel);
