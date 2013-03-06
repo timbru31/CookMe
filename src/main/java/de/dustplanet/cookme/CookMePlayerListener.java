@@ -152,13 +152,34 @@ public class CookMePlayerListener implements Listener {
 		    if (plugin.cooldown != 0) {
 			plugin.cooldownManager.addPlayer(player);
 		    }
-		    
 		    // Cancel event and reduce food
 		    event.setCancelled(true);
 		    if (i != 11) {
 			decreaseItem(player);
 		    }
 		}
+	    }
+	} else if (plugin.preventVanillaPoison) {
+	    ItemStack item = event.getItem();
+	    // Prevent the vanilla poison, too?
+	    if (item.getType() == Material.RAW_CHICKEN || item.getType() == Material.ROTTEN_FLESH) {
+		int foodLevel = player.getFoodLevel();
+		// Case chicken
+		if (item.getType() == Material.RAW_CHICKEN) {
+		    // Quote: 1 unit of hunger (2 hunger)
+		    foodLevel += 2;
+		} else if (item.getType() == Material.ROTTEN_FLESH) {
+		    // Case rotten flesh
+		    // Quote: 2 units of hunger (4 hunger)
+		    foodLevel += 4;
+		}
+		// Not higher than 20
+		if (foodLevel > 20) {
+		    foodLevel = 20;
+		}
+		player.setFoodLevel(foodLevel);
+		decreaseItem(player);
+		event.setCancelled(true);
 	    }
 	}
     }

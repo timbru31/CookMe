@@ -23,6 +23,8 @@ configuration:
   cooldown: 30
   # Should /cookme debug be enabled (modifies the food level)
   debug: false
+  # Should the vanilla poison from raw chicken and rotten flesh be prevented if the player has the permission cookme.safe
+  preventVanillaPoison: false
 # The percentage for each effect. Make sure all together are exactly 100! 0 means disabled!
 effects:
   damage: 8.0

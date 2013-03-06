@@ -7,6 +7,7 @@ configuration:
     max: 30
   cooldown: 30
   debug: false
+  preventVanillaPoison: false
 effects:
   damage: 8.0
   death: 4.0

@@ -42,7 +42,7 @@ public class CookMe extends JavaPlugin {
     public List<String> itemList = new ArrayList<String>();
     public int cooldown, minDuration, maxDuration;
     public double[] percentages = new double[13];
-    public boolean debug, messages, permissions;
+    public boolean debug, messages, permissions, preventVanillaPoison;
     private String[] rawFood = { "RAW_BEEF", "RAW_CHICKEN", "RAW_FISH", "PORK", "ROTTEN_FLESH" };
     public String[] effects = { "damage", "death", "venom", "hungervenom", "hungerdecrease", "confusion", "blindness", "weakness", "slowness", "slowness_blocks", "instant_damage", "refusing", "wither" };
     private CookMeCommands executor;
@@ -120,6 +120,7 @@ public class CookMe extends JavaPlugin {
 	maxDuration = 20 * config.getInt("configuration.duration.max");
 	itemList = config.getStringList("food");
 	debug = config.getBoolean("configuration.debug");
+	preventVanillaPoison = config.getBoolean("configuration.preventVanillaPoison", false);
 	int i = 0;
 	double temp = 0;
 	for (i = 0; i < effects.length; i++) {
@@ -151,6 +152,7 @@ public class CookMe extends JavaPlugin {
 	config.addDefault("configuration.duration.max", 30);
 	config.addDefault("configuration.cooldown", 30);
 	config.addDefault("configuration.debug", false);
+	config.addDefault("configuration.preventVanillaPoison", false);
 	config.addDefault("effects.damage", 8.0);
 	config.addDefault("effects.death", 4.0);
 	config.addDefault("effects.venom", 8.0);
