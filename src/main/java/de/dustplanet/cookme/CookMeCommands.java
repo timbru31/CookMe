@@ -55,7 +55,7 @@ public class CookMeCommands implements CommandExecutor {
 	    else {
 		sender.sendMessage(ChatColor.RED + "Please use debug mode ingame!");
 	    }
-		return true;
+	    return true;
 	} else if (args.length > 1 && args[0].equalsIgnoreCase("set")) {
 	    // Set cooldown, duration or percentage of an effect
 	    if (args[1].equalsIgnoreCase("cooldown")) {

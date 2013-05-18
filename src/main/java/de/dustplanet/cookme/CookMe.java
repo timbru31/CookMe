@@ -200,7 +200,7 @@ public class CookMe extends JavaPlugin {
 	localization.addDefault("changed_duration_min", "&2The minimum duration time has been changed to &e%value!");
 	localization.addDefault("help_1", "&2Welcome to the CookMe version &4%version &2help");
 	localization.addDefault("help_2", "To see the help type &4/cookme help");
-	localization.addDefault( "help_3", "You can enable permissions and messages with &4/cookme enable &e<value> &fand &4/cookme disable &e<value>");
+	localization.addDefault("help_3", "You can enable permissions and messages with &4/cookme enable &e<value> &fand &4/cookme disable &e<value>");
 	localization.addDefault("help_4", "To reload use &4/cookme reload");
 	localization.addDefault("help_5", "To change the cooldown or duration values, type");
 	localization.addDefault("help_6", "&4/cookme set cooldown <value> &for &4/cookme set duration min <value>");

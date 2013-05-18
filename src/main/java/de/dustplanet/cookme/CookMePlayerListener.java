@@ -52,8 +52,9 @@ public class CookMePlayerListener implements Listener {
 		    // Get the number for the effect
 		    for (i = 0; i < plugin.percentages.length; i++) {
 			temp += plugin.percentages[i];
-			if (random.nextInt(100) <= temp)
+			if (random.nextInt(100) <= temp) {
 			    break;
+			}
 		    }
 		    // EffectStrenght, Duration etc.
 		    int randomEffectStrength = random.nextInt(16);
