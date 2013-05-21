@@ -93,3 +93,6 @@ Description: Sets the minimum duration value in seconds
 /cookme set duration max <value>
 Node: cookme.duration
 Description: Sets the maximum duration value in seconds
+
+/cookme debug
+Description: If debug is enabled, reduces food level for testing usage
