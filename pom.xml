@@ -101,6 +101,13 @@
 					<include>plugin.yml</include>
 					<include>config.yml</include>
 					<include>localization.yml</include>
+				</includes>
+			</resource>
+			<resource>
+				<targetPath>.</targetPath>
+				<filtering>true</filtering>
+				<directory>${basedir}</directory>
+				<includes>
 					<include>README.txt</include>
 				</includes>
 			</resource>
