@@ -2,6 +2,7 @@ package de.dustplanet.cookme;
 
 import java.sql.Timestamp;
 import java.util.Random;
+
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -44,40 +45,40 @@ public class CookMePlayerListener implements Listener {
 	    if (sameItem(player.getItemInHand().getType()) && !plugin.cooldownManager.hasCooldown(player, now)) {
 		// Make a temp double and a value between 0 and 99
 		double temp = 0;
-		int i = 0;
+		int effectNumber = 0;
 		// Get the number for the effect
-		for (i = 0; i < plugin.percentages.length; i++) {
+		for (int i = 0; i < plugin.percentages.length; i++) {
 		    temp += plugin.percentages[i];
 		    if (random.nextInt(100) <= temp) {
+			effectNumber = i;
 			break;
 		    }
 		}
 		// EffectStrenght, Duration etc.
 		int randomEffectStrength = random.nextInt(16);
 		int randomEffectTime = (random.nextInt((plugin.maxDuration - plugin.minDuration) + 1) + plugin.minDuration);
-		// Player gets random damage, stack minus 1
-		if (i == 0) {
+
+		// TODO Find a beter way then this if number is this, number is that case
+		switch(effectNumber) {
+		case 0:
+		    // Player gets random damage, stack minus 1
 		    int randomDamage = random.nextInt(9) + 1;
 		    effect = plugin.localization.getString("damage");
 		    player.damage(randomDamage);
-		}
-		// Player dies, stack minus 1
-		else if (i == 1) {
+		case 1:
+		    // Player dies, stack minus 1
 		    effect = plugin.localization.getString("death");
 		    player.setHealth(0);
-		}
-		// Random venom damage (including green hearts :) )
-		else if (i == 2) {
+		case 2:
+		    // Random venom damage (including green hearts :) )
 		    effect = plugin.localization.getString("venom");
 		    player.addPotionEffect(new PotionEffect(PotionEffectType.POISON, randomEffectTime, randomEffectStrength));
-		}
-		// Food bar turns green (poison)
-		else if (i == 3) {
+		case 3:
+		    // Food bar turns green (poison)
 		    effect = plugin.localization.getString("hungervenom");
 		    player.addPotionEffect(new PotionEffect(PotionEffectType.HUNGER, randomEffectTime, randomEffectStrength));
-		}
-		// Sets the food level down. Stack minus 1
-		else if (i == 4) {
+		case 4:
+		    // Sets the food level down. Stack minus 1
 		    int currentFoodLevel = player.getFoodLevel();
 		    int randomFoodLevel = 0;
 		    if (currentFoodLevel != 0) {
@@ -85,49 +86,36 @@ public class CookMePlayerListener implements Listener {
 		    }
 		    effect = plugin.localization.getString("hungerdecrease");
 		    player.setFoodLevel(randomFoodLevel);
-		}
-		// Confusion
-		else if (i == 5) {
+		case 5:
+		    // Confusion
 		    effect = plugin.localization.getString("confusion");
 		    player.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, randomEffectTime, randomEffectStrength));
-		}
-		// Blindness
-		if (i == 6) {
+		case 6:
+		    // Blindness
 		    effect = plugin.localization.getString("blindness");
 		    player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, randomEffectTime, randomEffectStrength));
-		}
-
-		// Weakness
-		else if (i == 7) {
+		case 7:
+		    // Weakness
 		    effect = plugin.localization.getString("weakness");
 		    player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, randomEffectTime, randomEffectStrength));
-
-		}
-		// Slowness
-		else if (i == 8) {
+		case 8:
+		    // Slowness
 		    effect = plugin.localization.getString("slowness");
 		    player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, randomEffectTime, randomEffectStrength));
-
-		}
-		// Slowness for blocks
-		else if (i == 9) {
+		case 9:
+		    // Slowness for blocks
 		    effect = plugin.localization.getString("slowness_blocks");
 		    player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, randomEffectTime, randomEffectStrength));
-
-		}
-		// Instant Damage
-		else if (i == 10) {
+		case 10:
+		    // Instant Damage
 		    effect = plugin.localization.getString("instant_damage");
 		    player.addPotionEffect(new PotionEffect(PotionEffectType.HARM, randomEffectTime, randomEffectStrength));
-
-		}
-		// Refusing
-		else if (i == 11) {
+		case 11:
+		    // Refusing
 		    effect = plugin.localization.getString("refusing");
 		    event.setCancelled(true);
-		}
-		// Wither effect
-		else if (i == 12) {
+		case 12:
+		    // Wither effect
 		    effect = plugin.localization.getString("wither");
 		    player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, randomEffectTime, randomEffectStrength));
 		}
@@ -139,7 +127,7 @@ public class CookMePlayerListener implements Listener {
 		}
 		// Cancel event and reduce food
 		event.setCancelled(true);
-		if (i != 11) {
+		if (effectNumber != 11) {
 		    decreaseItem(player);
 		}
 	    }
