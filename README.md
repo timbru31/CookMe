@@ -121,6 +121,7 @@ In the following table the X needs to be replaced by one of these effects
 
 ## Credits
 * nisovin for the code snippet prior to the Potion API
+* MatthewEnderle for the nice logo
 
 ## Support
 For support visit the dev.bukkit.org page: http://dev.bukkit.org/bukkit-plugins/cookme
