@@ -10,7 +10,7 @@ This CraftBukkit plugin adds a more realistic and detailed behavior when you con
 * Flexible on the fly configuration via commands
 * Opt-out permission and command permissions
 * Cooldown until the next effect should occur
-* Please note that there is currently no support for the new fishes, see [#2](#2)
+* Please note that there is currently no support for the new fishes, see [#2](https://github.com/xGhOsTkiLLeRx/CookMe/issues/2)
 
 *About the usage statistics*  
 This plugin sends usage statistics! If you wish to disable the usage statistics, look at /plugins/PluginMetrics/config.yml!
