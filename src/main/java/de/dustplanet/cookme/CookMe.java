@@ -23,11 +23,8 @@ import org.mcstats.Metrics.Graph;
  * CookeMe for CraftBukkit/Bukkit
  * Handles some general stuff!
  * 
- * Refer to the forum thread: 
- * http://bit.ly/cookmebukkit
- * 
  * Refer to the dev.bukkit.org page:
- * http://bit.ly/cookmebukkitdev
+ * http://dev.bukkit.org/bukkit-plugins/cookme/
  * 
  * @author xGhOsTkiLLeRx
  * thanks nisovin for his awesome code snippet!
@@ -145,7 +142,7 @@ public class CookMe extends JavaPlugin {
 
     // Loads the config at start
     private void loadConfig() {
-	config.options().header("For help please refer to http://bit.ly/cookmebukkitdev or http://bit.ly/cookmebukkit");
+	config.options().header("For help please refer to http://dev.bukkit.org/bukkit-plugins/cookme/");
 	config.addDefault("configuration.permissions", true);
 	config.addDefault("configuration.messages", true);
 	config.addDefault("configuration.duration.min", 15);

@@ -14,12 +14,9 @@ import org.bukkit.potion.PotionEffectType;
 /**
  * CookMePlayerListener
  * Handles the players activities!
- * 
- * Refer to the forum thread:
- * http://bit.ly/cookmebukkit
- * 
+
  * Refer to the dev.bukkit.org page:
- * http://bit.ly/cookmebukkitdev
+ * http://dev.bukkit.org/bukkit-plugins/cookme/
  * 
  * @author xGhOsTkiLLeRx
  * thanks nisovin for his awesome code snippet!

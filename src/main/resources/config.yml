@@ -1,4 +1,4 @@
-# For help please refer to http://bit.ly/cookmebukkitdev or http://bit.ly/cookmebukkit
+# For help please refer to http://dev.bukkit.org/bukkit-plugins/cookme/
 configuration:
   permissions: true
   messages: true

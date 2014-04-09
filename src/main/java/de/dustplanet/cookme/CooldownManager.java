@@ -9,11 +9,8 @@ import org.bukkit.entity.Player;
  * CookeMe for CraftBukkit/Bukkit
  * Handles the cooldown
  * 
- * Refer to the forum thread:
- * http://bit.ly/cookmebukkit
- * 
  * Refer to the dev.bukkit.org page:
- * http://bit.ly/cookmebukkitdev
+ * http://dev.bukkit.org/bukkit-plugins/cookme/
  * 
  * @author xGhOsTkiLLeRx
  * thanks nisovin for his awesome code snippet!

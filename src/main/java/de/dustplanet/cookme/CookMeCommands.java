@@ -11,8 +11,8 @@ import org.bukkit.entity.Player;
 /**
  * CookMe for CraftBukkit/Bukkit Handles the commands!
  * 
- * Refer to the forum thread: http://bit.ly/cookmebukkit Refer to the
- * dev.bukkit.org page: http://bit.ly/cookmebukkitdev
+ * Refer to the dev.bukkit.org page:
+ * http://dev.bukkit.org/bukkit-plugins/cookme/
  * 
  * @author xGhOsTkiLLeRx thanks nisovin for his awesome code snippet!
  * 
