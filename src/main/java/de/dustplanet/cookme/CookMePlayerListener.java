@@ -54,8 +54,13 @@ public class CookMePlayerListener implements Listener {
 			break;
 		    }
 		}
-		// EffectStrenght, Duration etc.
-		int randomEffectStrength = random.nextInt(16);
+		// EffectStrength, Duration etc.
+		int effectStrength = 0;
+		if (plugin.randomEffectStrength) {
+		    effectStrength = random.nextInt(16);
+		} else {
+		    effectStrength = plugin.effectStrengths[effectNumber];
+		}
 		int randomEffectTime = (random.nextInt((plugin.maxDuration - plugin.minDuration) + 1) + plugin.minDuration);
 
 		// TODO Find a beter way then this if number is this, number is that case
@@ -65,18 +70,23 @@ public class CookMePlayerListener implements Listener {
 		    int randomDamage = random.nextInt(9) + 1;
 		    effect = plugin.localization.getString("damage");
 		    player.damage(randomDamage);
+		    break;
 		case 1:
 		    // Player dies, stack minus 1
 		    effect = plugin.localization.getString("death");
+		    decreaseItem(player);
 		    player.setHealth(0);
+		    break;
 		case 2:
 		    // Random venom damage (including green hearts :) )
 		    effect = plugin.localization.getString("venom");
-		    player.addPotionEffect(new PotionEffect(PotionEffectType.POISON, randomEffectTime, randomEffectStrength));
+		    player.addPotionEffect(new PotionEffect(PotionEffectType.POISON, randomEffectTime, effectStrength));
+		    break;
 		case 3:
 		    // Food bar turns green (poison)
 		    effect = plugin.localization.getString("hungervenom");
-		    player.addPotionEffect(new PotionEffect(PotionEffectType.HUNGER, randomEffectTime, randomEffectStrength));
+		    player.addPotionEffect(new PotionEffect(PotionEffectType.HUNGER, randomEffectTime, effectStrength));
+		    break;
 		case 4:
 		    // Sets the food level down. Stack minus 1
 		    int currentFoodLevel = player.getFoodLevel();
@@ -86,38 +96,46 @@ public class CookMePlayerListener implements Listener {
 		    }
 		    effect = plugin.localization.getString("hungerdecrease");
 		    player.setFoodLevel(randomFoodLevel);
+		    break;
 		case 5:
 		    // Confusion
 		    effect = plugin.localization.getString("confusion");
-		    player.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, randomEffectTime, randomEffectStrength));
+		    player.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, randomEffectTime, effectStrength));
+		    break;
 		case 6:
 		    // Blindness
 		    effect = plugin.localization.getString("blindness");
-		    player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, randomEffectTime, randomEffectStrength));
+		    player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, randomEffectTime, effectStrength));
+		    break;
 		case 7:
 		    // Weakness
 		    effect = plugin.localization.getString("weakness");
-		    player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, randomEffectTime, randomEffectStrength));
+		    player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, randomEffectTime, effectStrength));
+		    break;
 		case 8:
 		    // Slowness
 		    effect = plugin.localization.getString("slowness");
-		    player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, randomEffectTime, randomEffectStrength));
+		    player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, randomEffectTime, effectStrength));
+		    break;
 		case 9:
 		    // Slowness for blocks
 		    effect = plugin.localization.getString("slowness_blocks");
-		    player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, randomEffectTime, randomEffectStrength));
+		    player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, randomEffectTime, effectStrength));
 		case 10:
 		    // Instant Damage
 		    effect = plugin.localization.getString("instant_damage");
-		    player.addPotionEffect(new PotionEffect(PotionEffectType.HARM, randomEffectTime, randomEffectStrength));
+		    player.addPotionEffect(new PotionEffect(PotionEffectType.HARM, randomEffectTime, effectStrength));
+		    break;
 		case 11:
 		    // Refusing
 		    effect = plugin.localization.getString("refusing");
 		    event.setCancelled(true);
+		    break;
 		case 12:
 		    // Wither effect
 		    effect = plugin.localization.getString("wither");
-		    player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, randomEffectTime, randomEffectStrength));
+		    player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, randomEffectTime, effectStrength));
+		    break;
 		}
 		// Message player
 		message(player, effect);
@@ -127,7 +145,8 @@ public class CookMePlayerListener implements Listener {
 		}
 		// Cancel event and reduce food
 		event.setCancelled(true);
-		if (effectNumber != 11) {
+		// Death needs to be called before, otherwise food is not reduced, because it's dropped
+		if (effectNumber != 11 && effectNumber != 1) {
 		    decreaseItem(player);
 		}
 	    }

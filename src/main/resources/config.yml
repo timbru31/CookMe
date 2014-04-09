@@ -8,6 +8,7 @@ configuration:
   cooldown: 30
   debug: false
   preventVanillaPoison: false
+  randomEffectStrength: true
 effects:
   damage: 8.0
   death: 4.0
@@ -22,6 +23,16 @@ effects:
   instant_damage: 8.0
   refusing: 8.0
   wither: 8.0
+effectStrength:
+  venom: 8
+  hungervenom: 8
+  confusion: 8
+  blindness: 8
+  weakness: 8
+  slowness: 8
+  slowness_blocks: 8
+  instant_damage: 8
+  wither: 8
 food:
 - RAW_BEEF
 - RAW_CHICKEN
