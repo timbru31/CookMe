@@ -86,7 +86,7 @@ food:
 | /cookme help | cookme.help | Displays a help menu |
 | /cookme debug | only active when debug is true | Reduces your food level |
 
-#### Enabling or disabling parts
+### Enabling or disabling parts
 In the following table the X needs to be replaced by one of these values
 * permissions
 * messages
