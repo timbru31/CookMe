@@ -41,7 +41,7 @@ public class CookMePlayerListener implements Listener {
 	// Check if player is affected
 	if (!player.hasPermission("cookme.safe")) {
 	    // Check for item & right clicking
-	    if (sameItem(player.getItemInHand().getTypeId()) && !plugin.cooldownManager.hasCooldown(player, now)) {
+	    if (sameItem(player.getItemInHand().getType()) && !plugin.cooldownManager.hasCooldown(player, now)) {
 		// Make a temp double and a value between 0 and 99
 		double temp = 0;
 		int i = 0;
@@ -175,7 +175,7 @@ public class CookMePlayerListener implements Listener {
     }
 
     // Is the item in the list? Yes or no
-    private boolean sameItem(int item) {
+    private boolean sameItem(Material item) {
 	for (String itemName : plugin.itemList) {
 	    // Get the Material
 	    Material mat = Material.matchMaterial(itemName);
@@ -191,7 +191,7 @@ public class CookMePlayerListener implements Listener {
 		continue;
 	    }
 	    // Get ID & compare
-	    if (mat.getId() == item) {
+	    if (mat == item) {
 		return true;
 	    }
 	}
