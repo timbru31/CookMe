@@ -65,6 +65,7 @@ public class CookMePlayerListener implements Listener {
 
 		// TODO Find a beter way then this if number is this, number is that case
 		switch(effectNumber) {
+		default:
 		case 0:
 		    // Player gets random damage, stack minus 1
 		    int randomDamage = random.nextInt(9) + 1;
@@ -121,6 +122,7 @@ public class CookMePlayerListener implements Listener {
 		    // Slowness for blocks
 		    effect = plugin.localization.getString("slowness_blocks");
 		    player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, randomEffectTime, effectStrength));
+		    break;
 		case 10:
 		    // Instant Damage
 		    effect = plugin.localization.getString("instant_damage");
