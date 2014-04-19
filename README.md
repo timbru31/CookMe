@@ -12,8 +12,8 @@ This CraftBukkit plugin adds a more realistic and detailed behavior when you con
 * Cooldown until the next effect should occur
 * Please note that there is currently no support for the new fishes, see [#2](https://github.com/xGhOsTkiLLeRx/CookMe/issues/2)
 
-*About the usage statistics*  
-This plugin sends usage statistics! If you wish to disable the usage statistics, look at /plugins/PluginMetrics/config.yml!
+*Third party features, all of them can be disabled*
+* Metrics for usage statistics
 
 ## License
 This plugin is released under the  
@@ -132,6 +132,25 @@ Please follow the Sun Coding Guidelines, thanks!
 
 ## Usage statistics
 [![MCStats](http://mcstats.org/signature/CookMe.png)](http://mcstats.org/plugin/CookMe)
+
+## Data usage collection of Metrics
+
+#### Disabling Metrics
+The file ../plugins/Plugin Metrics/config.yml contains an option to *opt-out*
+
+#### The following data is **read** from the server in some way or another
+* File Contents of plugins/Plugin Metrics/config.yml (created if not existent)
+* Players currently online (not max player count)
+* Server version string (the same version string you see in /version)
+* Plugin version of the metrics-supported plugin
+* Mineshafter status - it does not properly propagate Metrics requests however it is a very simple check and does not read the filesystem
+
+#### The following data is **sent** to http://mcstats.org and can be seen under http://mcstats.org/plugin/CookMe
+* Metrics revision of the implementing class
+* Server's GUID
+* Players currently online (not max player count)
+* Server version string (the same version string you see in /version)
+* Plugin version of the metrics-supported plugin
 
 ## Donation
 [![PayPal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif "Donation via PayPal")](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=T9TEV7Q88B9M2)
