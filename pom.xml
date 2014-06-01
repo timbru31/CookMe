@@ -6,7 +6,7 @@
 	<version>1.8.1-SNAPSHOT</version>
 	<name>CookMe</name>
 	<description>Beware of raw food!</description>
-	<url>http://dev.bukkit.org/server-mods/cookme/</url>
+	<url>http://dev.bukkit.org/bukkit-plugins/cookme/</url>
 
 	<!-- Encode in UTF-8 -->
 	<properties>
