@@ -19,7 +19,7 @@ import org.bukkit.entity.Player;
 
 public class CooldownManager {
     private int cooldown = 0;
-    private LinkedHashMap<String, Timestamp> cooldownList = new LinkedHashMap<String, Timestamp>();
+    private LinkedHashMap<String, Timestamp> cooldownList = new LinkedHashMap<>();
 
     // Sets the cooldown!
     public CooldownManager(int cooldownValue) {

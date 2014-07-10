@@ -63,7 +63,6 @@ public class CookMePlayerListener implements Listener {
 		}
 		int randomEffectTime = (random.nextInt((plugin.maxDuration - plugin.minDuration) + 1) + plugin.minDuration);
 
-		// TODO Find a better way then this
 		// if number is this, number is that case
 		switch(effectNumber) {
 		default:

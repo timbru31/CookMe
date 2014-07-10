@@ -8,6 +8,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.PluginDescriptionFile;
@@ -36,7 +37,7 @@ public class CookMe extends JavaPlugin {
     public CooldownManager cooldownManager;
     public FileConfiguration config, localization;
     private File configFile, localizationFile;
-    public List<String> itemList = new ArrayList<String>();
+    public List<String> itemList = new ArrayList<>();
     public int cooldown, minDuration, maxDuration;
     public double[] percentages = new double[13];
     public int[] effectStrengths = new int[13];
@@ -62,7 +63,7 @@ public class CookMe extends JavaPlugin {
 	configFile = new File(getDataFolder(), "config.yml");
 	if (!configFile.exists()) {
 	    if (getDataFolder().mkdirs()) {
-		copy(getResource("config.yml"), configFile);
+		copy("config.yml", configFile);
 	    } else {
 		getLogger().severe("The config folder could NOT be created, make sure it's writable!");
 		getLogger().severe("Disabling now!");
@@ -80,7 +81,7 @@ public class CookMe extends JavaPlugin {
 	// Localization
 	localizationFile = new File(getDataFolder(), "localization.yml");
 	if (!localizationFile.exists() && localizationFile.getParentFile().mkdirs()) {
-	    copy(getResource("localization.yml"), localizationFile);
+	    copy("localization.yml", localizationFile);
 	}
 	// Try to load
 	localization = YamlConfiguration.loadConfiguration(localizationFile);
@@ -238,6 +239,7 @@ public class CookMe extends JavaPlugin {
 	    localization.save(localizationFile);
 	} catch (IOException e) {
 	    getLogger().warning("Failed to save the localization! Please report this! IOException");
+	    e.printStackTrace();
 	}
     }
 
@@ -250,18 +252,16 @@ public class CookMe extends JavaPlugin {
 	    cooldownManager.setCooldown(cooldown);
 	    localization.load(localizationFile);
 	    saveLocalization();
-	} catch (IOException e) {
-	    getLogger().warning("Failed to save the localization! Please report this! IOException");
-	} catch (InvalidConfigurationException e) {
-	    getLogger().warning("Failed to save the localization! Please report this! InvalidConfiguration");
+	} catch (IOException | InvalidConfigurationException e) {
+	    getLogger().warning("Failed to save the localization! Please report this!");
+	    e.printStackTrace();
 	}
     }
 
     // If no config is found, copy the default one(s)!
-    private void copy(InputStream in, File file) {
-	OutputStream out = null;
-	try {
-	    out = new FileOutputStream(file);
+    private void copy(String yml, File file) {
+	try (OutputStream out = new FileOutputStream(file);
+		InputStream in = getResource(yml)) {
 	    byte[] buf = new byte[1024];
 	    int len;
 	    while ((len = in.read(buf)) > 0) {
@@ -270,23 +270,6 @@ public class CookMe extends JavaPlugin {
 	} catch (IOException e) {
 	    getLogger().warning("Failed to copy the default config! (I/O)");
 	    e.printStackTrace();
-	} finally {
-	    try {
-		if (out != null) {
-		    out.close();
-		}
-	    } catch (IOException e) {
-		getLogger().warning("Failed to close the streams! (I/O -> Output)");
-		e.printStackTrace();
-	    }
-	    try {
-		if (in != null) {
-		    in.close();
-		}
-	    } catch (IOException e) {
-		getLogger().warning("Failed to close the streams! (I/O -> Input)");
-		e.printStackTrace();
-	    }
 	}
     }
 
