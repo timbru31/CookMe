@@ -63,7 +63,7 @@ public class CookMeCommands implements CommandExecutor {
                     if (args.length > 2) {
                         int cooldown = 0;
                         try {
-                            cooldown = Integer.valueOf(args[2]);
+                            cooldown = Integer.parseInt(args[2]);
                         } catch (NumberFormatException e) {
                             // Cooldown not a number?
                             String message = plugin.localization.getString("no_number");
