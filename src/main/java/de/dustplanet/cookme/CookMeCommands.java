@@ -90,7 +90,7 @@ public class CookMeCommands implements CommandExecutor {
                         if (args.length > 3) {
                             int duration = 0;
                             try {
-                                duration = Integer.valueOf(args[3]);
+                                duration = Integer.parseInt(args[3]);
                             } catch (NumberFormatException e) {
                                 // Duration not a number?
                                 String message = plugin.localization.getString("no_number");
