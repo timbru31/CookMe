@@ -31,7 +31,7 @@ public class CooldownManager {
     // Sets the cooldown!
     /**
      * Creates a new CooldownManagr with the given cooldown.
-     * @param cooldownValue
+     * @param cooldownValue cooldown in seconds
      */
     public CooldownManager(int cooldownValue) {
         cooldown = cooldownValue;

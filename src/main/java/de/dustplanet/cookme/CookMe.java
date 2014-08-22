@@ -342,11 +342,11 @@ public class CookMe extends JavaPlugin {
     }
 
     public double[] getPercentages() {
-        return percentages;
+        return percentages.clone();
     }
 
     public void setPercentages(double[] percentages) {
-        this.percentages = percentages;
+        this.percentages = percentages.clone();
     }
 
     public int getMinDuration() {
@@ -358,11 +358,11 @@ public class CookMe extends JavaPlugin {
     }
 
     public int[] getEffectStrengths() {
-        return effectStrengths;
+        return effectStrengths.clone();
     }
 
     public void setEffectStrengths(int[] effectStrengths) {
-        this.effectStrengths = effectStrengths;
+        this.effectStrengths = effectStrengths.clone();
     }
 
     public int getMaxDuration() {
@@ -398,10 +398,10 @@ public class CookMe extends JavaPlugin {
     }
 
     public String[] getEffects() {
-        return effects;
+        return effects.clone();
     }
 
     public void setEffects(String[] effects) {
-        this.effects = effects;
+        this.effects = effects.clone();
     }
 }
