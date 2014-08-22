@@ -279,17 +279,19 @@ public class CookMe extends JavaPlugin {
 
     // Message the sender or player
     public void message(CommandSender sender, Player player, String message, String value, String percentage) {
-        value = value == null ? "" : value;
-        percentage = percentage == null ? "" : percentage;
+        String tempValue = value == null ? "" : value;
+        String tempPercentage = percentage == null ? "" : percentage;
         PluginDescriptionFile pdfFile = getDescription();
-        message = message.replace("\u0025version", pdfFile.getVersion())
-                .replace("\u0025effect", value).replace("\u0025value", value)
-                .replace("\u0025percentage", percentage);
-        message = ChatColor.translateAlternateColorCodes('\u0026', message);
+        String tempMessage = message
+                .replace("\u0025version", pdfFile.getVersion())
+                .replace("\u0025effect", tempValue)
+                .replace("\u0025value", tempValue)
+                .replace("\u0025percentage", tempPercentage);
+        tempMessage = ChatColor.translateAlternateColorCodes('\u0026', tempMessage);
         if (player != null) {
-            player.sendMessage(message);
+            player.sendMessage(tempMessage);
         } else if (sender != null) {
-            sender.sendMessage(message);
+            sender.sendMessage(tempMessage);
         }
     }
 

@@ -177,9 +177,9 @@ public class CookMePlayerListener implements Listener {
         }
     }
 
-    private void message(Player player, String message) {
+    private void message(Player player, String messageToSend) {
         if (plugin.isMessages()) {
-            plugin.message(null, player, message, null, null);
+            plugin.message(null, player, messageToSend, null, null);
         }
     }
 
