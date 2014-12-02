@@ -73,6 +73,8 @@ food:
 - RAW_FISH
 - PORK
 - ROTTEN_FLESH
+- MUTTON
+- RABBIT
 ````
 
 ## Commands & Permissions
