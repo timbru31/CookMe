@@ -115,10 +115,10 @@
 
   <!-- Github information -->
   <scm>
-    <url>https://github.com/xGhOsTkiLLeRx/CookMe</url>
-    <connection>scm:git:git://github.com/xGhOsTkiLLeRx/CookMe.git</connection>
+    <url>https://github.com/timbru31/CookMe</url>
+    <connection>scm:git:git://github.com/timbru31/CookMe.git</connection>
     <tag>master</tag>
-    <developerConnection>scm:git:git@github.com:xGhOsTkiLLeRx/CookMe.git</developerConnection>
+    <developerConnection>scm:git:git@github.com:timbru31/CookMe.git</developerConnection>
   </scm>
 
   <!-- Jenkins information -->
