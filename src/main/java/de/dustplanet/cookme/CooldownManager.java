@@ -7,7 +7,7 @@ import java.util.UUID;
 import org.bukkit.entity.Player;
 
 /**
- * CookeMe for CraftBukkit/Bukkit.
+ * CookeMe for CraftBukkit/Spigot.
  * Handles the cooldown.
  *
  * Refer to the dev.bukkit.org page:

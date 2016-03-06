@@ -22,29 +22,30 @@ import org.mcstats.Metrics;
 import org.mcstats.Metrics.Graph;
 
 /**
- * CookeMe for CraftBukkit/Bukkit.
+ * CookeMe for CraftBukkit/Spigot.
  * Handles some general stuff!
  *
  * Refer to the dev.bukkit.org page:
  * http://dev.bukkit.org/bukkit-plugins/cookme/
  *
  * @author xGhOsTkiLLeRx
- * thanks nisovin for his awesome code snippet!
+ * thanks nisovin for his awesome code snippet
  *
  */
 
 public class CookMe extends JavaPlugin {
     private CookMePlayerListener playerListener;
     private CooldownManager cooldownManager;
-    private  FileConfiguration config, localization;
+    private FileConfiguration config, localization;
     private File configFile, localizationFile;
     private List<String> itemList = new ArrayList<>();
     private int cooldown, minDuration, maxDuration;
-    private double[] percentages = new double[13];
-    private int[] effectStrengths = new int[13];
     private boolean debug, messages, permissions, preventVanillaPoison, randomEffectStrength;
-    private String[] rawFood = {"RAW_BEEF", "RAW_CHICKEN", "RAW_FISH", "PORK", "ROTTEN_FLESH", "MUTTON", "RABBIT"};
-    private String[] effects = {"damage", "death", "venom", "hungervenom", "hungerdecrease", "confusion", "blindness", "weakness", "slowness", "slowness_blocks", "instant_damage", "refusing", "wither"};
+    private String[] rawFood = { "RAW_BEEF", "RAW_CHICKEN", "RAW_FISH", "PORK", "ROTTEN_FLESH", "MUTTON", "RABBIT" };
+    private String[] effects = { "damage", "death", "venom", "hungervenom", "hungerdecrease", "confusion", "blindness",
+            "weakness", "slowness", "slowness_blocks", "instant_damage", "refusing", "wither", "levitation", "unluck" };
+    private double[] percentages = new double[effects.length];
+    private int[] effectStrengths = new int[effects.length];
     private CookMeCommands executor;
 
     // Shutdown
@@ -97,7 +98,8 @@ public class CookMe extends JavaPlugin {
         // Stats
         try {
             Metrics metrics = new Metrics(this);
-            // Construct a graph, which can be immediately used and considered as valid
+            // Construct a graph, which can be immediately used and considered
+            // as valid
             Graph graph = metrics.createGraph("Percentage of affected items");
             // Custom plotter for each item
             for (String itemName : getItemList()) {
@@ -129,21 +131,22 @@ public class CookMe extends JavaPlugin {
         int i = 0;
         double temp = 0;
         for (i = 0; i < getEffects().length; i++) {
-            getPercentages()[i] = config.getDouble("effects." + getEffects()[i]);
-            temp += getPercentages()[i];
+            percentages[i] = config.getDouble("effects." + getEffects()[i]);
+            temp += percentages[i];
         }
         // If percentage is higher than 100, reset it, log it
         if (temp > 100) {
             for (i = 0; i < getPercentages().length; i++) {
                 if (i == 1) {
-                    getPercentages()[i] = 4.0;
-                    config.set("effects." + getEffects()[i], 4.0);
+                    percentages[i] = 3.4; // death
+                    config.set("effects." + getEffects()[i], 3.4);
                     continue;
                 }
-                getPercentages()[i] = 8.0;
-                config.set("effects." + getEffects()[i], 8.0);
+                percentages[i] = 6.9;
+                config.set("effects." + getEffects()[i], 6.9);
             }
-            getLogger().warning(ChatColor.RED + "Detected that the entire procentage is higer than 100. Resetting to default...");
+            getLogger().warning(
+                    ChatColor.RED + "Detected that the entire procentage is higer than 100. Resetting to default...");
             saveConfig();
         }
 
@@ -165,19 +168,21 @@ public class CookMe extends JavaPlugin {
         config.addDefault("configuration.debug", false);
         config.addDefault("configuration.preventVanillaPoison", false);
         config.addDefault("configuration.randomEffectStrength", true);
-        config.addDefault("effects.damage", 8.0);
-        config.addDefault("effects.death", 4.0);
-        config.addDefault("effects.venom", 8.0);
-        config.addDefault("effects.hungervenom", 8.0);
-        config.addDefault("effects.hungerdecrease", 8.0);
-        config.addDefault("effects.confusion", 8.0);
-        config.addDefault("effects.blindness", 8.0);
-        config.addDefault("effects.weakness", 8.0);
-        config.addDefault("effects.slowness", 8.0);
-        config.addDefault("effects.slowness_blocks", 8.0);
-        config.addDefault("effects.instant_damage", 8.0);
-        config.addDefault("effects.refusing", 8.0);
-        config.addDefault("effects.wither", 8.0);
+        config.addDefault("effects.damage", 6.9);
+        config.addDefault("effects.death", 3.4);
+        config.addDefault("effects.venom", 6.9);
+        config.addDefault("effects.hungervenom", 6.9);
+        config.addDefault("effects.hungerdecrease", 6.9);
+        config.addDefault("effects.confusion", 6.9);
+        config.addDefault("effects.blindness", 6.9);
+        config.addDefault("effects.weakness", 6.9);
+        config.addDefault("effects.slowness", 6.9);
+        config.addDefault("effects.slowness_blocks", 6.9);
+        config.addDefault("effects.instant_damage", 6.9);
+        config.addDefault("effects.refusing", 6.9);
+        config.addDefault("effects.wither", 6.9);
+        config.addDefault("effects.levitation", 6.9);
+        config.addDefault("effects.unluck", 6.9);
         // EffectStrength
         config.addDefault("effectStrength.venom", 8);
         config.addDefault("effectStrength.hungervenom", 8);
@@ -188,7 +193,9 @@ public class CookMe extends JavaPlugin {
         config.addDefault("effectStrength.slowness_blocks", 8);
         config.addDefault("effectStrength.instant_damage", 8);
         config.addDefault("effectStrength.wither", 8);
-        //wither
+        config.addDefault("effectStrength.levitation", 8);
+        config.addDefault("effectStrength.unluck", 8);
+        // wither
         config.addDefault("food", Arrays.asList(rawFood));
         config.options().copyDefaults(true);
         saveConfig();
@@ -209,6 +216,9 @@ public class CookMe extends JavaPlugin {
         getLocalization().addDefault("slowness_blocks", "&4You mine for a random time slower! Eat some cooked food!");
         getLocalization().addDefault("instant_damage", "&4You got some magic damage! Eat some cooked food!");
         getLocalization().addDefault("refusing", "&4You decided to save your life and did not eat this food!");
+        getLocalization().addDefault("wither", "&4The poison of the wither weakens you! Eat some cooked food!");
+        getLocalization().addDefault("levitation", "&4You fly up high in the air! Eat some cooked food!");
+        getLocalization().addDefault("unluck", "&4You are for a random time unlucky! Eat some cooked food!");
         getLocalization().addDefault("permission_denied", "&4You do not have the permission to do this!");
         getLocalization().addDefault("enable_messages", "&2CookMe &4messages &2enabled!");
         getLocalization().addDefault("enable_permissions_1", "&2CookMe &4permissions &2enabled! Only OPs");
@@ -217,16 +227,21 @@ public class CookMe extends JavaPlugin {
         getLocalization().addDefault("disable_permissions_1", "&2CookMe &4permissions &4disabled!");
         getLocalization().addDefault("disable_permissions_2", "&2All players can use the plugin!");
         getLocalization().addDefault("reload", "&2CookMe &4%version &2reloaded!");
-        getLocalization().addDefault("changed_effect", "&2The percentage of the effect &e%effect &4 has been changed to &e%percentage%");
+        getLocalization().addDefault("changed_effect",
+                "&2The percentage of the effect &e%effect &4 has been changed to &e%percentage%");
         getLocalization().addDefault("changed_cooldown", "&2The cooldown time has been changed to &e%value!");
-        getLocalization().addDefault("changed_duration_max", "&2The maximum duration time has been changed to &e%value!");
-        getLocalization().addDefault("changed_duration_min", "&2The minimum duration time has been changed to &e%value!");
+        getLocalization().addDefault("changed_duration_max",
+                "&2The maximum duration time has been changed to &e%value!");
+        getLocalization().addDefault("changed_duration_min",
+                "&2The minimum duration time has been changed to &e%value!");
         getLocalization().addDefault("help_1", "&2Welcome to the CookMe version &4%version &2help");
         getLocalization().addDefault("help_2", "To see the help type &4/cookme help");
-        getLocalization().addDefault("help_3", "You can enable permissions and messages with &4/cookme enable &e<value> &fand &4/cookme disable &e<value>");
+        getLocalization().addDefault("help_3",
+                "You can enable permissions and messages with &4/cookme enable &e<value> &fand &4/cookme disable &e<value>");
         getLocalization().addDefault("help_4", "To reload use &4/cookme reload");
         getLocalization().addDefault("help_5", "To change the cooldown or duration values, type");
-        getLocalization().addDefault("help_6", "&4/cookme set cooldown <value> &for &4/cookme set duration min <value>");
+        getLocalization().addDefault("help_6",
+                "&4/cookme set cooldown <value> &for &4/cookme set duration min <value>");
         getLocalization().addDefault("help_7", "&4/cookme set duration max <value>");
         getLocalization().addDefault("help_8", "Set the percentages with &4/cookme set &e<value> <percentage>");
         getLocalization().addDefault("help_9", "&eValues: &fpermissions, messages, damage, death, venom,");
@@ -264,8 +279,7 @@ public class CookMe extends JavaPlugin {
 
     // If no config is found, copy the default one(s)!
     private void copy(String yml, File file) {
-        try (OutputStream out = new FileOutputStream(file);
-                InputStream in = getResource(yml)) {
+        try (OutputStream out = new FileOutputStream(file); InputStream in = getResource(yml)) {
             byte[] buf = new byte[1024];
             int len;
             while ((len = in.read(buf)) > 0) {
@@ -282,11 +296,8 @@ public class CookMe extends JavaPlugin {
         String tempValue = value == null ? "" : value;
         String tempPercentage = percentage == null ? "" : percentage;
         PluginDescriptionFile pdfFile = getDescription();
-        String tempMessage = message
-                .replace("\u0025version", pdfFile.getVersion())
-                .replace("\u0025effect", tempValue)
-                .replace("\u0025value", tempValue)
-                .replace("\u0025percentage", tempPercentage);
+        String tempMessage = message.replace("\u0025version", pdfFile.getVersion()).replace("\u0025effect", tempValue)
+                .replace("\u0025value", tempValue).replace("\u0025percentage", tempPercentage);
         tempMessage = ChatColor.translateAlternateColorCodes('\u0026', tempMessage);
         if (player != null) {
             player.sendMessage(tempMessage);

@@ -9,12 +9,14 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 /**
- * CookMe for CraftBukkit/Bukkit Handles the commands!
+ * CookMe for CraftBukkit/Spigot
+ * Handles the commands!
  *
  * Refer to the dev.bukkit.org page:
  * http://dev.bukkit.org/bukkit-plugins/cookme/
  *
- * @author xGhOsTkiLLeRx thanks nisovin for his awesome code snippet!
+ * @author xGhOsTkiLLeRx
+ * thanks nisovin for his awesome code snippet!
  *
  */
 
@@ -51,6 +53,7 @@ public class CookMeCommands implements CommandExecutor {
             if (sender instanceof Player) {
                 Player player = (Player) sender;
                 player.setFoodLevel(10);
+                player.setHealth(player.getMaxHealth());
                 player.sendMessage(ChatColor.GREEN + "Food level reduced!");
             } else {
                 sender.sendMessage(ChatColor.RED + "Please use debug mode ingame!");

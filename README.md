@@ -46,19 +46,21 @@ configuration:
   randomEffectStrength: true
 # The percentage for each effect. Make sure all together are exactly 100! 0 means disabled!
 effects:
-  damage: 8.0
-  death: 4.0
-  venom: 8.0
-  hungervenom: 8.0
-  hungerdecrease: 8.0
-  confusion: 8.0
-  blindness: 8.0
-  weakness: 8.0
-  slowness: 8.0
-  slowness_blocks: 8.0
-  instant_damage: 8.0
-  refusing: 8.0
-  wither: 8.0
+  damage: 6.9
+  death: 3.4
+  venom: 6.9
+  hungervenom: 6.9
+  hungerdecrease: 6.9
+  confusion: 6.9
+  blindness: 6.9
+  weakness: 6.9
+  slowness: 6.9
+  slowness_blocks: 6.9
+  instant_damage: 6.9
+  refusing: 6.9
+  wither: 6.9
+  levitation: 6.9
+  unluck: 6.9
 # Put a number here for the strength of an effect, only used when randomEffectStrength is false
 effectStrength:
   venom: 8
@@ -70,6 +72,8 @@ effectStrength:
   slowness_blocks: 8
   instant_damage: 8
   wither: 8
+  levitation: 8
+  unluck: 8
 # Add your own stuff here, IDs are supported, too!
 food:
 - RAW_BEEF

@@ -40,9 +40,10 @@ public class CookMePlayerListener implements Listener {
         Player player = event.getPlayer();
         Timestamp now = new Timestamp(System.currentTimeMillis());
         // Check if player is affected
+        boolean mainHand = event.getItem().getType() == player.getInventory().getItemInMainHand().getType();
         if (!player.hasPermission("cookme.safe")) {
             // Check for item & right clicking
-            if (sameItem(player.getItemInHand().getType()) && !plugin.getCooldownManager().hasCooldown(player, now)) {
+            if (sameItem(event.getItem().getType()) && !plugin.getCooldownManager().hasCooldown(player, now)) {
                 // Make a temp double and a value between 0 and 99
                 double temp = 0;
                 int effectNumber = 0;
@@ -61,10 +62,11 @@ public class CookMePlayerListener implements Listener {
                 } else {
                     effectStrength = plugin.getEffectStrengths()[effectNumber];
                 }
-                int randomEffectTime = random.nextInt(plugin.getMaxDuration() - plugin.getMinDuration() + 1) + plugin.getMinDuration();
+                int randomEffectTime = random.nextInt(plugin.getMaxDuration() - plugin.getMinDuration() + 1)
+                        + plugin.getMinDuration();
 
                 // if number is this, number is that case
-                switch(effectNumber) {
+                switch (effectNumber) {
                 default:
                 case 0:
                     // Player gets random damage, stack minus 1
@@ -75,7 +77,7 @@ public class CookMePlayerListener implements Listener {
                 case 1:
                     // Player dies, stack minus 1
                     effect = plugin.getLocalization().getString("death");
-                    decreaseItem(player);
+                    decreaseItem(player, mainHand);
                     player.setHealth(0);
                     break;
                 case 2:
@@ -101,17 +103,20 @@ public class CookMePlayerListener implements Listener {
                 case 5:
                     // Confusion
                     effect = plugin.getLocalization().getString("confusion");
-                    player.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, randomEffectTime, effectStrength));
+                    player.addPotionEffect(
+                            new PotionEffect(PotionEffectType.CONFUSION, randomEffectTime, effectStrength));
                     break;
                 case 6:
                     // Blindness
                     effect = plugin.getLocalization().getString("blindness");
-                    player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, randomEffectTime, effectStrength));
+                    player.addPotionEffect(
+                            new PotionEffect(PotionEffectType.BLINDNESS, randomEffectTime, effectStrength));
                     break;
                 case 7:
                     // Weakness
                     effect = plugin.getLocalization().getString("weakness");
-                    player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, randomEffectTime, effectStrength));
+                    player.addPotionEffect(
+                            new PotionEffect(PotionEffectType.WEAKNESS, randomEffectTime, effectStrength));
                     break;
                 case 8:
                     // Slowness
@@ -121,7 +126,8 @@ public class CookMePlayerListener implements Listener {
                 case 9:
                     // Slowness for blocks
                     effect = plugin.getLocalization().getString("slowness_blocks");
-                    player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, randomEffectTime, effectStrength));
+                    player.addPotionEffect(
+                            new PotionEffect(PotionEffectType.SLOW_DIGGING, randomEffectTime, effectStrength));
                     break;
                 case 10:
                     // Instant Damage
@@ -138,6 +144,16 @@ public class CookMePlayerListener implements Listener {
                     effect = plugin.getLocalization().getString("wither");
                     player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, randomEffectTime, effectStrength));
                     break;
+                case 13:
+                    // Levitation
+                    effect = plugin.getLocalization().getString("levitation");
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.LEVITATION, randomEffectTime, effectStrength));
+                    break;
+                case 14:
+                    // Bad Luck
+                    effect = plugin.getLocalization().getString("unluck");
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.UNLUCK, randomEffectTime, effectStrength));
+                    break;
                 }
                 // Message player
                 message(player, effect);
@@ -147,9 +163,10 @@ public class CookMePlayerListener implements Listener {
                 }
                 // Cancel event and reduce food
                 event.setCancelled(true);
-                // Death needs to be called before, otherwise food is not reduced, because it's dropped
+                // Death needs to be called before, otherwise food is not
+                // reduced, because it's dropped
                 if (effectNumber != 11 && effectNumber != 1) {
-                    decreaseItem(player);
+                    decreaseItem(player, mainHand);
                 }
             }
         } else if (plugin.isPreventVanillaPoison()) {
@@ -171,7 +188,7 @@ public class CookMePlayerListener implements Listener {
                     foodLevel = 20;
                 }
                 player.setFoodLevel(foodLevel);
-                decreaseItem(player);
+                decreaseItem(player, mainHand);
                 event.setCancelled(true);
             }
         }
@@ -208,13 +225,26 @@ public class CookMePlayerListener implements Listener {
     }
 
     // Sets the raw food -1
-    private void decreaseItem(Player player) {
-        ItemStack afterEating = player.getItemInHand();
+    private void decreaseItem(Player player, boolean mainHand) {
+        ItemStack afterEating = null;
+        if (mainHand) {
+            afterEating = player.getInventory().getItemInMainHand();
+        } else {
+            afterEating = player.getInventory().getItemInOffHand();
+        }
         if (afterEating.getAmount() == 1) {
-            player.setItemInHand(null);
+            if (mainHand) {
+                player.getInventory().setItemInMainHand(null);
+            } else {
+                player.getInventory().setItemInOffHand(null);
+            }
         } else {
             afterEating.setAmount(afterEating.getAmount() - 1);
-            player.setItemInHand(afterEating);
+            if (mainHand) {
+                player.getInventory().setItemInMainHand(afterEating);
+            } else {
+                player.getInventory().setItemInOffHand(afterEating);
+            }
         }
     }
 }
