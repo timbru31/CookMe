@@ -208,8 +208,8 @@ public class CookMe extends JavaPlugin {
         getLocalization().addDefault("slowness", "&4You are for a random time slower! Eat some cooked food!");
         getLocalization().addDefault("slowness_blocks", "&4You mine for a random time slower! Eat some cooked food!");
         getLocalization().addDefault("instant_damage", "&4You got some magic damage! Eat some cooked food!");
-        getLocalization().addDefault("refusing", "&4You decided to save your life and didn't eat this food!");
-        getLocalization().addDefault("permission_denied", "&4You don't have the permission to do this!");
+        getLocalization().addDefault("refusing", "&4You decided to save your life and did not eat this food!");
+        getLocalization().addDefault("permission_denied", "&4You do not have the permission to do this!");
         getLocalization().addDefault("enable_messages", "&2CookMe &4messages &2enabled!");
         getLocalization().addDefault("enable_permissions_1", "&2CookMe &4permissions &2enabled! Only OPs");
         getLocalization().addDefault("enable_permissions_2", "&2and players with the permission can use the plugin!");
@@ -232,7 +232,7 @@ public class CookMe extends JavaPlugin {
         getLocalization().addDefault("help_9", "&eValues: &fpermissions, messages, damage, death, venom,");
         getLocalization().addDefault("help_10", "hungervenom, hungerdecrease, confusion, blindness, weakness");
         getLocalization().addDefault("help_11", "slowness, slowness_blocks, instant_damage, refusing");
-        getLocalization().addDefault("no_number", "&4The given argument wasn't a number!");
+        getLocalization().addDefault("no_number", "&4The given argument was not a number!");
         getLocalization().options().copyDefaults(true);
         saveLocalization();
     }

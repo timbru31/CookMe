@@ -1,4 +1,8 @@
-# CookMe [![Build Status](http://ci.dustplanet.de/job/CookMe/badge/icon)](http://ci.dustplanet.de/job/CookMe/)
+# CookMe
+[![Build Status](https://ci.dustplanet.de/job/CookMe/badge/icon)](https://ci.dustplanet.de/job/CookMe/)
+[![Build Status](https://travis-ci.org/timbru31/CookMe.svg?branch=master)](https://travis-ci.org/timbru31/CookMe)
+[![Circle CI](https://img.shields.io/circleci/project/timbru31/CookMe.svg)](https://circleci.com/gh/timbru31/CookMe)
+[![Build status](https://ci.appveyor.com/api/projects/status/nb3s68pfwruj1xq5?svg=true)](https://ci.appveyor.com/project/timbru31/cookme)
 
 ## Info
 This CraftBukkit plugin adds a more realistic and detailed behavior when you consume raw food
@@ -16,12 +20,12 @@ This CraftBukkit plugin adds a more realistic and detailed behavior when you con
 * Metrics for usage statistics
 
 ## License
-This plugin is released under the  
-*Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)* license.  
+This plugin is released under the
+*Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)* license.
 Please see [LICENSE.md](LICENSE.md) for more information.
 
 ## Standard config
-````yaml
+```yaml
 # For help please refer to http://dev.bukkit.org/bukkit-plugins/cookme/
 configuration:
   # Should permissions be used?
@@ -75,7 +79,7 @@ food:
 - ROTTEN_FLESH
 - MUTTON
 - RABBIT
-````
+```
 
 ## Commands & Permissions
 (Fallback to OPs, if no permissions system is found)
@@ -129,7 +133,7 @@ In the following table the X needs to be replaced by one of these effects
 For support visit the dev.bukkit.org page: http://dev.bukkit.org/bukkit-plugins/cookme
 
 ## Pull Requests
-Feel free to submit any PRs here. :)  
+Feel free to submit any PRs here. :)
 Please follow the Sun Coding Guidelines, thanks!
 
 ## Usage statistics
@@ -157,5 +161,5 @@ The file ../plugins/Plugin Metrics/config.yml contains an option to *opt-out*
 ## Donation
 [![PayPal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif "Donation via PayPal")](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=T9TEV7Q88B9M2)
 
-![BitCoin](https://dl.dropboxusercontent.com/u/26476995/bitcoin_logo.png "Donation via BitCoins")  
+![BitCoin](https://dl.dropboxusercontent.com/u/26476995/bitcoin_logo.png "Donation via BitCoins")
 Address: 1NnrRgdy7CfiYN63vKHiypSi3MSctCP55C
