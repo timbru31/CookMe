@@ -3,6 +3,8 @@
 [![Build Status](https://travis-ci.org/timbru31/CookMe.svg?branch=master)](https://travis-ci.org/timbru31/CookMe)
 [![Circle CI](https://img.shields.io/circleci/project/timbru31/CookMe.svg)](https://circleci.com/gh/timbru31/CookMe)
 [![Build status](https://ci.appveyor.com/api/projects/status/nb3s68pfwruj1xq5?svg=true)](https://ci.appveyor.com/project/timbru31/cookme)
+[![BukkitDev](https://img.shields.io/badge/BukkitDev-v1.8.1-orange.svg)](http://dev.bukkit.org/bukkit-plugins/cookme/)
+[![License](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-blue.svg)](LICENSE.md)
 
 ## Info
 This CraftBukkit plugin adds a more realistic and detailed behavior when you consume raw food
@@ -121,6 +123,8 @@ In the following table the X needs to be replaced by one of these effects
 * instant_damage
 * refusing
 * wither
+* levitation
+* unluck
 
 | Command | Permission node | Description |
 |:----------:|:----------:|:----------:|
