@@ -1,4 +1,3 @@
-# The underscores are used for the different lines!
 damage: '&4You got some random damage! Eat some cooked food!'
 hungervenom: '&4Your foodbar is a random time venomed! Eat some cooked food!'
 death: '&4The raw food killed you! :('
@@ -14,27 +13,30 @@ refusing: '&4You decided to save your life and did not eat this food!'
 wither: '&4The poison of the wither weakens you! Eat some cooked food!'
 levitation: '&4You fly up high in the air! Eat some cooked food!'
 unluck: '&4You are for a random time unlucky! Eat some cooked food!'
-permission_denied: '&4You don not have the permission to do this!'
+permission_denied: '&4You do not have the permission to do this!'
 enable_messages: '&2CookMe &4messages &2enabled!'
-enable_permissions_1: '&2CookMe &4permissions &2enabled! Only OPs'
-enable_permissions_2: '&2and players with the permission can use the plugin!'
+enable_permissions: |-
+  &2CookMe &4permissions &2enabled!
+  &2Only OPs and players with the permission can use the plugin!
 disable_messages: '&2CookMe &4messages &2disabled!'
-disable_permissions_1: '&2CookMe &4permissions &4disabled!'
-disable_permissions_2: '&2All players can use the plugin!'
+disable_permissions: |-
+  &2CookMe &4permissions &4disabled!
+  &4All players can use the plugin!
 reload: '&2CookMe &4%version &2reloaded!'
-changed_effect: '&2The percentage of the effect &e%effect &4 has been changed to &e%percentage%'
+changed_effect: '&2The percentage of the effect &e%effect &4has been changed to &e%percentage%'
 changed_cooldown: '&2The cooldown time has been changed to &e%value!'
 changed_duration_max: '&2The maximum duration time has been changed to &e%value!'
 changed_duration_min: '&2The minimum duration time has been changed to &e%value!'
-help_1: '&2Welcome to the CookMe version &4%version &2help'
-help_2: To see the help type &4/cookme help
-help_3: You can enable permissions and messages with &4/cookme enable &e<value> &fand &4/cookme disable &e<value>
-help_4: To reload use &4/cookme reload
-help_5: To change the cooldown or duration values, type
-help_6: '&4/cookme set cooldown <value> &for &4/cookme set duration min <value>'
-help_7: '&4/cookme set duration max <value>'
-help_8: Set the percentages with &4/cookme set &e<value> <percentage>
-help_9: '&eValues: &fpermissions, messages, damage, death, venom,'
-help_10: hungervenom, hungerdecrease, confusion, blindness, weakness
-help_11: slowness, slowness_blocks, instant_damage, refusing, wither
+help: |-
+  &2Welcome to the CookMe version &4%version &2help
+  To see the help type &4/cookme help
+  You can enable permissions and messages with &4/cookme enable &e<value> &fand &4/cookme disable &e<value>
+  To reload use &4/cookme reload
+  To change the cooldown or duration values, type
+  &4/cookme set cooldown <value>&f, &4/cookme set duration min <value> &for
+  &4/cookme set duration max <value>
+  Set the percentages with &4/cookme set &e<value> <percentage>
+  &eValues: &fpermissions, messages, damage, death, venom,
+  hungervenom, hungerdecrease, confusion, blindness, weakness
+  slowness, slowness_blocks, instant_damage, refusing, wither, levitation, unluck
 no_number: '&4The given argument was not a number!'

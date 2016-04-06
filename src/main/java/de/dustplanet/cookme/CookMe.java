@@ -13,7 +13,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
@@ -84,11 +83,11 @@ public class CookMe extends JavaPlugin {
 
         // Localization
         localizationFile = new File(getDataFolder(), "localization.yml");
-        if (!localizationFile.exists() && localizationFile.getParentFile().mkdirs()) {
+        if (!localizationFile.exists()) {
             copy("localization.yml", localizationFile);
         }
         // Try to load
-        setLocalization(YamlConfiguration.loadConfiguration(localizationFile));
+        localization = ScalarYamlConfiguration.loadConfiguration(localizationFile);
         loadLocalization();
 
         // Refer to CookMeCommands
@@ -135,7 +134,7 @@ public class CookMe extends JavaPlugin {
             temp += percentages[i];
         }
         // If percentage is higher than 100, reset it, log it
-        if (temp > 100) {
+        if (Math.round(temp) * 100.0 / 100 > 100) {
             for (i = 0; i < getPercentages().length; i++) {
                 if (i == 1) {
                     percentages[i] = 3.4; // death
@@ -203,7 +202,6 @@ public class CookMe extends JavaPlugin {
 
     // Loads the localization
     private void loadLocalization() {
-        getLocalization().options().header("The underscores are used for the different lines!");
         getLocalization().addDefault("damage", "&4You got some random damage! Eat some cooked food!");
         getLocalization().addDefault("hungervenom", "&4Your foodbar is a random time venomed! Eat some cooked food!");
         getLocalization().addDefault("death", "&4The raw food killed you! :(");
@@ -221,32 +219,30 @@ public class CookMe extends JavaPlugin {
         getLocalization().addDefault("unluck", "&4You are for a random time unlucky! Eat some cooked food!");
         getLocalization().addDefault("permission_denied", "&4You do not have the permission to do this!");
         getLocalization().addDefault("enable_messages", "&2CookMe &4messages &2enabled!");
-        getLocalization().addDefault("enable_permissions_1", "&2CookMe &4permissions &2enabled! Only OPs");
-        getLocalization().addDefault("enable_permissions_2", "&2and players with the permission can use the plugin!");
+        getLocalization().addDefault("enable_permissions", "&2CookMe &4permissions &2enabled!\n" +
+                "&2Only OPs and players with the permission can use the plugin!");
         getLocalization().addDefault("disable_messages", "&2CookMe &4messages &2disabled!");
-        getLocalization().addDefault("disable_permissions_1", "&2CookMe &4permissions &4disabled!");
-        getLocalization().addDefault("disable_permissions_2", "&2All players can use the plugin!");
+        getLocalization().addDefault("disable_permissions", "&2CookMe &4permissions &4disabled!\n" +
+                "&4All players can use the plugin!");
         getLocalization().addDefault("reload", "&2CookMe &4%version &2reloaded!");
         getLocalization().addDefault("changed_effect",
-                "&2The percentage of the effect &e%effect &4 has been changed to &e%percentage%");
+                "&2The percentage of the effect &e%effect &4has been changed to &e%percentage%");
         getLocalization().addDefault("changed_cooldown", "&2The cooldown time has been changed to &e%value!");
         getLocalization().addDefault("changed_duration_max",
                 "&2The maximum duration time has been changed to &e%value!");
         getLocalization().addDefault("changed_duration_min",
                 "&2The minimum duration time has been changed to &e%value!");
-        getLocalization().addDefault("help_1", "&2Welcome to the CookMe version &4%version &2help");
-        getLocalization().addDefault("help_2", "To see the help type &4/cookme help");
-        getLocalization().addDefault("help_3",
-                "You can enable permissions and messages with &4/cookme enable &e<value> &fand &4/cookme disable &e<value>");
-        getLocalization().addDefault("help_4", "To reload use &4/cookme reload");
-        getLocalization().addDefault("help_5", "To change the cooldown or duration values, type");
-        getLocalization().addDefault("help_6",
-                "&4/cookme set cooldown <value> &for &4/cookme set duration min <value>");
-        getLocalization().addDefault("help_7", "&4/cookme set duration max <value>");
-        getLocalization().addDefault("help_8", "Set the percentages with &4/cookme set &e<value> <percentage>");
-        getLocalization().addDefault("help_9", "&eValues: &fpermissions, messages, damage, death, venom,");
-        getLocalization().addDefault("help_10", "hungervenom, hungerdecrease, confusion, blindness, weakness");
-        getLocalization().addDefault("help_11", "slowness, slowness_blocks, instant_damage, refusing");
+        getLocalization().addDefault("help", "&2Welcome to the CookMe version &4%version &2help\n" +
+                "To see the help type &4/cookme help\n" +
+                "You can enable permissions and messages with &4/cookme enable &e<value> &fand &4/cookme disable &e<value>\n" +
+                "To reload use &4/cookme reload\n" +
+                "To change the cooldown or duration values, type\n" +
+                "&4/cookme set cooldown <value>&f, &4/cookme set duration min <value> &for\n" +
+                "&4/cookme set duration max <value>\n" +
+                "Set the percentages with &4/cookme set &e<value> <percentage>\n" +
+                "&eValues: &fpermissions, messages, damage, death, venom,\n" +
+                "hungervenom, hungerdecrease, confusion, blindness, weakness\n" +
+                "slowness, slowness_blocks, instant_damage, refusing, wither, levitation, unluck");
         getLocalization().addDefault("no_number", "&4The given argument was not a number!");
         getLocalization().options().copyDefaults(true);
         saveLocalization();
@@ -298,11 +294,11 @@ public class CookMe extends JavaPlugin {
         PluginDescriptionFile pdfFile = getDescription();
         String tempMessage = message.replace("\u0025version", pdfFile.getVersion()).replace("\u0025effect", tempValue)
                 .replace("\u0025value", tempValue).replace("\u0025percentage", tempPercentage);
-        tempMessage = ChatColor.translateAlternateColorCodes('\u0026', tempMessage);
+        String newMessage[] = ChatColor.translateAlternateColorCodes('\u0026', tempMessage).split("\n");
         if (player != null) {
-            player.sendMessage(tempMessage);
+            player.sendMessage(newMessage);
         } else if (sender != null) {
-            sender.sendMessage(tempMessage);
+            sender.sendMessage(newMessage);
         }
     }
 

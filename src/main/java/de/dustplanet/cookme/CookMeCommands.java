@@ -194,10 +194,9 @@ public class CookMeCommands implements CommandExecutor {
 
     // See the help with /cookme help
     private void cookMeHelp(CommandSender sender) {
-        for (int i = 1; i <= 11; i++) {
-            String message = plugin.getLocalization().getString("help_" + Integer.toString(i));
-            plugin.message(sender, null, message, null, null);
-        }
+        String message = plugin.getLocalization().getString("help");
+        plugin.message(sender, null, message, null, null);
+
     }
 
     // Reloads the config with /cookme reload
@@ -211,10 +210,8 @@ public class CookMeCommands implements CommandExecutor {
     private void cookMeEnablePermissions(CommandSender sender) {
         plugin.getConfig().set("configuration.permissions", true);
         plugin.saveConfig();
-        for (int i = 1; i <= 2; i++) {
-            String message = plugin.getLocalization().getString("enable_permissions_" + Integer.toString(i));
-            plugin.message(sender, null, message, null, null);
-        }
+        String message = plugin.getLocalization().getString("enable_permissions");
+        plugin.message(sender, null, message, null, null);
         plugin.setPermissions(true);
     }
 
@@ -222,10 +219,8 @@ public class CookMeCommands implements CommandExecutor {
     private void cookMeDisablePermissions(CommandSender sender) {
         plugin.getConfig().set("configuration.permissions", false);
         plugin.saveConfig();
-        for (int i = 1; i <= 2; i++) {
-            String message = plugin.getLocalization().getString("disable_permissions_" + Integer.toString(i));
-            plugin.message(sender, null, message, null, null);
-        }
+        String message = plugin.getLocalization().getString("disable_permissions");
+        plugin.message(sender, null, message, null, null);
         plugin.setPermissions(false);
     }
 
