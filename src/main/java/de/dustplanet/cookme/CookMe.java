@@ -7,8 +7,10 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
+import org.bstats.Metrics;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -17,8 +19,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.mcstats.Metrics;
-import org.mcstats.Metrics.Graph;
 
 /**
  * CookeMe for CraftBukkit/Spigot.
@@ -94,26 +94,15 @@ public class CookMe extends JavaPlugin {
         executor = new CookMeCommands(this);
         getCommand("cookme").setExecutor(executor);
 
-        // Stats
-        try {
-            Metrics metrics = new Metrics(this);
-            // Construct a graph, which can be immediately used and considered
-            // as valid
-            Graph graph = metrics.createGraph("Percentage of affected items");
-            // Custom plotter for each item
-            for (String itemName : getItemList()) {
-                graph.addPlotter(new Metrics.Plotter(itemName) {
-                    @Override
-                    public int getValue() {
-                        return 1;
-                    }
-                });
-            }
-            metrics.start();
-        } catch (IOException e) {
-            getLogger().warning("Could not start Metrics!");
-            e.printStackTrace();
-        }
+        Metrics metrics = new Metrics(this);
+        metrics.addCustomChart(new Metrics.AdvancedPie("percentage_of_affected_items") {
+            @Override
+            public HashMap<String, Integer> getValues(HashMap<String, Integer> valueMap) {
+                for (String itemName : getItemList()) {
+                    valueMap.put(itemName, 1);
+                }
+                return valueMap;
+            }});
     }
 
     private void checkStuff() {
