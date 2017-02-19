@@ -3,6 +3,7 @@ package de.dustplanet.cookme;
 import java.util.Arrays;
 
 import org.bukkit.ChatColor;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -53,7 +54,7 @@ public class CookMeCommands implements CommandExecutor {
             if (sender instanceof Player) {
                 Player player = (Player) sender;
                 player.setFoodLevel(10);
-                player.setHealth(player.getMaxHealth());
+                player.setHealth(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
                 player.sendMessage(ChatColor.GREEN + "Food level reduced!");
             } else {
                 sender.sendMessage(ChatColor.RED + "Please use debug mode ingame!");
