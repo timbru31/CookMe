@@ -25,7 +25,7 @@ import org.bukkit.plugin.java.JavaPlugin;
  * Handles some general stuff!
  *
  * Refer to the dev.bukkit.org page:
- * http://dev.bukkit.org/bukkit-plugins/cookme/
+ * https://dev.bukkit.org/projects/cookme/
  *
  * @author xGhOsTkiLLeRx
  * thanks nisovin for his awesome code snippet
@@ -147,7 +147,7 @@ public class CookMe extends JavaPlugin {
 
     // Loads the config at start
     private void loadConfig() {
-        config.options().header("For help please refer to http://dev.bukkit.org/bukkit-plugins/cookme/");
+        config.options().header("For help please refer to https://dev.bukkit.org/projects/cookme/");
         config.addDefault("configuration.permissions", true);
         config.addDefault("configuration.messages", true);
         config.addDefault("configuration.duration.min", 15);

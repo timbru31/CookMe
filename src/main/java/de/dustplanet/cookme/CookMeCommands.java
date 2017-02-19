@@ -14,7 +14,7 @@ import org.bukkit.entity.Player;
  * Handles the commands!
  *
  * Refer to the dev.bukkit.org page:
- * http://dev.bukkit.org/bukkit-plugins/cookme/
+ * https://dev.bukkit.org/projects/cookme/
  *
  * @author xGhOsTkiLLeRx
  * thanks nisovin for his awesome code snippet!

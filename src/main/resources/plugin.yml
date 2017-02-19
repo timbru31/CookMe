@@ -2,7 +2,7 @@ name: CookMe
 main: de.dustplanet.cookme.CookMe
 version: ${project.version}${build.number}
 author: xGhOsTkiLLeRx
-website: http://dev.bukkit.org/bukkit-plugins/cookme/
+website: https://dev.bukkit.org/projects/cookme/
 commands:
   cookme:
     description: Handles all the CookMe commands
