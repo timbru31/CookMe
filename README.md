@@ -19,7 +19,7 @@ This CraftBukkit plugin adds a more realistic and detailed behavior when you con
 * Please note that there is currently no support for the new fishes, see [#2](https://github.com/xGhOsTkiLLeRx/CookMe/issues/2)
 
 *Third party features, all of them can be disabled*
-* Metrics for usage statistics
+* bStats for usage statistics
 
 ## License
 This plugin is released under the
@@ -145,29 +145,30 @@ Feel free to submit any PRs here. :)
 Please follow the Sun Coding Guidelines, thanks!
 
 ## Usage statistics
-[![MCStats](http://mcstats.org/signature/CookMe.png)](http://mcstats.org/plugin/CookMe)
 
-## Data usage collection of Metrics
+_stats images are returning soon!_
 
-#### Disabling Metrics
-The file ../plugins/Plugin Metrics/config.yml contains an option to *opt-out*
+## Data usage collection of bStats
 
-#### The following data is **read** from the server in some way or another
-* File Contents of plugins/Plugin Metrics/config.yml (created if not existent)
-* Players currently online (not max player count)
-* Server version string (the same version string you see in /version)
-* Plugin version of the metrics-supported plugin
-* Mineshafter status - it does not properly propagate Metrics requests however it is a very simple check and does not read the filesystem
+#### Disabling bStats
+The file _../plugins/bStats/config.yml_ contains an option to opt-out
 
-#### The following data is **sent** to http://mcstats.org and can be seen under http://mcstats.org/plugin/CookMe
-* Metrics revision of the implementing class
-* Server's GUID
-* Players currently online (not max player count)
-* Server version string (the same version string you see in /version)
-* Plugin version of the metrics-supported plugin
+#### The following data is **read and sent** to https://bstats.org and can be seen under https://bstats.org/plugin/bukkit/CookMe
+* Your server's randomly generated UUID
+* The amount of players on your server
+* The online mode of your server
+* The bukkit version of your server
+* The java version of your system (e.g. Java 8)
+* The name of your OS (e.g. Windows)
+* The version of your OS
+* The architecture of your OS (e.g. amd64)
+* The system cores of your OS (e.g. 8)
+* bStats-supported plugins
+* Plugin version of bStats-supported plugins
+* List of enabled foods
 
 ## Donation
 [![PayPal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif "Donation via PayPal")](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=T9TEV7Q88B9M2)
 
-![BitCoin](https://dl.dropboxusercontent.com/u/26476995/bitcoin_logo.png "Donation via BitCoins")
+![BitCoin](https://dl.dropboxusercontent.com/u/26476995/bitcoin_logo.png "Donation via BitCoins")  
 Address: 1NnrRgdy7CfiYN63vKHiypSi3MSctCP55C
