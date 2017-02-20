@@ -141,7 +141,7 @@ In the following table the X needs to be replaced by one of these effects
 For support visit the dev.bukkit.org page: https://dev.bukkit.org/projects/cookme
 
 ## Pull Requests
-Feel free to submit any PRs here. :)
+Feel free to submit any PRs here. :)  
 Please follow the Sun Coding Guidelines, thanks!
 
 ## Usage statistics
@@ -151,7 +151,7 @@ _stats images are returning soon!_
 ## Data usage collection of bStats
 
 #### Disabling bStats
-The file _../plugins/bStats/config.yml_ contains an option to opt-out
+The file _../plugins/bStats/config.yml_ contains an option to opt-out.
 
 #### The following data is **read and sent** to https://bstats.org and can be seen under https://bstats.org/plugin/bukkit/CookMe
 * Your server's randomly generated UUID
