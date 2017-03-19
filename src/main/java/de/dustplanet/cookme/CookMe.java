@@ -20,6 +20,9 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * CookeMe for CraftBukkit/Spigot.
  * Handles some general stuff!
@@ -33,19 +36,26 @@ import org.bukkit.plugin.java.JavaPlugin;
  */
 
 public class CookMe extends JavaPlugin {
-    private CookMePlayerListener playerListener;
+    @Getter
+    @Setter
     private CooldownManager cooldownManager;
+    @Getter
     private FileConfiguration config, localization;
     private File configFile, localizationFile;
+    @Getter
+    @Setter
     private List<String> itemList = new ArrayList<>();
+    @Getter
+    @Setter
     private int cooldown, minDuration, maxDuration;
+    @Getter
+    @Setter
     private boolean debug, messages, permissions, preventVanillaPoison, randomEffectStrength;
     private String[] rawFood = { "RAW_BEEF", "RAW_CHICKEN", "RAW_FISH", "PORK", "ROTTEN_FLESH", "MUTTON", "RABBIT" };
     private String[] effects = { "damage", "death", "venom", "hungervenom", "hungerdecrease", "confusion", "blindness",
             "weakness", "slowness", "slowness_blocks", "instant_damage", "refusing", "wither", "levitation", "unluck" };
     private double[] percentages = new double[effects.length];
     private int[] effectStrengths = new int[effects.length];
-    private CookMeCommands executor;
 
     // Shutdown
     @Override
@@ -58,7 +68,7 @@ public class CookMe extends JavaPlugin {
     @Override
     public void onEnable() {
         // Events
-        playerListener = new CookMePlayerListener(this);
+        CookMePlayerListener playerListener = new CookMePlayerListener(this);
         PluginManager pm = getServer().getPluginManager();
         pm.registerEvents(playerListener, this);
 
@@ -78,21 +88,16 @@ public class CookMe extends JavaPlugin {
         loadConfig();
         checkStuff();
 
-        // Sets the cooldown
         setCooldownManager(new CooldownManager(getCooldown()));
 
-        // Localization
         localizationFile = new File(getDataFolder(), "localization.yml");
         if (!localizationFile.exists()) {
             copy("localization.yml", localizationFile);
         }
-        // Try to load
         localization = ScalarYamlConfiguration.loadConfiguration(localizationFile);
         loadLocalization();
 
-        // Refer to CookMeCommands
-        executor = new CookMeCommands(this);
-        getCommand("cookme").setExecutor(executor);
+        getCommand("cookme").setExecutor(new CookMeCommands(this));
 
         Metrics metrics = new Metrics(this);
         metrics.addCustomChart(new Metrics.AdvancedPie("percentage_of_affected_items") {
@@ -145,7 +150,6 @@ public class CookMe extends JavaPlugin {
         }
     }
 
-    // Loads the config at start
     private void loadConfig() {
         config.options().header("For help please refer to https://dev.bukkit.org/projects/cookme/");
         config.addDefault("configuration.permissions", true);
@@ -171,7 +175,6 @@ public class CookMe extends JavaPlugin {
         config.addDefault("effects.wither", 6.9);
         config.addDefault("effects.levitation", 6.9);
         config.addDefault("effects.unluck", 6.9);
-        // EffectStrength
         config.addDefault("effectStrength.venom", 8);
         config.addDefault("effectStrength.hungervenom", 8);
         config.addDefault("effectStrength.confusion", 8);
@@ -183,13 +186,11 @@ public class CookMe extends JavaPlugin {
         config.addDefault("effectStrength.wither", 8);
         config.addDefault("effectStrength.levitation", 8);
         config.addDefault("effectStrength.unluck", 8);
-        // wither
         config.addDefault("food", Arrays.asList(rawFood));
         config.options().copyDefaults(true);
         saveConfig();
     }
 
-    // Loads the localization
     private void loadLocalization() {
         getLocalization().addDefault("damage", "&4You got some random damage! Eat some cooked food!");
         getLocalization().addDefault("hungervenom", "&4Your foodbar is a random time venomed! Eat some cooked food!");
@@ -237,7 +238,6 @@ public class CookMe extends JavaPlugin {
         saveLocalization();
     }
 
-    // Saves the localization
     private void saveLocalization() {
         try {
             getLocalization().save(localizationFile);
@@ -247,7 +247,6 @@ public class CookMe extends JavaPlugin {
         }
     }
 
-    // Reloads the configs via command /cookme reload
     public void loadConfigsAgain() {
         try {
             config.load(configFile);
@@ -262,7 +261,6 @@ public class CookMe extends JavaPlugin {
         }
     }
 
-    // If no config is found, copy the default one(s)!
     private void copy(String yml, File file) {
         try (OutputStream out = new FileOutputStream(file); InputStream in = getResource(yml)) {
             byte[] buf = new byte[1024];
@@ -276,7 +274,6 @@ public class CookMe extends JavaPlugin {
         }
     }
 
-    // Message the sender or player
     public void message(CommandSender sender, Player player, String message, String value, String percentage) {
         String tempValue = value == null ? "" : value;
         String tempPercentage = percentage == null ? "" : percentage;
@@ -291,54 +288,6 @@ public class CookMe extends JavaPlugin {
         }
     }
 
-    public FileConfiguration getLocalization() {
-        return localization;
-    }
-
-    public void setLocalization(FileConfiguration localization) {
-        this.localization = localization;
-    }
-
-    public CooldownManager getCooldownManager() {
-        return cooldownManager;
-    }
-
-    public void setCooldownManager(CooldownManager cooldownManager) {
-        this.cooldownManager = cooldownManager;
-    }
-
-    public int getCooldown() {
-        return cooldown;
-    }
-
-    public void setCooldown(int cooldown) {
-        this.cooldown = cooldown;
-    }
-
-    public boolean isPreventVanillaPoison() {
-        return preventVanillaPoison;
-    }
-
-    public void setPreventVanillaPoison(boolean preventVanillaPoison) {
-        this.preventVanillaPoison = preventVanillaPoison;
-    }
-
-    public boolean isMessages() {
-        return messages;
-    }
-
-    public void setMessages(boolean messages) {
-        this.messages = messages;
-    }
-
-    public boolean isRandomEffectStrength() {
-        return randomEffectStrength;
-    }
-
-    public void setRandomEffectStrength(boolean randomEffectStrength) {
-        this.randomEffectStrength = randomEffectStrength;
-    }
-
     public double[] getPercentages() {
         return percentages.clone();
     }
@@ -347,52 +296,12 @@ public class CookMe extends JavaPlugin {
         this.percentages = percentages.clone();
     }
 
-    public int getMinDuration() {
-        return minDuration;
-    }
-
-    public void setMinDuration(int minDuration) {
-        this.minDuration = minDuration;
-    }
-
     public int[] getEffectStrengths() {
         return effectStrengths.clone();
     }
 
     public void setEffectStrengths(int[] effectStrengths) {
         this.effectStrengths = effectStrengths.clone();
-    }
-
-    public int getMaxDuration() {
-        return maxDuration;
-    }
-
-    public void setMaxDuration(int maxDuration) {
-        this.maxDuration = maxDuration;
-    }
-
-    public List<String> getItemList() {
-        return itemList;
-    }
-
-    public void setItemList(List<String> itemList) {
-        this.itemList = itemList;
-    }
-
-    public boolean isPermissions() {
-        return permissions;
-    }
-
-    public void setPermissions(boolean permissions) {
-        this.permissions = permissions;
-    }
-
-    public boolean isDebug() {
-        return debug;
-    }
-
-    public void setDebug(boolean debug) {
-        this.debug = debug;
     }
 
     public String[] getEffects() {

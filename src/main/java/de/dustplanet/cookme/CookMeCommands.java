@@ -28,10 +28,8 @@ public class CookMeCommands implements CommandExecutor {
         plugin = instance;
     }
 
-    // Commands; always check for permissions!
     @Override
     public boolean onCommand(CommandSender sender, Command command, String commandLabel, String[] args) {
-        // reload
         if (args.length > 0 && args[0].equalsIgnoreCase("reload")) {
             if (sender.hasPermission("cookme.reload") || !plugin.isPermissions()) {
                 cookMeReload(sender);
@@ -41,7 +39,6 @@ public class CookMeCommands implements CommandExecutor {
             }
             return true;
         } else if (args.length > 0 && args[0].equalsIgnoreCase("help")) {
-            // help
             if (sender.hasPermission("cookme.help") || !plugin.isPermissions()) {
                 cookMeHelp(sender);
             } else {
@@ -50,7 +47,6 @@ public class CookMeCommands implements CommandExecutor {
             }
             return true;
         } else if (args.length > 0 && args[0].equalsIgnoreCase("debug") && plugin.isDebug()) {
-            // Debug
             if (sender instanceof Player) {
                 Player player = (Player) sender;
                 player.setFoodLevel(10);
@@ -61,7 +57,6 @@ public class CookMeCommands implements CommandExecutor {
             }
             return true;
         } else if (args.length > 1 && args[0].equalsIgnoreCase("set")) {
-            // Set cooldown, duration or percentage of an effect
             if (args[1].equalsIgnoreCase("cooldown")) {
                 if (sender.hasPermission("cookme.cooldown") || !plugin.isPermissions()) {
                     if (args.length > 2) {
@@ -69,7 +64,6 @@ public class CookMeCommands implements CommandExecutor {
                         try {
                             cooldown = Integer.parseInt(args[2]);
                         } catch (NumberFormatException e) {
-                            // Cooldown not a number?
                             String message = plugin.getLocalization().getString("no_number");
                             plugin.message(sender, null, message, null, null);
                             return true;
@@ -87,16 +81,13 @@ public class CookMeCommands implements CommandExecutor {
                 }
                 return true;
             } else if (args[1].equalsIgnoreCase("duration") && args.length > 2) {
-                // Duration
                 if (sender.hasPermission("cookme.duration") || !plugin.isPermissions()) {
-                    // Max or Min
                     if (args[2].equalsIgnoreCase("max") || args[2].equalsIgnoreCase("min")) {
                         if (args.length > 3) {
                             int duration = 0;
                             try {
                                 duration = Integer.parseInt(args[3]);
                             } catch (NumberFormatException e) {
-                                // Duration not a number?
                                 String message = plugin.getLocalization().getString("no_number");
                                 plugin.message(sender, null, message, null, null);
                                 return true;
@@ -105,7 +96,6 @@ public class CookMeCommands implements CommandExecutor {
                             plugin.saveConfig();
                             String message = plugin.getLocalization().getString("changed_duration_" + args[2].toLowerCase());
                             plugin.message(sender, null, message, Integer.toString(duration), null);
-                            // We know it's safe
                             if (args[2].equalsIgnoreCase("max")) {
                                 plugin.setMaxDuration(duration);
                             } else {
@@ -121,7 +111,6 @@ public class CookMeCommands implements CommandExecutor {
                 }
                 return true;
             } else if (Arrays.asList(plugin.getEffects()).contains(args[1].toLowerCase())) {
-                // Effects
                 String effect = args[1].toLowerCase();
                 if (args.length > 2) {
                     if (sender.hasPermission("cookme.set." + effect) || !plugin.isPermissions()) {
@@ -129,7 +118,6 @@ public class CookMeCommands implements CommandExecutor {
                         try {
                             percentage = Double.valueOf(args[2]);
                         } catch (NumberFormatException e) {
-                            // Percentage not a number?
                             String message = plugin.getLocalization().getString("no_number");
                             plugin.message(sender, null, message, null, null);
                             return true;
@@ -148,8 +136,6 @@ public class CookMeCommands implements CommandExecutor {
                 return false;
             }
         } else if (args.length > 0 && args[0].equalsIgnoreCase("enable")) {
-            // Enable
-            // permissions
             if (args.length > 1 && args[1].equalsIgnoreCase("permissions")) {
                 if (sender.hasPermission("cookme.enable.permissions") || !plugin.isPermissions()) {
                     cookMeEnablePermissions(sender);
@@ -159,7 +145,6 @@ public class CookMeCommands implements CommandExecutor {
                 }
                 return true;
             } else if (args.length > 1 && args[1].equalsIgnoreCase("messages")) {
-                // Messages
                 if (sender.hasPermission("cookme.enable.messages") || !plugin.isPermissions()) {
                     cookMeEnableMessages(sender);
                 } else {
@@ -169,8 +154,6 @@ public class CookMeCommands implements CommandExecutor {
                 return true;
             }
         } else if (args.length > 0 && args[0].equalsIgnoreCase("disable")) {
-            // Disable
-            // permissions
             if (args.length > 1 && args[1].equalsIgnoreCase("permissions")) {
                 if (sender.hasPermission("cookme.disable.permissions") || !plugin.isPermissions()) {
                     cookMeDisablePermissions(sender);
@@ -180,7 +163,6 @@ public class CookMeCommands implements CommandExecutor {
                 }
                 return true;
             } else if (args.length > 1 && args[1].equalsIgnoreCase("messages")) {
-                // Messages
                 if (sender.hasPermission("cookme.disable.messages") || !plugin.isPermissions()) {
                     cookMeDisableMessages(sender);
                 } else {
@@ -193,21 +175,18 @@ public class CookMeCommands implements CommandExecutor {
         return false;
     }
 
-    // See the help with /cookme help
     private void cookMeHelp(CommandSender sender) {
         String message = plugin.getLocalization().getString("help");
         plugin.message(sender, null, message, null, null);
 
     }
 
-    // Reloads the config with /cookme reload
     private void cookMeReload(CommandSender sender) {
         plugin.loadConfigsAgain();
         String message = plugin.getLocalization().getString("reload");
         plugin.message(sender, null, message, null, null);
     }
 
-    // Enables permissions with /cookme enable permissions
     private void cookMeEnablePermissions(CommandSender sender) {
         plugin.getConfig().set("configuration.permissions", true);
         plugin.saveConfig();
@@ -216,7 +195,6 @@ public class CookMeCommands implements CommandExecutor {
         plugin.setPermissions(true);
     }
 
-    // Disables permissions with /cookme disable permissions
     private void cookMeDisablePermissions(CommandSender sender) {
         plugin.getConfig().set("configuration.permissions", false);
         plugin.saveConfig();
@@ -225,7 +203,6 @@ public class CookMeCommands implements CommandExecutor {
         plugin.setPermissions(false);
     }
 
-    // Enables messages with /cookme enable messages
     private void cookMeEnableMessages(CommandSender sender) {
         plugin.getConfig().set("configuration.messages", true);
         plugin.saveConfig();
@@ -234,7 +211,6 @@ public class CookMeCommands implements CommandExecutor {
         plugin.setMessages(true);
     }
 
-    // Disables messages with /cookme disable messages
     private void cookMeDisableMessages(CommandSender sender) {
         plugin.getConfig().set("configuration.messages", false);
         plugin.saveConfig();

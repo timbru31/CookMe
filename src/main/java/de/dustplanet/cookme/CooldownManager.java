@@ -28,7 +28,6 @@ public class CooldownManager {
      */
     private LinkedHashMap<UUID, Timestamp> cooldownList = new LinkedHashMap<>();
 
-    // Sets the cooldown!
     /**
      * Creates a new CooldownManagr with the given cooldown.
      * @param cooldownValue cooldown in seconds
@@ -37,7 +36,6 @@ public class CooldownManager {
         cooldown = cooldownValue;
     }
 
-    // Get the cooldown value
     /**
      * Returns the current cooldown.
      * @return cooldown in seconds
@@ -46,7 +44,6 @@ public class CooldownManager {
         return cooldown;
     }
 
-    // Set the cooldown value
     /**
      * Sets the cooldown value in seconds.
      * @param cooldownValue cooldown in seconds.
@@ -55,7 +52,6 @@ public class CooldownManager {
         cooldown = cooldownValue;
     }
 
-    // Add the player with the now time to the hashmap
     /**
      * Adds a player to the cooldown list.
      * @param player player to add
@@ -70,7 +66,6 @@ public class CooldownManager {
         return false;
     }
 
-    // Remove player
     /**
      * Removes a player from the cooldown list.
      * @param player a player to remove
@@ -84,7 +79,6 @@ public class CooldownManager {
         return false;
     }
 
-    // Check for the cooldown
     /**
      * Checks if a player has a cooldown.
      * @param player the player to check
@@ -92,12 +86,9 @@ public class CooldownManager {
      * @return the boolean value is a player has cooldown or not
      */
     public boolean hasCooldown(Player player, Timestamp now) {
-        // If the player is on the list
         if (cooldownList.containsKey(player.getUniqueId())) {
             Timestamp time = cooldownList.get(player.getUniqueId());
             long difference = (now.getTime() - time.getTime()) / 1000;
-            // If the difference is bigger than the cooldown time -> no cooldown
-            // anymore
             if (difference > cooldown) {
                 removePlayer(player);
             } else {
@@ -107,7 +98,6 @@ public class CooldownManager {
         return false;
     }
 
-    // Makes the list empty
     /**
      * Clears the cooldown list.
      */
@@ -115,7 +105,6 @@ public class CooldownManager {
         cooldownList.clear();
     }
 
-    // Returns the rest of the cooldown time
     /**
      * Returns the time a player needs to cooldown.
      * @param player the player to check
@@ -126,8 +115,6 @@ public class CooldownManager {
         if (cooldownList.containsKey(player.getUniqueId())) {
             Timestamp time = cooldownList.get(player.getUniqueId());
             long difference = (now.getTime() - time.getTime()) / 1000;
-            // If the difference is bigger than the cooldown time -> no cooldown
-            // anymore
             if (difference > cooldown) {
                 return 0;
             }
