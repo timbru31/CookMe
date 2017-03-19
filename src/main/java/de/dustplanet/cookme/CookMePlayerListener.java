@@ -170,7 +170,6 @@ public class CookMePlayerListener implements Listener {
     private boolean sameItem(Material item) {
         for (String itemName : plugin.getItemList()) {
             Material mat = Material.matchMaterial(itemName);
-            // Not valid
             if (mat == null) {
                 if (message) {
                     plugin.getLogger().warning("Couldn't load the foods! Please check your config!");

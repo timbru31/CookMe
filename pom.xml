@@ -21,7 +21,6 @@
     <plugin.package>de.dustplanet.cookme</plugin.package>
   </properties>
 
-  <!-- Repositories -->
   <repositories>
     <repository>
       <id>parent</id>

@@ -57,22 +57,18 @@ public class CookMe extends JavaPlugin {
     private double[] percentages = new double[effects.length];
     private int[] effectStrengths = new int[effects.length];
 
-    // Shutdown
     @Override
     public void onDisable() {
         getItemList().clear();
         getCooldownManager().clearCooldownList();
     }
 
-    // Start
     @Override
     public void onEnable() {
-        // Events
         CookMePlayerListener playerListener = new CookMePlayerListener(this);
         PluginManager pm = getServer().getPluginManager();
         pm.registerEvents(playerListener, this);
 
-        // Config
         configFile = new File(getDataFolder(), "config.yml");
         if (!configFile.exists()) {
             if (getDataFolder().mkdirs()) {
@@ -127,11 +123,11 @@ public class CookMe extends JavaPlugin {
             percentages[i] = config.getDouble("effects." + getEffects()[i]);
             temp += percentages[i];
         }
-        // If percentage is higher than 100, reset it, log it
+
         if (Math.round(temp) * 100.0 / 100 > 100) {
             for (i = 0; i < getPercentages().length; i++) {
                 if (i == 1) {
-                    percentages[i] = 3.4; // death
+                    percentages[i] = 3.4;
                     config.set("effects." + getEffects()[i], 3.4);
                     continue;
                 }
