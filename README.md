@@ -16,7 +16,7 @@ This CraftBukkit plugin adds a more realistic and detailed behavior when you con
 * Flexible on the fly configuration via commands
 * Opt-out permission and command permissions
 * Cooldown until the next effect should occur
-* Please note that there is currently no support for the new fishes, see [#2](https://github.com/xGhOsTkiLLeRx/CookMe/issues/2)
+* Please note that there is currently no support for the new fishes, see [#2](https://github.com/timbru31/CookMe/issues/2)
 
 *Third party features, all of them can be disabled*
 * bStats for usage statistics
@@ -91,21 +91,21 @@ food:
 (Fallback to OPs, if no permissions system is found)
 
 ### General commands
-| Command | Permission node | Description |
-|:----------:|:----------:|:----------:|
-| - | cookme.safe | Opt out permission (no effects appear) |
-| /cookme reload | cookme.reload | Reloads the configuration files |
-| /cookme help | cookme.help | Displays a help menu |
-| /cookme debug | only active when debug is true | Reduces your food level |
+| Command        | Permission node                | Description                            |
+|:--------------:|:------------------------------:|:--------------------------------------:|
+|              - | cookme.safe                    | Opt out permission (no effects appear) |
+| /cookme reload | cookme.reload                  | Reloads the configuration files        |
+| /cookme help   | cookme.help                    | Displays a help menu                   |
+| /cookme debug  | only active when debug is true | Reduces your food level                |
 
 ### Enabling or disabling parts
 In the following table the X needs to be replaced by one of these values
 * permissions
 * messages
 
-| Command | Permission node | Description |
-|:----------:|:----------:|:----------:|
-| /cookme enable X | cookme.enable.X | Enables permissions/messages |
+| Command           | Permission node  | Description                   |
+|:-----------------:|:----------------:|:-----------------------------:|
+| /cookme enable X  | cookme.enable.X  | Enables permissions/messages  |
 | /cookme disable X | cookme.disable.X | Disables permissions/messages |
 
 ### Adjusting duration, cooldown and percentages
@@ -126,12 +126,12 @@ In the following table the X needs to be replaced by one of these effects
 * levitation
 * unluck
 
-| Command | Permission node | Description |
-|:----------:|:----------:|:----------:|
-| /cookme set cooldown | cookme.cooldown | Sets the cooldown time in seconds |
+| Command                  | Permission node | Description                          |
+|:------------------------:|:---------------:|:------------------------------------:|
+| /cookme set cooldown     | cookme.cooldown | Sets the cooldown time in seconds    |
 | /cookme set duration max | cookme.duration | Sets the maximum duration in seconds |
 | /cookme set duration min | cookme.duration | Sets the minimum duration in seconds |
-| /cookme set X | cookme.set.X | Sets the percentage of effect X |
+| /cookme set X            | cookme.set.X    | Sets the percentage of effect X      |
 
 ## Credits
 * nisovin for the code snippet prior to the Potion API
@@ -170,5 +170,5 @@ The file _../plugins/bStats/config.yml_ contains an option to opt-out.
 ## Donation
 [![PayPal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif "Donation via PayPal")](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=T9TEV7Q88B9M2)
 
-![BitCoin](https://dl.dropboxusercontent.com/u/26476995/bitcoin_logo.png "Donation via BitCoins")  
-Address: 1NnrRgdy7CfiYN63vKHiypSi3MSctCP55C
+![BitCoin](https://dustplanet.de/wp-content/uploads/2015/01/bitcoin-logo-plain.png "Donation via BitCoins")  
+1NnrRgdy7CfiYN63vKHiypSi3MSctCP55C
