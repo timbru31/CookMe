@@ -10,7 +10,7 @@
 
   <groupId>de.dustplanet</groupId>
   <artifactId>CookMe</artifactId>
-  <version>1.8.4-SNAPSHOT</version>
+  <version>1.8.4</version>
   <name>CookMe</name>
   <description>Beware of raw food!</description>
   <url>https://dev.bukkit.org/projects/cookme</url>
@@ -34,6 +34,6 @@
     <url>https://github.com/timbru31/CookMe</url>
     <connection>scm:git:git://github.com/timbru31/CookMe.git</connection>
     <developerConnection>scm:git:git@github.com:timbru31/CookMe.git</developerConnection>
-    <tag>HEAD</tag>
+    <tag>CookMe-1.8.4</tag>
   </scm>
 </project>
