@@ -39,8 +39,9 @@ public class CookMe extends JavaPlugin {
     @Getter
     @Setter
     private CooldownManager cooldownManager;
+    private FileConfiguration config;
     @Getter
-    private FileConfiguration config, localization;
+    private FileConfiguration localization;
     private File configFile, localizationFile;
     @Getter
     @Setter
