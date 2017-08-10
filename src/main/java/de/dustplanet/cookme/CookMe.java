@@ -9,8 +9,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.Callable;
 
-import org.bstats.Metrics;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -22,18 +24,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import lombok.Getter;
 import lombok.Setter;
-
-/**
- * CookeMe for CraftBukkit/Spigot.
- * Handles some general stuff!
- *
- * Refer to the dev.bukkit.org page:
- * https://dev.bukkit.org/projects/cookme/
- *
- * @author xGhOsTkiLLeRx
- * thanks nisovin for his awesome code snippet
- *
- */
 
 public class CookMe extends JavaPlugin {
     @Getter
@@ -53,8 +43,8 @@ public class CookMe extends JavaPlugin {
     @Setter
     private boolean debug, messages, permissions, preventVanillaPoison, randomEffectStrength;
     private String[] rawFood = { "RAW_BEEF", "RAW_CHICKEN", "RAW_FISH", "PORK", "ROTTEN_FLESH", "MUTTON", "RABBIT" };
-    private String[] effects = { "damage", "death", "venom", "hungervenom", "hungerdecrease", "confusion", "blindness",
-            "weakness", "slowness", "slowness_blocks", "instant_damage", "refusing", "wither", "levitation", "unluck" };
+    private String[] effects = { "damage", "death", "venom", "hungervenom", "hungerdecrease", "confusion", "blindness", "weakness",
+            "slowness", "slowness_blocks", "instant_damage", "refusing", "wither", "levitation", "unluck" };
     private double[] percentages = new double[effects.length];
     private int[] effectStrengths = new int[effects.length];
 
@@ -97,14 +87,17 @@ public class CookMe extends JavaPlugin {
         getCommand("cookme").setExecutor(new CookMeCommands(this));
 
         Metrics metrics = new Metrics(this);
-        metrics.addCustomChart(new Metrics.AdvancedPie("percentage_of_affected_items") {
+        metrics.addCustomChart(new Metrics.AdvancedPie("percentage_of_affected_items", new Callable<Map<String, Integer>>() {
             @Override
-            public HashMap<String, Integer> getValues(HashMap<String, Integer> valueMap) {
+            public Map<String, Integer> call() throws Exception {
+                Map<String, Integer> valueMap = new HashMap<>();
                 for (String itemName : getItemList()) {
                     valueMap.put(itemName, 1);
                 }
                 return valueMap;
-            }});
+            }
+        }));
+
     }
 
     private void checkStuff() {
@@ -135,8 +128,7 @@ public class CookMe extends JavaPlugin {
                 percentages[i] = 6.9;
                 config.set("effects." + getEffects()[i], 6.9);
             }
-            getLogger().warning(
-                    ChatColor.RED + "Detected that the entire procentage is higer than 100. Resetting to default...");
+            getLogger().warning(ChatColor.RED + "Detected that the entire procentage is higer than 100. Resetting to default...");
             saveConfig();
         }
 
@@ -206,30 +198,24 @@ public class CookMe extends JavaPlugin {
         getLocalization().addDefault("unluck", "&4You are for a random time unlucky! Eat some cooked food!");
         getLocalization().addDefault("permission_denied", "&4You do not have the permission to do this!");
         getLocalization().addDefault("enable_messages", "&2CookMe &4messages &2enabled!");
-        getLocalization().addDefault("enable_permissions", "&2CookMe &4permissions &2enabled!\n" +
-                "&2Only OPs and players with the permission can use the plugin!");
+        getLocalization().addDefault("enable_permissions",
+                "&2CookMe &4permissions &2enabled!\n" + "&2Only OPs and players with the permission can use the plugin!");
         getLocalization().addDefault("disable_messages", "&2CookMe &4messages &2disabled!");
-        getLocalization().addDefault("disable_permissions", "&2CookMe &4permissions &4disabled!\n" +
-                "&4All players can use the plugin!");
+        getLocalization().addDefault("disable_permissions", "&2CookMe &4permissions &4disabled!\n" + "&4All players can use the plugin!");
         getLocalization().addDefault("reload", "&2CookMe &4%version &2reloaded!");
-        getLocalization().addDefault("changed_effect",
-                "&2The percentage of the effect &e%effect &4has been changed to &e%percentage%");
+        getLocalization().addDefault("changed_effect", "&2The percentage of the effect &e%effect &4has been changed to &e%percentage%");
         getLocalization().addDefault("changed_cooldown", "&2The cooldown time has been changed to &e%value!");
-        getLocalization().addDefault("changed_duration_max",
-                "&2The maximum duration time has been changed to &e%value!");
-        getLocalization().addDefault("changed_duration_min",
-                "&2The minimum duration time has been changed to &e%value!");
-        getLocalization().addDefault("help", "&2Welcome to the CookMe version &4%version &2help\n" +
-                "To see the help type &4/cookme help\n" +
-                "You can enable permissions and messages with &4/cookme enable &e<value> &fand &4/cookme disable &e<value>\n" +
-                "To reload use &4/cookme reload\n" +
-                "To change the cooldown or duration values, type\n" +
-                "&4/cookme set cooldown <value>&f, &4/cookme set duration min <value> &for\n" +
-                "&4/cookme set duration max <value>\n" +
-                "Set the percentages with &4/cookme set &e<value> <percentage>\n" +
-                "&eValues: &fpermissions, messages, damage, death, venom,\n" +
-                "hungervenom, hungerdecrease, confusion, blindness, weakness\n" +
-                "slowness, slowness_blocks, instant_damage, refusing, wither, levitation, unluck");
+        getLocalization().addDefault("changed_duration_max", "&2The maximum duration time has been changed to &e%value!");
+        getLocalization().addDefault("changed_duration_min", "&2The minimum duration time has been changed to &e%value!");
+        getLocalization().addDefault("help",
+                "&2Welcome to the CookMe version &4%version &2help\n" + "To see the help type &4/cookme help\n"
+                        + "You can enable permissions and messages with &4/cookme enable &e<value> &fand &4/cookme disable &e<value>\n"
+                        + "To reload use &4/cookme reload\n" + "To change the cooldown or duration values, type\n"
+                        + "&4/cookme set cooldown <value>&f, &4/cookme set duration min <value> &for\n"
+                        + "&4/cookme set duration max <value>\n" + "Set the percentages with &4/cookme set &e<value> <percentage>\n"
+                        + "&eValues: &fpermissions, messages, damage, death, venom,\n"
+                        + "hungervenom, hungerdecrease, confusion, blindness, weakness\n"
+                        + "slowness, slowness_blocks, instant_damage, refusing, wither, levitation, unluck");
         getLocalization().addDefault("no_number", "&4The given argument was not a number!");
         getLocalization().options().copyDefaults(true);
         saveLocalization();
