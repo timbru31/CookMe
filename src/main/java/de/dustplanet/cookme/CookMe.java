@@ -263,7 +263,7 @@ public class CookMe extends JavaPlugin {
         PluginDescriptionFile pdfFile = getDescription();
         String tempMessage = message.replace("\u0025version", pdfFile.getVersion()).replace("\u0025effect", tempValue)
                 .replace("\u0025value", tempValue).replace("\u0025percentage", tempPercentage);
-        String newMessage[] = ChatColor.translateAlternateColorCodes('\u0026', tempMessage).split("\n");
+        String[] newMessage = ChatColor.translateAlternateColorCodes('\u0026', tempMessage).split("\n");
         if (player != null) {
             player.sendMessage(newMessage);
         } else if (sender != null) {
