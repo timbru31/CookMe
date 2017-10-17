@@ -4,7 +4,7 @@
   <parent>
     <groupId>de.dustplanet</groupId>
     <artifactId>bukkit-plugin</artifactId>
-    <version>3.5.1-SNAPSHOT</version>
+    <version>4.0.0-SNAPSHOT</version>
     <relativePath />
   </parent>
 
@@ -18,7 +18,6 @@
     <plugin.name>CookMe</plugin.name>
     <plugin.main>de.dustplanet.cookme.CookMe</plugin.main>
     <plugin.package>de.dustplanet.cookme</plugin.package>
-    <jdk.version>1.8</jdk.version>
   </properties>
 
   <repositories>
