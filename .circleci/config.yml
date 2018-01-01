@@ -1,16 +1,16 @@
 _job_base: &job_base
-  working_directory: ~/immortal-login
+  working_directory: ~/cook-me
   steps:
     - checkout
     - run: java -version
     - run: mvn -version
     - restore_cache:
-        key: immortal-login-{{ checksum "pom.xml" }}
+        key: cook-me-{{ checksum "pom.xml" }}
     - run: mvn dependency:go-offline
     - save_cache:
         paths:
           - ~/.m2
-        key: immortal-login-{{ checksum "pom.xml" }}
+        key: cook-me-{{ checksum "pom.xml" }}
     - run: mvn clean package -Pmetrics
 
 version: 2
