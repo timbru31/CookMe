@@ -3,8 +3,10 @@
 [![Build Status](https://travis-ci.org/timbru31/CookMe.svg?branch=master)](https://travis-ci.org/timbru31/CookMe)
 [![Circle CI](https://img.shields.io/circleci/project/timbru31/CookMe.svg)](https://circleci.com/gh/timbru31/CookMe)
 [![Build status](https://ci.appveyor.com/api/projects/status/nb3s68pfwruj1xq5?svg=true)](https://ci.appveyor.com/project/timbru31/cookme)
+
 [![BukkitDev](https://img.shields.io/badge/BukkitDev-v1.8.4-orange.svg)](https://dev.bukkit.org/projects/cookme/)
-[![License](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-blue.svg)](LICENSE.md)
+
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 ## Info
 This CraftBukkit plugin adds a more realistic and detailed behavior when you consume raw food
@@ -20,11 +22,6 @@ This CraftBukkit plugin adds a more realistic and detailed behavior when you con
 
 *Third party features, all of them can be disabled*
 * bStats for usage statistics
-
-## License
-This plugin is released under the
-*Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)* license.
-Please see [LICENSE.md](LICENSE.md) for more information.
 
 ## Standard config
 ```yaml
@@ -172,3 +169,6 @@ The file `./plugins/bStats/config.yml` contains an option to *opt-out*.
 
 ![BitCoin](https://dustplanet.de/wp-content/uploads/2015/01/bitcoin-logo-plain.png "Donation via BitCoins")  
 1NnrRgdy7CfiYN63vKHiypSi3MSctCP55C
+
+---
+Built by (c) Tim Brust and contributors. Released under the MIT license.
