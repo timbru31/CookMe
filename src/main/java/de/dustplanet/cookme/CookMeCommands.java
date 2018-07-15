@@ -10,15 +10,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 /**
- * CookMe for CraftBukkit/Spigot
- * Handles the commands!
+ * CookMe for CraftBukkit/Spigot Handles the commands! Refer to the dev.bukkit.org page: https://dev.bukkit.org/projects/cookme/
  *
- * Refer to the dev.bukkit.org page:
- * https://dev.bukkit.org/projects/cookme/
- *
- * @author xGhOsTkiLLeRx
- * thanks nisovin for his awesome code snippet!
- *
+ * @author xGhOsTkiLLeRx thanks nisovin for his awesome code snippet!
  */
 
 public class CookMeCommands implements CommandExecutor {
@@ -63,7 +57,7 @@ public class CookMeCommands implements CommandExecutor {
                         int cooldown = 0;
                         try {
                             cooldown = Integer.parseInt(args[2]);
-                        } catch (NumberFormatException e) {
+                        } catch (@SuppressWarnings("unused") NumberFormatException e) {
                             String message = plugin.getLocalization().getString("no_number");
                             plugin.message(sender, null, message, null, null);
                             return true;
@@ -87,7 +81,7 @@ public class CookMeCommands implements CommandExecutor {
                             int duration = 0;
                             try {
                                 duration = Integer.parseInt(args[3]);
-                            } catch (NumberFormatException e) {
+                            } catch (@SuppressWarnings("unused") NumberFormatException e) {
                                 String message = plugin.getLocalization().getString("no_number");
                                 plugin.message(sender, null, message, null, null);
                                 return true;
