@@ -42,7 +42,7 @@ public class CookMe extends JavaPlugin {
     @Getter
     @Setter
     private boolean debug, messages, permissions, preventVanillaPoison, randomEffectStrength;
-    private String[] rawFood = { "RAW_BEEF", "RAW_CHICKEN", "RAW_FISH", "PORK", "ROTTEN_FLESH", "MUTTON", "RABBIT" };
+    private String[] rawFood = { "BEEF", "CHICKEN", "PORKCHOP", "ROTTEN_FLESH", "MUTTON", "RABBIT", "COD", "SALMON", "PUFFERFISH" };
     private String[] effects = { "damage", "death", "venom", "hungervenom", "hungerdecrease", "confusion", "blindness", "weakness",
             "slowness", "slowness_blocks", "instant_damage", "refusing", "wither", "levitation", "unluck" };
     private double[] percentages = new double[effects.length];

@@ -38,10 +38,12 @@ effectStrength:
   levitation: 8
   unluck: 8
 food:
-- RAW_BEEF
-- RAW_CHICKEN
-- RAW_FISH
-- PORK
+- BEEF
+- CHICKEN
+- PORKCHOP
 - ROTTEN_FLESH
 - MUTTON
 - RABBIT
+- COD
+- SALMON
+- PUFFERFISH

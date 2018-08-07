@@ -75,13 +75,15 @@ effectStrength:
   unluck: 8
 # Add your own stuff here, IDs are supported, too!
 food:
-- RAW_BEEF
-- RAW_CHICKEN
-- RAW_FISH
-- PORK
+- BEEF
+- CHICKEN
+- PORKCHOP
 - ROTTEN_FLESH
 - MUTTON
 - RABBIT
+- COD
+- SALMON
+- PUFFERFISH
 ```
 
 ## Commands & Permissions
