@@ -4,7 +4,7 @@
 [![Circle CI](https://img.shields.io/circleci/project/timbru31/CookMe.svg)](https://circleci.com/gh/timbru31/CookMe)
 [![Build status](https://ci.appveyor.com/api/projects/status/nb3s68pfwruj1xq5?svg=true)](https://ci.appveyor.com/project/timbru31/cookme)
 
-[![BukkitDev](https://img.shields.io/badge/BukkitDev-v1.8.4-orange.svg)](https://dev.bukkit.org/projects/cookme/)
+[![BukkitDev](https://img.shields.io/badge/BukkitDev-v2.0.0-orange.svg)](https://dev.bukkit.org/projects/cookme/)
 
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
