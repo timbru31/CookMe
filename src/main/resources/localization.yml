@@ -13,6 +13,7 @@ refusing: '&4You decided to save your life and did not eat this food!'
 wither: '&4The poison of the wither weakens you! Eat some cooked food!'
 levitation: '&4You fly up high in the air! Eat some cooked food!'
 unluck: '&4You are for a random time unlucky! Eat some cooked food!'
+bad_omen: '&4You feel a bad omen! Eat some cooked food!'
 permission_denied: '&4You do not have the permission to do this!'
 enable_messages: '&2CookMe &4messages &2enabled!'
 enable_permissions: |-

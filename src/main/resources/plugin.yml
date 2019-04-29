@@ -3,7 +3,7 @@ main: de.dustplanet.cookme.CookMe
 version: ${project.version}${build.number}
 author: xGhOsTkiLLeRx
 website: https://dev.bukkit.org/projects/cookme/
-api-version: 1.13
+api-version: 1.14
 commands:
   cookme:
     description: Handles all the CookMe commands
@@ -47,6 +47,9 @@ permissions:
       cookme.set.instant_damage: true
       cookme.set.refusing: true
       cookme.set.wither: true
+      cookme.set.levitation: true
+      cookme.set.unluck: true
+      cookme.set.bad_omen: true
   cookme.help:
     description: Allows you to see the help
     default: op
@@ -94,6 +97,14 @@ permissions:
     default: op
   cookme.set.wither:
     description: Allows you to set the wither effect
+    default: op
+  cookme.set.levitation:
+    description: Allows you to set the levitation effect
+  cookme.set.unluck:
+    description: Allows you to set the unluck effect
+    default: op
+  cookme.set.bad_omen:
+    description: Allows you to set the bad omen effect
     default: op
   cookme.enable.permissions:
     description: Allows you to enable permissions

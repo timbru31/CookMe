@@ -44,9 +44,12 @@ public class CookMe extends JavaPlugin {
     private boolean debug, messages, permissions, preventVanillaPoison, randomEffectStrength;
     private String[] rawFood = { "BEEF", "CHICKEN", "PORKCHOP", "ROTTEN_FLESH", "MUTTON", "RABBIT", "COD", "SALMON", "PUFFERFISH" };
     private String[] effects = { "damage", "death", "venom", "hungervenom", "hungerdecrease", "confusion", "blindness", "weakness",
-            "slowness", "slowness_blocks", "instant_damage", "refusing", "wither", "levitation", "unluck" };
+            "slowness", "slowness_blocks", "instant_damage", "refusing", "wither", "levitation", "unluck", "bad_omen" };
     private double[] percentages = new double[effects.length];
     private int[] effectStrengths = new int[effects.length];
+
+    private static final double EFFECT_PERCENTAGE = 6.25;
+    private static final int SECOND_IN_MILLIS = 20;
 
     @Override
     public void onDisable() {
@@ -104,8 +107,8 @@ public class CookMe extends JavaPlugin {
         setPermissions(config.getBoolean("configuration.permissions", true));
         setMessages(config.getBoolean("configuration.messages", true));
         setCooldown(config.getInt("configuration.cooldown", 30));
-        setMinDuration(20 * config.getInt("configuration.duration.min", 15));
-        setMaxDuration(20 * config.getInt("configuration.duration.max", 30));
+        setMinDuration(SECOND_IN_MILLIS * config.getInt("configuration.duration.min", 15));
+        setMaxDuration(SECOND_IN_MILLIS * config.getInt("configuration.duration.max", 30));
         setItemList(config.getStringList("food"));
         setDebug(config.getBoolean("configuration.debug", false));
         setPreventVanillaPoison(config.getBoolean("configuration.preventVanillaPoison", false));
@@ -120,15 +123,10 @@ public class CookMe extends JavaPlugin {
 
         if (Math.round(temp) * 100.0 / 100 > 100) {
             for (i = 0; i < getPercentages().length; i++) {
-                if (i == 1) {
-                    percentages[i] = 3.4;
-                    config.set("effects." + getEffects()[i], 3.4);
-                    continue;
-                }
-                percentages[i] = 6.9;
-                config.set("effects." + getEffects()[i], 6.9);
+                percentages[i] = EFFECT_PERCENTAGE;
+                config.set("effects." + getEffects()[i], EFFECT_PERCENTAGE);
             }
-            getLogger().warning(ChatColor.RED + "Detected that the entire procentage is higer than 100. Resetting to default...");
+            getLogger().warning("Detected that the entire procentage is higer than 100. Resetting to default...");
             saveConfig();
         }
 
@@ -149,21 +147,22 @@ public class CookMe extends JavaPlugin {
         config.addDefault("configuration.debug", false);
         config.addDefault("configuration.preventVanillaPoison", false);
         config.addDefault("configuration.randomEffectStrength", true);
-        config.addDefault("effects.damage", 6.9);
-        config.addDefault("effects.death", 3.4);
-        config.addDefault("effects.venom", 6.9);
-        config.addDefault("effects.hungervenom", 6.9);
-        config.addDefault("effects.hungerdecrease", 6.9);
-        config.addDefault("effects.confusion", 6.9);
-        config.addDefault("effects.blindness", 6.9);
-        config.addDefault("effects.weakness", 6.9);
-        config.addDefault("effects.slowness", 6.9);
-        config.addDefault("effects.slowness_blocks", 6.9);
-        config.addDefault("effects.instant_damage", 6.9);
-        config.addDefault("effects.refusing", 6.9);
-        config.addDefault("effects.wither", 6.9);
-        config.addDefault("effects.levitation", 6.9);
-        config.addDefault("effects.unluck", 6.9);
+        config.addDefault("effects.damage", EFFECT_PERCENTAGE);
+        config.addDefault("effects.death", EFFECT_PERCENTAGE);
+        config.addDefault("effects.venom", EFFECT_PERCENTAGE);
+        config.addDefault("effects.hungervenom", EFFECT_PERCENTAGE);
+        config.addDefault("effects.hungerdecrease", EFFECT_PERCENTAGE);
+        config.addDefault("effects.confusion", EFFECT_PERCENTAGE);
+        config.addDefault("effects.blindness", EFFECT_PERCENTAGE);
+        config.addDefault("effects.weakness", EFFECT_PERCENTAGE);
+        config.addDefault("effects.slowness", EFFECT_PERCENTAGE);
+        config.addDefault("effects.slowness_blocks", EFFECT_PERCENTAGE);
+        config.addDefault("effects.instant_damage", EFFECT_PERCENTAGE);
+        config.addDefault("effects.refusing", EFFECT_PERCENTAGE);
+        config.addDefault("effects.wither", EFFECT_PERCENTAGE);
+        config.addDefault("effects.levitation", EFFECT_PERCENTAGE);
+        config.addDefault("effects.unluck", EFFECT_PERCENTAGE);
+        config.addDefault("effects.bad_omen", EFFECT_PERCENTAGE);
         config.addDefault("effectStrength.venom", 8);
         config.addDefault("effectStrength.hungervenom", 8);
         config.addDefault("effectStrength.confusion", 8);
@@ -196,6 +195,7 @@ public class CookMe extends JavaPlugin {
         getLocalization().addDefault("wither", "&4The poison of the wither weakens you! Eat some cooked food!");
         getLocalization().addDefault("levitation", "&4You fly up high in the air! Eat some cooked food!");
         getLocalization().addDefault("unluck", "&4You are for a random time unlucky! Eat some cooked food!");
+        getLocalization().addDefault("bad_omen", "'&4You feel a bad omen! Eat some cooked food!");
         getLocalization().addDefault("permission_denied", "&4You do not have the permission to do this!");
         getLocalization().addDefault("enable_messages", "&2CookMe &4messages &2enabled!");
         getLocalization().addDefault("enable_permissions",

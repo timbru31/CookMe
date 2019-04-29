@@ -36,10 +36,10 @@ public class CookMePlayerListener implements Listener {
         if (!player.hasPermission("cookme.safe")) {
             if (sameItem(event.getItem().getType()) && !plugin.getCooldownManager().hasCooldown(player, now)) {
                 double temp = 0;
-                int effectNumber = 0;
+                int effectNumber = -1;
                 for (int i = 0; i < plugin.getPercentages().length; i++) {
                     temp += plugin.getPercentages()[i];
-                    if (random.nextInt(100) <= temp) {
+                    if (random.nextInt(100) < temp) {
                         effectNumber = i;
                         break;
                     }
@@ -54,6 +54,7 @@ public class CookMePlayerListener implements Listener {
 
                 switch (effectNumber) {
                     default:
+                        return;
                     case 0:
                         int randomDamage = random.nextInt(9) + 1;
                         effect = plugin.getLocalization().getString("damage");
@@ -120,6 +121,10 @@ public class CookMePlayerListener implements Listener {
                     case 14:
                         effect = plugin.getLocalization().getString("unluck");
                         player.addPotionEffect(new PotionEffect(PotionEffectType.UNLUCK, randomEffectTime, effectStrength));
+                        break;
+                    case 15:
+                        effect = plugin.getLocalization().getString("bad_omen");
+                        player.addPotionEffect(new PotionEffect(PotionEffectType.BAD_OMEN, randomEffectTime, effectStrength));
                         break;
                 }
                 message(player, effect);

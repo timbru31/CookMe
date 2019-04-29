@@ -45,21 +45,22 @@ configuration:
   randomEffectStrength: true
 # The percentage for each effect. Make sure all together are exactly 100! 0 means disabled!
 effects:
-  damage: 6.9
+  damage: 6.25
   death: 3.4
-  venom: 6.9
-  hungervenom: 6.9
-  hungerdecrease: 6.9
-  confusion: 6.9
-  blindness: 6.9
-  weakness: 6.9
-  slowness: 6.9
-  slowness_blocks: 6.9
-  instant_damage: 6.9
-  refusing: 6.9
-  wither: 6.9
-  levitation: 6.9
-  unluck: 6.9
+  venom: 6.25
+  hungervenom: 6.25
+  hungerdecrease: 6.25
+  confusion: 6.25
+  blindness: 6.25
+  weakness: 6.25
+  slowness: 6.25
+  slowness_blocks: 6.25
+  instant_damage: 6.25
+  refusing: 6.25
+  wither: 6.25
+  levitation: 6.25
+  unluck: 6.25
+  bad_omen: 6.25
 # Put a number here for the strength of an effect, only used when randomEffectStrength is false
 effectStrength:
   venom: 8
@@ -73,6 +74,7 @@ effectStrength:
   wither: 8
   levitation: 8
   unluck: 8
+  bad_omen: 8
 # Add your own stuff here, IDs are supported, too!
 food:
 - BEEF
@@ -124,6 +126,7 @@ In the following table the X needs to be replaced by one of these effects
 * wither
 * levitation
 * unluck
+* bad_omen
 
 | Command                  | Permission node | Description                          |
 |:------------------------:|:---------------:|:------------------------------------:|

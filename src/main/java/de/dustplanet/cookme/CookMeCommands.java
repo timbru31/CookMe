@@ -8,6 +8,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
 
 /**
  * CookMe for CraftBukkit/Spigot Handles the commands! Refer to the dev.bukkit.org page: https://dev.bukkit.org/projects/cookme/
@@ -45,6 +46,9 @@ public class CookMeCommands implements CommandExecutor {
                 Player player = (Player) sender;
                 player.setFoodLevel(10);
                 player.setHealth(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
+                for (PotionEffect effect : player.getActivePotionEffects()) {
+                    player.removePotionEffect(effect.getType());
+                }
                 player.sendMessage(ChatColor.GREEN + "Food level reduced!");
             } else {
                 sender.sendMessage(ChatColor.RED + "Please use debug mode ingame!");
@@ -111,7 +115,7 @@ public class CookMeCommands implements CommandExecutor {
                         double percentage = 0.0;
                         try {
                             percentage = Double.valueOf(args[2]);
-                        } catch (NumberFormatException e) {
+                        } catch (@SuppressWarnings("unused") NumberFormatException e) {
                             String message = plugin.getLocalization().getString("no_number");
                             plugin.message(sender, null, message, null, null);
                             return true;
