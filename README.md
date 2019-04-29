@@ -46,7 +46,7 @@ configuration:
 # The percentage for each effect. Make sure all together are exactly 100! 0 means disabled!
 effects:
   damage: 6.25
-  death: 3.4
+  death: 6.25
   venom: 6.25
   hungervenom: 6.25
   hungerdecrease: 6.25
