@@ -1,7 +1,6 @@
 # CookMe
 [![Build Status](https://ci.dustplanet.de/job/CookMe/badge/icon)](https://ci.dustplanet.de/job/CookMe/)
 [![Build Status](https://travis-ci.org/timbru31/CookMe.svg?branch=master)](https://travis-ci.org/timbru31/CookMe)
-[![Circle CI](https://img.shields.io/circleci/project/timbru31/CookMe.svg)](https://circleci.com/gh/timbru31/CookMe)
 [![Build status](https://ci.appveyor.com/api/projects/status/nb3s68pfwruj1xq5?svg=true)](https://ci.appveyor.com/project/timbru31/cookme)
 
 [![BukkitDev](https://img.shields.io/badge/BukkitDev-v3.0.0-orange.svg)](https://dev.bukkit.org/projects/cookme/)
