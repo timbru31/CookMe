@@ -9,7 +9,7 @@
   </parent>
 
   <artifactId>CookMe</artifactId>
-  <version>3.0.2</version>
+  <version>3.0.3-SNAPSHOT</version>
   <name>CookMe</name>
   <description>Beware of raw food!</description>
   <url>https://dev.bukkit.org/projects/cookme</url>
@@ -32,6 +32,6 @@
     <url>https://github.com/timbru31/CookMe</url>
     <connection>scm:git:git://github.com/timbru31/CookMe.git</connection>
     <developerConnection>scm:git:git@github.com:timbru31/CookMe.git</developerConnection>
-    <tag>CookMe-3.0.2</tag>
+    <tag>HEAD</tag>
   </scm>
 </project>
