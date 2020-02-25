@@ -48,6 +48,7 @@ public class CookMe extends JavaPlugin {
     private double[] percentages = new double[effects.length];
     private int[] effectStrengths = new int[effects.length];
 
+    private static final int BSTATS_PLUGIN_ID = 279;
     private static final double EFFECT_PERCENTAGE = 6.25;
     private static final int SECOND_IN_MILLIS = 20;
 
@@ -89,7 +90,7 @@ public class CookMe extends JavaPlugin {
 
         getCommand("cookme").setExecutor(new CookMeCommands(this));
 
-        Metrics metrics = new Metrics(this);
+        Metrics metrics = new Metrics(this, BSTATS_PLUGIN_ID);
         metrics.addCustomChart(new Metrics.AdvancedPie("percentage_of_affected_items", new Callable<Map<String, Integer>>() {
             @Override
             public Map<String, Integer> call() throws Exception {
