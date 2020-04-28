@@ -148,7 +148,7 @@ Please follow the Sun Coding Guidelines, thanks!
 
 ## Usage statistics
 
-_stats images are returning soon!_
+[![Usage statistics](https://bstats.org/signatures/bukkit/CookMe.svg)](https://bstats.org/plugin/bukkit/CookMe/279)
 
 ## Data usage collection of bStats
 
