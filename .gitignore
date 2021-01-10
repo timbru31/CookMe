@@ -3,3 +3,5 @@
 .classpath
 .settings/
 dependency-reduced-pom.xml
+.checkstyle
+.eclipse-pmd
