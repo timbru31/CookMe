@@ -3,8 +3,8 @@
 [![Build Status](https://ci.dustplanet.de/job/CookMe/badge/icon)](https://ci.dustplanet.de/job/CookMe/)
 [![Build the plugin](https://github.com/timbru31/CookMe/workflows/Build%20the%20plugin/badge.svg)](https://github.com/timbru31/CookMe/actions?query=workflow%3A%22Build+the+plugin%22)
 
-[![BukkitDev](https://img.shields.io/badge/BukkitDev-v3.0.2-orange.svg)](https://dev.bukkit.org/projects/cookme/)
-[![SpigotMC](https://img.shields.io/badge/SpigotMC-v3.0.2-orange.svg)](https://www.spigotmc.org/resources/cookme.67006/)
+[![BukkitDev](https://img.shields.io/badge/BukkitDev-v3.0.4-orange.svg)](https://dev.bukkit.org/projects/cookme/)
+[![SpigotMC](https://img.shields.io/badge/SpigotMC-v3.0.4-orange.svg)](https://www.spigotmc.org/resources/cookme.67006/)
 
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
