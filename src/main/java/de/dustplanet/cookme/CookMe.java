@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.concurrent.Callable;
 
 import org.bstats.bukkit.Metrics;
+import org.bstats.charts.AdvancedPie;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -91,7 +92,7 @@ public class CookMe extends JavaPlugin {
         getCommand("cookme").setExecutor(new CookMeCommands(this));
 
         Metrics metrics = new Metrics(this, BSTATS_PLUGIN_ID);
-        metrics.addCustomChart(new Metrics.AdvancedPie("percentage_of_affected_items", new Callable<Map<String, Integer>>() {
+        metrics.addCustomChart(new AdvancedPie("percentage_of_affected_items", new Callable<Map<String, Integer>>() {
             @Override
             public Map<String, Integer> call() throws Exception {
                 Map<String, Integer> valueMap = new HashMap<>();
