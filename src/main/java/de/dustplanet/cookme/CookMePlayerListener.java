@@ -13,26 +13,26 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 /**
- * CookMePlayerListener. Handles the players activities! Refer to the dev.bukkit.org page: https://dev.bukkit.org/projects/cookme/
+ * Handles the players activities.
  *
- * @author xGhOsTkiLLeRx thanks nisovin for his awesome code snippet!
+ * @author timbru31
  */
 
 public class CookMePlayerListener implements Listener {
-    private CookMe plugin;
+    private final CookMe plugin;
     private boolean message = true;
-    private Random random = new Random();
+    private final Random random = new Random();
 
-    public CookMePlayerListener(CookMe instance) {
+    public CookMePlayerListener(final CookMe instance) {
         plugin = instance;
     }
 
     @EventHandler
-    public void onPlayerConsumeItem(PlayerItemConsumeEvent event) {
+    public void onPlayerConsumeItem(final PlayerItemConsumeEvent event) {
         String effect = "damage";
-        Player player = event.getPlayer();
-        Timestamp now = new Timestamp(System.currentTimeMillis());
-        boolean mainHand = event.getItem().getType() == player.getInventory().getItemInMainHand().getType();
+        final Player player = event.getPlayer();
+        final Timestamp now = new Timestamp(System.currentTimeMillis());
+        final boolean mainHand = event.getItem().getType() == player.getInventory().getItemInMainHand().getType();
         if (!player.hasPermission("cookme.safe")) {
             if (sameItem(event.getItem().getType()) && !plugin.getCooldownManager().hasCooldown(player, now)) {
                 double temp = 0;
@@ -50,13 +50,14 @@ public class CookMePlayerListener implements Listener {
                 } else {
                     effectStrength = plugin.getEffectStrengths()[effectNumber];
                 }
-                int randomEffectTime = random.nextInt(plugin.getMaxDuration() - plugin.getMinDuration() + 1) + plugin.getMinDuration();
+                final int randomEffectTime = random.nextInt(plugin.getMaxDuration() - plugin.getMinDuration() + 1)
+                        + plugin.getMinDuration();
 
                 switch (effectNumber) {
                     default:
                         return;
                     case 0:
-                        int randomDamage = random.nextInt(9) + 1;
+                        final int randomDamage = random.nextInt(9) + 1;
                         effect = plugin.getLocalization().getString("damage");
                         player.damage(randomDamage);
                         break;
@@ -74,7 +75,7 @@ public class CookMePlayerListener implements Listener {
                         player.addPotionEffect(new PotionEffect(PotionEffectType.HUNGER, randomEffectTime, effectStrength));
                         break;
                     case 4:
-                        int currentFoodLevel = player.getFoodLevel();
+                        final int currentFoodLevel = player.getFoodLevel();
                         int randomFoodLevel = 0;
                         if (currentFoodLevel != 0) {
                             randomFoodLevel = random.nextInt(currentFoodLevel);
@@ -127,7 +128,7 @@ public class CookMePlayerListener implements Listener {
                         player.addPotionEffect(new PotionEffect(PotionEffectType.BAD_OMEN, randomEffectTime, effectStrength));
                         break;
                 }
-                message(player, effect);
+                messagePlayer(player, effect);
                 if (plugin.getCooldown() != 0) {
                     plugin.getCooldownManager().addPlayer(player);
                 }
@@ -137,7 +138,7 @@ public class CookMePlayerListener implements Listener {
                 }
             }
         } else if (plugin.isPreventVanillaPoison()) {
-            ItemStack item = event.getItem();
+            final ItemStack item = event.getItem();
             if (item.getType() == Material.CHICKEN || item.getType() == Material.ROTTEN_FLESH) {
                 int foodLevel = player.getFoodLevel();
                 if (item.getType() == Material.CHICKEN) {
@@ -155,15 +156,15 @@ public class CookMePlayerListener implements Listener {
         }
     }
 
-    private void message(Player player, String messageToSend) {
+    private void messagePlayer(final Player player, final String messageToSend) {
         if (plugin.isMessages()) {
             plugin.message(null, player, messageToSend, null, null);
         }
     }
 
-    private boolean sameItem(Material item) {
-        for (String itemName : plugin.getItemList()) {
-            Material mat = Material.matchMaterial(itemName);
+    private boolean sameItem(final Material item) {
+        for (final String itemName : plugin.getItemList()) {
+            final Material mat = Material.matchMaterial(itemName);
             if (mat == null) {
                 if (message) {
                     plugin.getLogger().warning("Couldn't load the foods! Please check your config!");
@@ -179,8 +180,8 @@ public class CookMePlayerListener implements Listener {
         return false;
     }
 
-    private void decreaseItem(Player player, boolean mainHand) {
-        ItemStack afterEating = null;
+    private void decreaseItem(final Player player, final boolean mainHand) {
+        ItemStack afterEating;
         if (mainHand) {
             afterEating = player.getInventory().getItemInMainHand();
         } else {

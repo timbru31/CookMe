@@ -1,16 +1,18 @@
 package de.dustplanet.cookme;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
+import java.util.logging.Level;
 
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.AdvancedPie;
@@ -23,9 +25,12 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.Getter;
 import lombok.Setter;
 
+@SuppressFBWarnings({ "IMC_IMMATURE_CLASS_NO_TOSTRING", "FCCD_FIND_CLASS_CIRCULAR_DEPENDENCY", "CD_CIRCULAR_DEPENDENCY" })
+@SuppressWarnings("PMD.AtLeastOneConstructor")
 public class CookMe extends JavaPlugin {
     @Getter
     @Setter
@@ -33,22 +38,42 @@ public class CookMe extends JavaPlugin {
     private FileConfiguration config;
     @Getter
     private FileConfiguration localization;
-    private File configFile, localizationFile;
+    private File configFile;
+    private File localizationFile;
     @Getter
     @Setter
     private List<String> itemList = new ArrayList<>();
     @Getter
     @Setter
-    private int cooldown, minDuration, maxDuration;
+    private int cooldown;
     @Getter
     @Setter
-    private boolean debug, messages, permissions, preventVanillaPoison, randomEffectStrength;
-    private String[] rawFood = { "BEEF", "CHICKEN", "PORKCHOP", "ROTTEN_FLESH", "MUTTON", "RABBIT", "COD", "SALMON", "PUFFERFISH" };
+    private int minDuration;
+    @Getter
+    @Setter
+    private int maxDuration;
+    @Getter
+    @Setter
+    private boolean debug;
+    @Getter
+    @Setter
+    private boolean messages;
+    @Getter
+    @Setter
+    private boolean permissions;
+    @Getter
+    @Setter
+    private boolean preventVanillaPoison;
+    @Getter
+    @Setter
+    private boolean randomEffectStrength;
+    private final String[] rawFood = { "BEEF", "CHICKEN", "PORKCHOP", "ROTTEN_FLESH", "MUTTON", "RABBIT", "COD", "SALMON", "PUFFERFISH" };
     private String[] effects = { "damage", "death", "venom", "hungervenom", "hungerdecrease", "confusion", "blindness", "weakness",
             "slowness", "slowness_blocks", "instant_damage", "refusing", "wither", "levitation", "unluck", "bad_omen" };
     private double[] percentages = new double[effects.length];
     private int[] effectStrengths = new int[effects.length];
 
+    private static final int BUFFER_SIZE = 1024;
     private static final int BSTATS_PLUGIN_ID = 279;
     private static final double EFFECT_PERCENTAGE = 6.25;
     private static final int SECOND_IN_MILLIS = 20;
@@ -61,9 +86,9 @@ public class CookMe extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        CookMePlayerListener playerListener = new CookMePlayerListener(this);
-        PluginManager pm = getServer().getPluginManager();
-        pm.registerEvents(playerListener, this);
+        final CookMePlayerListener playerListener = new CookMePlayerListener(this);
+        final PluginManager pluginManager = getServer().getPluginManager();
+        pluginManager.registerEvents(playerListener, this);
 
         configFile = new File(getDataFolder(), "config.yml");
         if (!configFile.exists()) {
@@ -91,12 +116,13 @@ public class CookMe extends JavaPlugin {
 
         getCommand("cookme").setExecutor(new CookMeCommands(this));
 
-        Metrics metrics = new Metrics(this, BSTATS_PLUGIN_ID);
+        final Metrics metrics = new Metrics(this, BSTATS_PLUGIN_ID);
         metrics.addCustomChart(new AdvancedPie("percentage_of_affected_items", new Callable<Map<String, Integer>>() {
             @Override
             public Map<String, Integer> call() throws Exception {
-                Map<String, Integer> valueMap = new HashMap<>();
-                for (String itemName : getItemList()) {
+                @SuppressWarnings("PMD.UseConcurrentHashMap")
+                final Map<String, Integer> valueMap = new HashMap<>();
+                for (final String itemName : getItemList()) {
                     valueMap.put(itemName, 1);
                 }
                 return valueMap;
@@ -140,7 +166,7 @@ public class CookMe extends JavaPlugin {
     }
 
     private void loadConfig() {
-        config.options().header("For help please refer to https://dev.bukkit.org/projects/cookme/");
+        config.options().setHeader(Collections.singletonList("For help please refer to https://dev.bukkit.org/projects/cookme/"));
         config.addDefault("configuration.permissions", true);
         config.addDefault("configuration.messages", true);
         config.addDefault("configuration.duration.min", 15);
@@ -226,9 +252,8 @@ public class CookMe extends JavaPlugin {
     private void saveLocalization() {
         try {
             getLocalization().save(localizationFile);
-        } catch (IOException e) {
-            getLogger().warning("Failed to save the localization! Please report this! IOException");
-            e.printStackTrace();
+        } catch (final IOException e) {
+            getLogger().log(Level.WARNING, "Failed to save the localization! Please report this! IOException", e);
         }
     }
 
@@ -241,31 +266,33 @@ public class CookMe extends JavaPlugin {
             getLocalization().load(localizationFile);
             saveLocalization();
         } catch (IOException | InvalidConfigurationException e) {
-            getLogger().warning("Failed to save the localization! Please report this!");
-            e.printStackTrace();
+            getLogger().log(Level.WARNING, "Failed to save the localization! Please report this!", e);
         }
     }
 
-    private void copy(String yml, File file) {
-        try (OutputStream out = new FileOutputStream(file); InputStream in = getResource(yml)) {
-            byte[] buf = new byte[1024];
+    @SuppressWarnings({ "PMD.AssignmentInOperand", "PMD.DataflowAnomalyAnalysis" })
+    @SuppressFBWarnings({ "RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE", "RCN_REDUNDANT_NULLCHECK_OF_NULL_VALUE",
+            "NP_LOAD_OF_KNOWN_NULL_VALUE", "NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE", "RCN_REDUNDANT_NULLCHECK_WOULD_HAVE_BEEN_A_NPE" })
+    public void copy(final String yml, final File file) {
+        try (OutputStream out = Files.newOutputStream(file.toPath()); InputStream inputStream = getResource(yml)) {
+            final byte[] buf = new byte[BUFFER_SIZE];
             int len;
-            while ((len = in.read(buf)) > 0) {
+            while ((len = inputStream.read(buf)) > 0) {
                 out.write(buf, 0, len);
             }
-        } catch (IOException e) {
-            getLogger().warning("Failed to copy the default config! (I/O)");
-            e.printStackTrace();
+        } catch (final IOException e) {
+            getLogger().log(Level.WARNING, "Failed to copy the default config!", e);
         }
     }
 
-    public void message(CommandSender sender, Player player, String message, String value, String percentage) {
-        String tempValue = value == null ? "" : value;
-        String tempPercentage = percentage == null ? "" : percentage;
-        PluginDescriptionFile pdfFile = getDescription();
-        String tempMessage = message.replace("\u0025version", pdfFile.getVersion()).replace("\u0025effect", tempValue)
+    public void message(final CommandSender sender, final Player player, final String message, final String value,
+            final String percentage) {
+        final String tempValue = value == null ? "" : value;
+        final String tempPercentage = percentage == null ? "" : percentage;
+        final PluginDescriptionFile pdfFile = getDescription();
+        final String tempMessage = message.replace("\u0025version", pdfFile.getVersion()).replace("\u0025effect", tempValue)
                 .replace("\u0025value", tempValue).replace("\u0025percentage", tempPercentage);
-        String[] newMessage = ChatColor.translateAlternateColorCodes('\u0026', tempMessage).split("\n");
+        final String[] newMessage = ChatColor.translateAlternateColorCodes('\u0026', tempMessage).split("\n");
         if (player != null) {
             player.sendMessage(newMessage);
         } else if (sender != null) {
@@ -277,7 +304,7 @@ public class CookMe extends JavaPlugin {
         return percentages.clone();
     }
 
-    public void setPercentages(double[] percentages) {
+    public void setPercentages(final double... percentages) {
         this.percentages = percentages.clone();
     }
 
@@ -285,7 +312,7 @@ public class CookMe extends JavaPlugin {
         return effectStrengths.clone();
     }
 
-    public void setEffectStrengths(int[] effectStrengths) {
+    public void setEffectStrengths(final int... effectStrengths) {
         this.effectStrengths = effectStrengths.clone();
     }
 
@@ -293,7 +320,7 @@ public class CookMe extends JavaPlugin {
         return effects.clone();
     }
 
-    public void setEffects(String[] effects) {
+    public void setEffects(final String... effects) {
         this.effects = effects.clone();
     }
 }
