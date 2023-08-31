@@ -1,9 +1,9 @@
 name: CookMe
 main: de.dustplanet.cookme.CookMe
 version: ${project.version}${build.number}
-author: xGhOsTkiLLeRx
+author: timbru31
 website: https://dev.bukkit.org/projects/cookme/
-api-version: 1.19
+api-version: 1.18
 commands:
   cookme:
     description: Handles all the CookMe commands
