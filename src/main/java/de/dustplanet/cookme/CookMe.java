@@ -20,6 +20,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
@@ -111,7 +112,7 @@ public class CookMe extends JavaPlugin {
         if (!localizationFile.exists()) {
             copy("localization.yml", localizationFile);
         }
-        localization = ScalarYamlConfiguration.loadConfiguration(localizationFile);
+        localization = YamlConfiguration.loadConfiguration(localizationFile);
         loadLocalization();
 
         getCommand("cookme").setExecutor(new CookMeCommands(this));
