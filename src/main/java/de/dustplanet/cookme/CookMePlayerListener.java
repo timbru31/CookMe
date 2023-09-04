@@ -41,19 +41,20 @@ public class CookMePlayerListener implements Listener {
 
         if (!player.hasPermission("cookme.safe")) {
             if (isConsumableItem(consumedItem) && !plugin.getCooldownManager().hasCooldown(player, now)) {
-                applyRandomEffect(player, mainHand);
-                event.setCancelled(true);
+                applyRandomEffect(player, mainHand, event);
             }
         } else if (plugin.isPreventVanillaPoison() && isVanillaPoisonItem(consumedItem)) {
             handleVanillaPoisonConsumption(player, consumedItem, mainHand);
         }
     }
 
-    private void applyRandomEffect(final Player player, final boolean mainHand) {
+    private void applyRandomEffect(final Player player, final boolean mainHand, final PlayerItemConsumeEvent event) {
         final int effectNumber = chooseRandomEffect();
         final String effectName = getEffectName(effectNumber);
 
         switch (effectNumber) {
+            case -1:
+                break;
             case 0:
                 handleDamageEffect(player);
                 break;
@@ -78,16 +79,22 @@ public class CookMePlayerListener implements Listener {
         if (effectNumber != 11 && effectNumber != 1) {
             decreaseItem(player, mainHand);
         }
+        if (effectNumber != -1) {
+            event.setCancelled(true);
+        }
     }
 
     private int chooseRandomEffect() {
         double cumulativePercentage = 0;
+
+        final double randomValue = random.nextDouble() * 100;
         for (int percentageIndex = 0; percentageIndex < plugin.getPercentages().length; percentageIndex++) {
             cumulativePercentage += plugin.getPercentages()[percentageIndex];
-            if (random.nextInt(100) < cumulativePercentage) {
+            if (randomValue < cumulativePercentage) {
                 return percentageIndex;
             }
         }
+
         return -1; // No effect chosen
     }
 
@@ -95,7 +102,7 @@ public class CookMePlayerListener implements Listener {
         if (effectNumber >= 0 && effectNumber < plugin.getEffectNames().length) {
             return plugin.getEffectNames()[effectNumber];
         }
-        return "Unknown Effect";
+        return "nothing";
     }
 
     private void handleDamageEffect(final Player player) {

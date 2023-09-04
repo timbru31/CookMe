@@ -227,7 +227,8 @@ public class CookMe extends JavaPlugin {
         getLocalization().addDefault("wither", "&4The poison of the wither weakens you! Eat some cooked food!");
         getLocalization().addDefault("levitation", "&4You fly up high in the air! Eat some cooked food!");
         getLocalization().addDefault("unluck", "&4You are for a random time unlucky! Eat some cooked food!");
-        getLocalization().addDefault("bad_omen", "'&4You feel a bad omen! Eat some cooked food!");
+        getLocalization().addDefault("bad_omen", "&4You feel a bad omen! Eat some cooked food!");
+        getLocalization().addDefault("nothing", "&eNothing happens...");
         getLocalization().addDefault("permission_denied", "&4You do not have the permission to do this!");
         getLocalization().addDefault("enable_messages", "&2CookMe &4messages &2enabled!");
         getLocalization().addDefault("enable_permissions",
