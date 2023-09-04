@@ -47,7 +47,7 @@ configuration:
   preventVanillaPoison: false
   # Should the effect strength be random or controlled from below (also called amplifier)
   randomEffectStrength: true
-# The percentage for each effect. Make sure all together are exactly 100! 0 means disabled!
+# The percentage for each effect. Make sure all together are not exceeding 100! 0 means disabled!
 effects:
   damage: 6.25
   death: 6.25
