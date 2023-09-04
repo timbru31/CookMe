@@ -193,8 +193,13 @@ The file `./plugins/bStats/config.yml` contains an option to _opt-out_.
 
 ## Support
 
-In addition to reporting bugs here on GitHub you can join my Discord and ask your questions right away!
+In addition to reporting bugs here on GitHub you can join my Discord and ask your questions right away!  
 [![Discord support](https://discordapp.com/api/guilds/387315912283521027/widget.png?style=banner2)](https://discord.gg/mbCRgzQRvj)
+
+## Partnership\*
+
+[![ScalaCube partnership](https://scalacube.com/images/banners/modpack.jpg)](https://scalacube.com/p/_hosting_server_minecraft/2986301)  
+<sub><sup>\*As an affiliate partner I earn from qualified purchases</sup></sub>
 
 ---
 
