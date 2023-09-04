@@ -1,5 +1,6 @@
 package de.dustplanet.cookme;
 
+import java.security.SecureRandom;
 import java.sql.Timestamp;
 import java.util.Random;
 
@@ -12,16 +13,19 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Handles the players activities.
  *
  * @author timbru31
  */
 
+@SuppressFBWarnings({ "IMC_IMMATURE_CLASS_NO_TOSTRING", "FCCD_FIND_CLASS_CIRCULAR_DEPENDENCY", "CD_CIRCULAR_DEPENDENCY" })
 public class CookMePlayerListener implements Listener {
     private final CookMe plugin;
     private boolean message = true;
-    private final Random random = new Random();
+    private final Random random = new SecureRandom();
 
     public CookMePlayerListener(final CookMe instance) {
         plugin = instance;

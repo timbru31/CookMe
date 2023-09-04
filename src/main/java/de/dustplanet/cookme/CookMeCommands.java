@@ -11,12 +11,15 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Handles the commands.
  *
  * @author timbru31
  */
 
+@SuppressFBWarnings({ "IMC_IMMATURE_CLASS_NO_TOSTRING" })
 public class CookMeCommands implements CommandExecutor {
     private final CookMe plugin;
 
@@ -116,7 +119,7 @@ public class CookMeCommands implements CommandExecutor {
                     if (sender.hasPermission("cookme.set." + effect) || !plugin.isPermissions()) {
                         double percentage = 0.0;
                         try {
-                            percentage = Double.valueOf(args[2]);
+                            percentage = Double.parseDouble(args[2]);
                         } catch (@SuppressWarnings("unused") final NumberFormatException e) {
                             final String message = plugin.getLocalization().getString("no_number");
                             plugin.message(sender, null, message, null, null);

@@ -1,4 +1,5 @@
 # For help please refer to https://dev.bukkit.org/projects/cookme/
+
 configuration:
   permissions: true
   messages: true

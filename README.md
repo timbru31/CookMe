@@ -29,6 +29,7 @@ _Third party features, all of them can be disabled_
 
 ```yaml
 # For help please refer to https://dev.bukkit.org/projects/cookme/
+
 configuration:
   # Should permissions be used?
   permissions: true

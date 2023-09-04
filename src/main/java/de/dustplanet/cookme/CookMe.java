@@ -8,10 +8,8 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.Callable;
 import java.util.logging.Level;
 
 import org.bstats.bukkit.Metrics;
@@ -26,6 +24,8 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.google.common.collect.Maps;
+
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.Getter;
 import lombok.Setter;
@@ -33,6 +33,11 @@ import lombok.Setter;
 @SuppressFBWarnings({ "IMC_IMMATURE_CLASS_NO_TOSTRING", "FCCD_FIND_CLASS_CIRCULAR_DEPENDENCY", "CD_CIRCULAR_DEPENDENCY" })
 @SuppressWarnings("PMD.AtLeastOneConstructor")
 public class CookMe extends JavaPlugin {
+    private static final int BUFFER_SIZE = 1024;
+    private static final int BSTATS_PLUGIN_ID = 279;
+    private static final double EFFECT_PERCENTAGE = 6.25;
+    private static final int SECOND_IN_MILLIS = 20;
+
     @Getter
     @Setter
     private CooldownManager cooldownManager;
@@ -74,15 +79,13 @@ public class CookMe extends JavaPlugin {
     private double[] percentages = new double[effects.length];
     private int[] effectStrengths = new int[effects.length];
 
-    private static final int BUFFER_SIZE = 1024;
-    private static final int BSTATS_PLUGIN_ID = 279;
-    private static final double EFFECT_PERCENTAGE = 6.25;
-    private static final int SECOND_IN_MILLIS = 20;
-
     @Override
     public void onDisable() {
         getItemList().clear();
-        getCooldownManager().clearCooldownList();
+        final CooldownManager manager = getCooldownManager();
+        if (manager != null) {
+            manager.clearCooldownList();
+        }
     }
 
     @Override
@@ -93,7 +96,7 @@ public class CookMe extends JavaPlugin {
 
         configFile = new File(getDataFolder(), "config.yml");
         if (!configFile.exists()) {
-            if (getDataFolder().mkdirs()) {
+            if (getDataFolder().exists() || getDataFolder().mkdirs()) {
                 copy("config.yml", configFile);
             } else {
                 getLogger().severe("The config folder could NOT be created, make sure it's writable!");
@@ -118,16 +121,13 @@ public class CookMe extends JavaPlugin {
         getCommand("cookme").setExecutor(new CookMeCommands(this));
 
         final Metrics metrics = new Metrics(this, BSTATS_PLUGIN_ID);
-        metrics.addCustomChart(new AdvancedPie("percentage_of_affected_items", new Callable<Map<String, Integer>>() {
-            @Override
-            public Map<String, Integer> call() throws Exception {
-                @SuppressWarnings("PMD.UseConcurrentHashMap")
-                final Map<String, Integer> valueMap = new HashMap<>();
-                for (final String itemName : getItemList()) {
-                    valueMap.put(itemName, 1);
-                }
-                return valueMap;
+        metrics.addCustomChart(new AdvancedPie("percentage_of_affected_items", () -> {
+            @SuppressWarnings("PMD.UseConcurrentHashMap")
+            final Map<String, Integer> valueMap = Maps.newHashMapWithExpectedSize(getItemList().size());
+            for (final String itemName : getItemList()) {
+                valueMap.put(itemName, 1);
             }
+            return valueMap;
         }));
 
     }
@@ -168,14 +168,14 @@ public class CookMe extends JavaPlugin {
 
     private void loadConfig() {
         config.options().setHeader(Collections.singletonList("For help please refer to https://dev.bukkit.org/projects/cookme/"));
-        config.addDefault("configuration.permissions", true);
-        config.addDefault("configuration.messages", true);
+        config.addDefault("configuration.permissions", Boolean.TRUE);
+        config.addDefault("configuration.messages", Boolean.TRUE);
         config.addDefault("configuration.duration.min", 15);
         config.addDefault("configuration.duration.max", 30);
         config.addDefault("configuration.cooldown", 30);
-        config.addDefault("configuration.debug", false);
-        config.addDefault("configuration.preventVanillaPoison", false);
-        config.addDefault("configuration.randomEffectStrength", true);
+        config.addDefault("configuration.debug", Boolean.FALSE);
+        config.addDefault("configuration.preventVanillaPoison", Boolean.FALSE);
+        config.addDefault("configuration.randomEffectStrength", Boolean.TRUE);
         config.addDefault("effects.damage", EFFECT_PERCENTAGE);
         config.addDefault("effects.death", EFFECT_PERCENTAGE);
         config.addDefault("effects.venom", EFFECT_PERCENTAGE);

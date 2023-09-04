@@ -1,18 +1,20 @@
 package de.dustplanet.cookme;
 
 import java.sql.Timestamp;
-import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.bukkit.entity.Player;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Handles the cooldown.
  *
  * @author timrbu31
  */
-
+@SuppressFBWarnings({ "IMC_IMMATURE_CLASS_NO_TOSTRING" })
 public class CooldownManager {
     /**
      * Cooldown in seconds.
@@ -21,8 +23,7 @@ public class CooldownManager {
     /**
      * List of player (UUIDs) and current timestamps.
      */
-    @SuppressWarnings("PMD.UseConcurrentHashMap")
-    private final Map<UUID, Timestamp> cooldownList = new LinkedHashMap<>();
+    private final Map<UUID, Timestamp> cooldownMap = new ConcurrentHashMap<>();
 
     /**
      * Creates a new CooldownManagr with the given cooldown.
@@ -59,11 +60,7 @@ public class CooldownManager {
      */
     public boolean addPlayer(final Player player) {
         final Timestamp time = new Timestamp(System.currentTimeMillis());
-        if (!cooldownList.containsKey(player.getUniqueId())) {
-            cooldownList.put(player.getUniqueId(), time);
-            return true;
-        }
-        return false;
+        return cooldownMap.putIfAbsent(player.getUniqueId(), time) == null;
     }
 
     /**
@@ -73,11 +70,7 @@ public class CooldownManager {
      * @return if the player was removed or not
      */
     public boolean removePlayer(final Player player) {
-        if (cooldownList.containsKey(player.getUniqueId())) {
-            cooldownList.remove(player.getUniqueId());
-            return true;
-        }
-        return false;
+        return cooldownMap.remove(player.getUniqueId()) != null;
     }
 
     /**
@@ -88,7 +81,7 @@ public class CooldownManager {
      * @return the boolean value is a player has cooldown or not
      */
     public boolean hasCooldown(final Player player, final Timestamp now) {
-        final Timestamp time = cooldownList.get(player.getUniqueId());
+        final Timestamp time = cooldownMap.get(player.getUniqueId());
         if (time != null) {
             final long difference = (now.getTime() - time.getTime()) / 1000;
             if (difference > cooldown) {
@@ -104,7 +97,7 @@ public class CooldownManager {
      * Clears the cooldown list.
      */
     public void clearCooldownList() {
-        cooldownList.clear();
+        cooldownMap.clear();
     }
 
     /**
@@ -115,7 +108,7 @@ public class CooldownManager {
      * @return the remaining cooldown (or 0)
      */
     public long getRemainingCooldownTime(final Player player, final Timestamp now) {
-        final Timestamp time = cooldownList.get(player.getUniqueId());
+        final Timestamp time = cooldownMap.get(player.getUniqueId());
         if (time != null) {
             final long difference = (now.getTime() - time.getTime()) / 1000;
             if (difference > cooldown) {
