@@ -1,8 +1,10 @@
 package de.dustplanet.cookme;
 
+import java.security.SecureRandom;
 import java.sql.Timestamp;
 import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
+
+import javax.annotation.Nullable;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -24,7 +26,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 public class CookMePlayerListener implements Listener {
     private final CookMe plugin;
     private boolean message = true;
-    private final Random random = new Random();
+    private final Random random = new SecureRandom();
 
     public CookMePlayerListener(final CookMe instance) {
         plugin = instance;
@@ -79,11 +81,11 @@ public class CookMePlayerListener implements Listener {
     }
 
     private int chooseRandomEffect() {
-        double temp = 0;
-        for (int i = 0; i < plugin.getPercentages().length; i++) {
-            temp += plugin.getPercentages()[i];
-            if (random.nextInt(100) < temp) {
-                return i;
+        double cumulativePercentage = 0;
+        for (int percentageIndex = 0; percentageIndex < plugin.getPercentages().length; percentageIndex++) {
+            cumulativePercentage += plugin.getPercentages()[percentageIndex];
+            if (random.nextInt(100) < cumulativePercentage) {
+                return percentageIndex;
             }
         }
         return -1; // No effect chosen
@@ -126,6 +128,7 @@ public class CookMePlayerListener implements Listener {
         }
     }
 
+    @Nullable
     private PotionEffectType getPotionEffectType(final String effect) {
         switch (effect) {
             case "venom":
@@ -152,13 +155,14 @@ public class CookMePlayerListener implements Listener {
                 return PotionEffectType.UNLUCK;
             case "bad_omen":
                 return PotionEffectType.BAD_OMEN;
+            default:
+                return null;
         }
-        return null;
     }
 
     private int getEffectStrength(final int effectNumber) {
         if (plugin.isRandomEffectStrength()) {
-            return ThreadLocalRandom.current().nextInt(16);
+            return random.nextInt(16);
         }
         return plugin.getEffectStrengths()[effectNumber];
     }

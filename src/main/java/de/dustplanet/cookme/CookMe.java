@@ -16,6 +16,7 @@ import org.bstats.bukkit.Metrics;
 import org.bstats.charts.AdvancedPie;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.PluginCommand;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -117,7 +118,10 @@ public class CookMe extends JavaPlugin {
         localization = YamlConfiguration.loadConfiguration(localizationFile);
         loadLocalization();
 
-        getCommand("cookme").setExecutor(new CookMeCommands(this));
+        final PluginCommand command = getCommand("cookme");
+        if (command != null) {
+            command.setExecutor(new CookMeCommands(this));
+        }
 
         final Metrics metrics = new Metrics(this, BSTATS_PLUGIN_ID);
         metrics.addCustomChart(new AdvancedPie("percentage_of_affected_items", () -> {
@@ -142,25 +146,25 @@ public class CookMe extends JavaPlugin {
         setPreventVanillaPoison(config.getBoolean("configuration.preventVanillaPoison", false));
         setRandomEffectStrength(config.getBoolean("configuration.randomEffectStrength", true));
 
-        int i = 0;
-        double temp = 0;
-        for (i = 0; i < getEffectNames().length; i++) {
-            percentages[i] = config.getDouble("effects." + getEffectNames()[i]);
-            temp += percentages[i];
+        double cumulativePercentage = 0;
+        for (int effectNameIndex = 0; effectNameIndex < getEffectNames().length; effectNameIndex++) {
+            percentages[effectNameIndex] = config.getDouble("effects." + getEffectNames()[effectNameIndex]);
+            cumulativePercentage += percentages[effectNameIndex];
         }
 
-        if (Math.round(temp) * 100.0 / 100 > 100) {
-            for (i = 0; i < getPercentages().length; i++) {
-                percentages[i] = EFFECT_PERCENTAGE;
-                config.set("effects." + getEffectNames()[i], EFFECT_PERCENTAGE);
+        final int hundredPercent = 100;
+        if (Math.round(cumulativePercentage) * 100.0 / hundredPercent > hundredPercent) {
+            for (int percentageIndex = 0; percentageIndex < getPercentages().length; percentageIndex++) {
+                percentages[percentageIndex] = EFFECT_PERCENTAGE;
+                config.set("effects." + getEffectNames()[percentageIndex], EFFECT_PERCENTAGE);
             }
             getLogger().warning("Detected that the entire procentage is higer than 100. Resetting to default...");
             saveConfig();
         }
 
         if (!isRandomEffectStrength()) {
-            for (i = 0; i < getEffectNames().length; i++) {
-                getEffectStrengths()[i] = config.getInt("effectStrength." + getEffectNames()[i], 0);
+            for (int effectNameIndex = 0; effectNameIndex < getEffectNames().length; effectNameIndex++) {
+                getEffectStrengths()[effectNameIndex] = config.getInt("effectStrength." + getEffectNames()[effectNameIndex], 0);
             }
         }
     }
