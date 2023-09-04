@@ -1,8 +1,8 @@
 package de.dustplanet.cookme;
 
-import java.security.SecureRandom;
 import java.sql.Timestamp;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -16,16 +16,15 @@ import org.bukkit.potion.PotionEffectType;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
- * Handles the players activities.
+ * Handles the player's activities.
  *
  * @author timbru31
  */
-
 @SuppressFBWarnings({ "IMC_IMMATURE_CLASS_NO_TOSTRING", "FCCD_FIND_CLASS_CIRCULAR_DEPENDENCY", "CD_CIRCULAR_DEPENDENCY" })
 public class CookMePlayerListener implements Listener {
     private final CookMe plugin;
     private boolean message = true;
-    private final Random random = new SecureRandom();
+    private final Random random = new Random();
 
     public CookMePlayerListener(final CookMe instance) {
         plugin = instance;
@@ -33,140 +32,163 @@ public class CookMePlayerListener implements Listener {
 
     @EventHandler
     public void onPlayerConsumeItem(final PlayerItemConsumeEvent event) {
-        String effect = "damage";
         final Player player = event.getPlayer();
+        final ItemStack consumedItem = event.getItem();
         final Timestamp now = new Timestamp(System.currentTimeMillis());
-        final boolean mainHand = event.getItem().getType() == player.getInventory().getItemInMainHand().getType();
-        if (!player.hasPermission("cookme.safe")) {
-            if (sameItem(event.getItem().getType()) && !plugin.getCooldownManager().hasCooldown(player, now)) {
-                double temp = 0;
-                int effectNumber = -1;
-                for (int i = 0; i < plugin.getPercentages().length; i++) {
-                    temp += plugin.getPercentages()[i];
-                    if (random.nextInt(100) < temp) {
-                        effectNumber = i;
-                        break;
-                    }
-                }
-                int effectStrength = 0;
-                if (plugin.isRandomEffectStrength()) {
-                    effectStrength = random.nextInt(16);
-                } else {
-                    effectStrength = plugin.getEffectStrengths()[effectNumber];
-                }
-                final int randomEffectTime = random.nextInt(plugin.getMaxDuration() - plugin.getMinDuration() + 1)
-                        + plugin.getMinDuration();
+        final boolean mainHand = consumedItem.getType() == player.getInventory().getItemInMainHand().getType();
 
-                switch (effectNumber) {
-                    default:
-                        return;
-                    case 0:
-                        final int randomDamage = random.nextInt(9) + 1;
-                        effect = plugin.getLocalization().getString("damage");
-                        player.damage(randomDamage);
-                        break;
-                    case 1:
-                        effect = plugin.getLocalization().getString("death");
-                        decreaseItem(player, mainHand);
-                        player.setHealth(0);
-                        break;
-                    case 2:
-                        effect = plugin.getLocalization().getString("venom");
-                        player.addPotionEffect(new PotionEffect(PotionEffectType.POISON, randomEffectTime, effectStrength));
-                        break;
-                    case 3:
-                        effect = plugin.getLocalization().getString("hungervenom");
-                        player.addPotionEffect(new PotionEffect(PotionEffectType.HUNGER, randomEffectTime, effectStrength));
-                        break;
-                    case 4:
-                        final int currentFoodLevel = player.getFoodLevel();
-                        int randomFoodLevel = 0;
-                        if (currentFoodLevel != 0) {
-                            randomFoodLevel = random.nextInt(currentFoodLevel);
-                        }
-                        effect = plugin.getLocalization().getString("hungerdecrease");
-                        player.setFoodLevel(randomFoodLevel);
-                        break;
-                    case 5:
-                        effect = plugin.getLocalization().getString("confusion");
-                        player.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, randomEffectTime, effectStrength));
-                        break;
-                    case 6:
-                        effect = plugin.getLocalization().getString("blindness");
-                        player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, randomEffectTime, effectStrength));
-                        break;
-                    case 7:
-                        effect = plugin.getLocalization().getString("weakness");
-                        player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, randomEffectTime, effectStrength));
-                        break;
-                    case 8:
-                        effect = plugin.getLocalization().getString("slowness");
-                        player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, randomEffectTime, effectStrength));
-                        break;
-                    case 9:
-                        effect = plugin.getLocalization().getString("slowness_blocks");
-                        player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, randomEffectTime, effectStrength));
-                        break;
-                    case 10:
-                        effect = plugin.getLocalization().getString("instant_damage");
-                        player.addPotionEffect(new PotionEffect(PotionEffectType.HARM, randomEffectTime, effectStrength));
-                        break;
-                    case 11:
-                        effect = plugin.getLocalization().getString("refusing");
-                        event.setCancelled(true);
-                        break;
-                    case 12:
-                        effect = plugin.getLocalization().getString("wither");
-                        player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, randomEffectTime, effectStrength));
-                        break;
-                    case 13:
-                        effect = plugin.getLocalization().getString("levitation");
-                        player.addPotionEffect(new PotionEffect(PotionEffectType.LEVITATION, randomEffectTime, effectStrength));
-                        break;
-                    case 14:
-                        effect = plugin.getLocalization().getString("unluck");
-                        player.addPotionEffect(new PotionEffect(PotionEffectType.UNLUCK, randomEffectTime, effectStrength));
-                        break;
-                    case 15:
-                        effect = plugin.getLocalization().getString("bad_omen");
-                        player.addPotionEffect(new PotionEffect(PotionEffectType.BAD_OMEN, randomEffectTime, effectStrength));
-                        break;
-                }
-                messagePlayer(player, effect);
-                if (plugin.getCooldown() != 0) {
-                    plugin.getCooldownManager().addPlayer(player);
-                }
+        if (!player.hasPermission("cookme.safe")) {
+            if (isConsumableItem(consumedItem) && !plugin.getCooldownManager().hasCooldown(player, now)) {
+                applyRandomEffect(player, mainHand);
                 event.setCancelled(true);
-                if (effectNumber != 11 && effectNumber != 1) {
-                    decreaseItem(player, mainHand);
-                }
             }
-        } else if (plugin.isPreventVanillaPoison()) {
-            final ItemStack item = event.getItem();
-            if (item.getType() == Material.CHICKEN || item.getType() == Material.ROTTEN_FLESH) {
-                int foodLevel = player.getFoodLevel();
-                if (item.getType() == Material.CHICKEN) {
-                    foodLevel += 2;
-                } else if (item.getType() == Material.ROTTEN_FLESH) {
-                    foodLevel += 4;
-                }
-                if (foodLevel > 20) {
-                    foodLevel = 20;
-                }
-                player.setFoodLevel(foodLevel);
-                decreaseItem(player, mainHand);
-                event.setCancelled(true);
+        } else if (plugin.isPreventVanillaPoison() && isVanillaPoisonItem(consumedItem)) {
+            handleVanillaPoisonConsumption(player, consumedItem, mainHand);
+        }
+    }
+
+    private void applyRandomEffect(final Player player, final boolean mainHand) {
+        final int effectNumber = chooseRandomEffect();
+        final String effectName = getEffectName(effectNumber);
+
+        switch (effectNumber) {
+            case 0:
+                handleDamageEffect(player);
+                break;
+            case 1:
+                handleDeathEffect(player, mainHand);
+                break;
+            case 4:
+                handleHungerEffect(player);
+                break;
+            case 11:
+                break;
+            default:
+                handlePotionEffect(player, effectNumber);
+                break;
+        }
+
+        messagePlayer(player, effectName);
+
+        if (plugin.getCooldown() != 0) {
+            plugin.getCooldownManager().addPlayer(player);
+        }
+        if (effectNumber != 11 && effectNumber != 1) {
+            decreaseItem(player, mainHand);
+        }
+    }
+
+    private int chooseRandomEffect() {
+        double temp = 0;
+        for (int i = 0; i < plugin.getPercentages().length; i++) {
+            temp += plugin.getPercentages()[i];
+            if (random.nextInt(100) < temp) {
+                return i;
             }
         }
+        return -1; // No effect chosen
+    }
+
+    private String getEffectName(final int effectNumber) {
+        if (effectNumber >= 0 && effectNumber < plugin.getEffectNames().length) {
+            return plugin.getEffectNames()[effectNumber];
+        }
+        return "Unknown Effect";
+    }
+
+    private void handleDamageEffect(final Player player) {
+        final int randomDamage = random.nextInt(9) + 1;
+        player.damage(randomDamage);
+    }
+
+    private void handleDeathEffect(final Player player, final boolean mainHand) {
+        decreaseItem(player, mainHand);
+        player.setHealth(0);
+    }
+
+    private void handleHungerEffect(final Player player) {
+        final int currentFoodLevel = player.getFoodLevel();
+        int randomFoodLevel = 0;
+        if (currentFoodLevel != 0) {
+            randomFoodLevel = random.nextInt(currentFoodLevel);
+        }
+        player.setFoodLevel(randomFoodLevel);
+    }
+
+    private void handlePotionEffect(final Player player, final int effectNumber) {
+        final int effectStrength = getEffectStrength(effectNumber);
+        final int randomEffectTime = getRandomEffectTime();
+        final String effect = getEffectName(effectNumber);
+
+        final PotionEffectType potionEffectType = getPotionEffectType(effect);
+        if (potionEffectType != null) {
+            player.addPotionEffect(new PotionEffect(potionEffectType, randomEffectTime, effectStrength));
+        }
+    }
+
+    private PotionEffectType getPotionEffectType(final String effect) {
+        switch (effect) {
+            case "venom":
+                return PotionEffectType.POISON;
+            case "hungervenom":
+                return PotionEffectType.HUNGER;
+            case "confusion":
+                return PotionEffectType.CONFUSION;
+            case "blindness":
+                return PotionEffectType.BLINDNESS;
+            case "weakness":
+                return PotionEffectType.WEAKNESS;
+            case "slowness":
+                return PotionEffectType.SLOW;
+            case "slowness_blocks":
+                return PotionEffectType.SLOW_DIGGING;
+            case "instant_damage":
+                return PotionEffectType.HARM;
+            case "wither":
+                return PotionEffectType.WITHER;
+            case "levitation":
+                return PotionEffectType.LEVITATION;
+            case "unluck":
+                return PotionEffectType.UNLUCK;
+            case "bad_omen":
+                return PotionEffectType.BAD_OMEN;
+        }
+        return null;
+    }
+
+    private int getEffectStrength(final int effectNumber) {
+        if (plugin.isRandomEffectStrength()) {
+            return ThreadLocalRandom.current().nextInt(16);
+        }
+        return plugin.getEffectStrengths()[effectNumber];
+    }
+
+    private int getRandomEffectTime() {
+        return random.nextInt(plugin.getMaxDuration() - plugin.getMinDuration() + 1) + plugin.getMinDuration();
+    }
+
+    private void handleVanillaPoisonConsumption(final Player player, final ItemStack consumedItem, final boolean mainHand) {
+        int foodLevel = player.getFoodLevel();
+
+        if (consumedItem.getType() == Material.CHICKEN) {
+            foodLevel += 2;
+        } else if (consumedItem.getType() == Material.ROTTEN_FLESH) {
+            foodLevel += 4;
+        }
+
+        foodLevel = Math.min(foodLevel, 20);
+        player.setFoodLevel(foodLevel);
+        decreaseItem(player, mainHand);
     }
 
     private void messagePlayer(final Player player, final String messageToSend) {
-        if (plugin.isMessages()) {
-            plugin.message(null, player, messageToSend, null, null);
+        if (plugin.isMessages() && messageToSend != null) {
+            plugin.message(player, messageToSend, null, null);
         }
     }
 
-    private boolean sameItem(final Material item) {
+    private boolean isConsumableItem(final ItemStack item) {
+        final Material itemType = item.getType();
         for (final String itemName : plugin.getItemList()) {
             final Material mat = Material.matchMaterial(itemName);
             if (mat == null) {
@@ -177,32 +199,33 @@ public class CookMePlayerListener implements Listener {
                 }
                 continue;
             }
-            if (mat == item) {
+            if (mat == itemType) {
                 return true;
             }
         }
         return false;
     }
 
+    private boolean isVanillaPoisonItem(final ItemStack item) {
+        final Material itemType = item.getType();
+        return itemType == Material.CHICKEN || itemType == Material.ROTTEN_FLESH;
+    }
+
     private void decreaseItem(final Player player, final boolean mainHand) {
-        ItemStack afterEating;
-        if (mainHand) {
-            afterEating = player.getInventory().getItemInMainHand();
-        } else {
-            afterEating = player.getInventory().getItemInOffHand();
-        }
-        if (afterEating.getAmount() == 1) {
+        final ItemStack consumedItem = mainHand ? player.getInventory().getItemInMainHand() : player.getInventory().getItemInOffHand();
+
+        if (consumedItem.getAmount() == 1) {
             if (mainHand) {
                 player.getInventory().setItemInMainHand(null);
             } else {
                 player.getInventory().setItemInOffHand(null);
             }
         } else {
-            afterEating.setAmount(afterEating.getAmount() - 1);
+            consumedItem.setAmount(consumedItem.getAmount() - 1);
             if (mainHand) {
-                player.getInventory().setItemInMainHand(afterEating);
+                player.getInventory().setItemInMainHand(consumedItem);
             } else {
-                player.getInventory().setItemInOffHand(afterEating);
+                player.getInventory().setItemInOffHand(consumedItem);
             }
         }
     }

@@ -34,10 +34,10 @@ help: |-
   You can enable permissions and messages with &4/cookme enable &e<value> &fand &4/cookme disable &e<value>
   To reload use &4/cookme reload
   To change the cooldown or duration values, type
-  &4/cookme set cooldown <value>&f, &4/cookme set duration min <value> &for
-  &4/cookme set duration max <value>
+  &4/cookme set cooldown &e<value>&f, &4/cookme set duration min &e<value> &for
+  &4/cookme set duration max &e<value>&f
   Set the percentages with &4/cookme set &e<value> <percentage>
-  &eValues: &fpermissions, messages, damage, death, venom,
+  &eValues: &fdamage, death, venom,
   hungervenom, hungerdecrease, confusion, blindness, weakness
   slowness, slowness_blocks, instant_damage, refusing, wither, levitation, unluck
 no_number: '&4The given argument was not a number!'

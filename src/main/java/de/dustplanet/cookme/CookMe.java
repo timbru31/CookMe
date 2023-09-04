@@ -19,7 +19,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -74,10 +73,10 @@ public class CookMe extends JavaPlugin {
     @Setter
     private boolean randomEffectStrength;
     private final String[] rawFood = { "BEEF", "CHICKEN", "PORKCHOP", "ROTTEN_FLESH", "MUTTON", "RABBIT", "COD", "SALMON", "PUFFERFISH" };
-    private String[] effects = { "damage", "death", "venom", "hungervenom", "hungerdecrease", "confusion", "blindness", "weakness",
+    private String[] effectNames = { "damage", "death", "venom", "hungervenom", "hungerdecrease", "confusion", "blindness", "weakness",
             "slowness", "slowness_blocks", "instant_damage", "refusing", "wither", "levitation", "unluck", "bad_omen" };
-    private double[] percentages = new double[effects.length];
-    private int[] effectStrengths = new int[effects.length];
+    private double[] percentages = new double[effectNames.length];
+    private int[] effectStrengths = new int[effectNames.length];
 
     @Override
     public void onDisable() {
@@ -145,23 +144,23 @@ public class CookMe extends JavaPlugin {
 
         int i = 0;
         double temp = 0;
-        for (i = 0; i < getEffects().length; i++) {
-            percentages[i] = config.getDouble("effects." + getEffects()[i]);
+        for (i = 0; i < getEffectNames().length; i++) {
+            percentages[i] = config.getDouble("effects." + getEffectNames()[i]);
             temp += percentages[i];
         }
 
         if (Math.round(temp) * 100.0 / 100 > 100) {
             for (i = 0; i < getPercentages().length; i++) {
                 percentages[i] = EFFECT_PERCENTAGE;
-                config.set("effects." + getEffects()[i], EFFECT_PERCENTAGE);
+                config.set("effects." + getEffectNames()[i], EFFECT_PERCENTAGE);
             }
             getLogger().warning("Detected that the entire procentage is higer than 100. Resetting to default...");
             saveConfig();
         }
 
         if (!isRandomEffectStrength()) {
-            for (i = 0; i < getEffects().length; i++) {
-                getEffectStrengths()[i] = config.getInt("effectStrength." + getEffects()[i], 0);
+            for (i = 0; i < getEffectNames().length; i++) {
+                getEffectStrengths()[i] = config.getInt("effectStrength." + getEffectNames()[i], 0);
             }
         }
     }
@@ -240,10 +239,9 @@ public class CookMe extends JavaPlugin {
                 "&2Welcome to the CookMe version &4%version &2help\n" + "To see the help type &4/cookme help\n"
                         + "You can enable permissions and messages with &4/cookme enable &e<value> &fand &4/cookme disable &e<value>\n"
                         + "To reload use &4/cookme reload\n" + "To change the cooldown or duration values, type\n"
-                        + "&4/cookme set cooldown <value>&f, &4/cookme set duration min <value> &for\n"
-                        + "&4/cookme set duration max <value>\n" + "Set the percentages with &4/cookme set &e<value> <percentage>\n"
-                        + "&eValues: &fpermissions, messages, damage, death, venom,\n"
-                        + "hungervenom, hungerdecrease, confusion, blindness, weakness\n"
+                        + "&4/cookme set cooldown &e<value>&f, &4/cookme set duration min &e<value> &for\n"
+                        + "&4/cookme set duration max &e<value>&f\n" + "Set the percentages with &4/cookme set &e<value> <percentage>\n"
+                        + "&eValues: &fdamage, death, venom,\n" + "hungervenom, hungerdecrease, confusion, blindness, weakness\n"
                         + "slowness, slowness_blocks, instant_damage, refusing, wither, levitation, unluck");
         getLocalization().addDefault("no_number", "&4The given argument was not a number!");
         getLocalization().options().copyDefaults(true);
@@ -286,19 +284,16 @@ public class CookMe extends JavaPlugin {
         }
     }
 
-    public void message(final CommandSender sender, final Player player, final String message, final String value,
-            final String percentage) {
+    public void message(final CommandSender sender, final String messageKey, final String value, final String percentage) {
         final String tempValue = value == null ? "" : value;
         final String tempPercentage = percentage == null ? "" : percentage;
         final PluginDescriptionFile pdfFile = getDescription();
+        final String message = getLocalization().getString(messageKey);
         final String tempMessage = message.replace("\u0025version", pdfFile.getVersion()).replace("\u0025effect", tempValue)
                 .replace("\u0025value", tempValue).replace("\u0025percentage", tempPercentage);
         final String[] newMessage = ChatColor.translateAlternateColorCodes('\u0026', tempMessage).split("\n");
-        if (player != null) {
-            player.sendMessage(newMessage);
-        } else if (sender != null) {
-            sender.sendMessage(newMessage);
-        }
+        sender.sendMessage(newMessage);
+
     }
 
     public double[] getPercentages() {
@@ -317,11 +312,11 @@ public class CookMe extends JavaPlugin {
         this.effectStrengths = effectStrengths.clone();
     }
 
-    public String[] getEffects() {
-        return effects.clone();
+    public String[] getEffectNames() {
+        return effectNames.clone();
     }
 
-    public void setEffects(final String... effects) {
-        this.effects = effects.clone();
+    public void setEffectNames(final String... effects) {
+        this.effectNames = effects.clone();
     }
 }
