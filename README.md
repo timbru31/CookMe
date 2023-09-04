@@ -3,8 +3,8 @@
 [![Build Status](https://ci.dustplanet.de/job/CookMe/badge/icon)](https://ci.dustplanet.de/job/CookMe/)
 [![Build the plugin](https://github.com/timbru31/CookMe/workflows/Build%20the%20plugin/badge.svg)](https://github.com/timbru31/CookMe/actions?query=workflow%3A%22Build+the+plugin%22)
 
-[![BukkitDev](https://img.shields.io/badge/BukkitDev-v3.0.4-orange.svg)](https://dev.bukkit.org/projects/cookme/)
-[![SpigotMC](https://img.shields.io/badge/SpigotMC-v3.0.4-orange.svg)](https://www.spigotmc.org/resources/cookme.67006/)
+[![BukkitDev](https://img.shields.io/badge/BukkitDev-v4.0.0-orange.svg)](https://dev.bukkit.org/projects/cookme/)
+[![SpigotMC](https://img.shields.io/badge/SpigotMC-v4.0.0-orange.svg)](https://www.spigotmc.org/resources/cookme.67006/)
 
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
@@ -152,7 +152,9 @@ In the following table the X needs to be replaced by one of these effects
 
 ## Support
 
-For support visit the dev.bukkit.org page: https://dev.bukkit.org/projects/cookme
+For support visit the dev.bukkit.org page: https://dev.bukkit.org/projects/cookme  
+In addition to reporting bugs here on GitHub you can join my Discord and ask your questions right away!  
+[![Discord support](https://discordapp.com/api/guilds/387315912283521027/widget.png?style=banner2)](https://discord.gg/mbCRgzQRvj)
 
 ## Pull Requests
 
@@ -190,11 +192,6 @@ The file `./plugins/bStats/config.yml` contains an option to _opt-out_.
 
 ![BitCoin](https://dustplanet.de/wp-content/uploads/2015/01/bitcoin-logo-plain.png "Donation via BitCoins")  
 1NnrRgdy7CfiYN63vKHiypSi3MSctCP55C
-
-## Support
-
-In addition to reporting bugs here on GitHub you can join my Discord and ask your questions right away!  
-[![Discord support](https://discordapp.com/api/guilds/387315912283521027/widget.png?style=banner2)](https://discord.gg/mbCRgzQRvj)
 
 ## Partnership\*
 
